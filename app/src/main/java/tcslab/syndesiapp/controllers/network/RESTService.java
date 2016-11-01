@@ -86,7 +86,7 @@ public class RESTService {
 
             final String url = server_url + "/api/insertValueCrowd.php?node_name=" + id + "&resource_name="+ SensorList.getStringType(dataType) +
                     "+at+" + id + "&value=" + data + "&unit=" + SensorList.getStringUnit(dataType) + "&timestamp=" +
-                    timestamp + "&relative_position=" + "Unknown";
+                    timestamp + "&relative_position=" + "0";
 
 //            JSONObject dataJSON = mAccountController.formatDataJSON(data, dataType);
             JSONObject dataJSON = null;
