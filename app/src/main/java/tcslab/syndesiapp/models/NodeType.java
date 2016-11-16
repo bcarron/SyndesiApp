@@ -35,6 +35,7 @@ public enum NodeType {
                 return R.drawable.node_curtain_off;
             }
         }
+        @Override
         public String getStatus(String status){
             if(status.equals("up")){
                 return "up";
@@ -42,6 +43,7 @@ public enum NodeType {
                 return "down";
             }
         }
+        @Override
         public String getToggleStatus(String status){
             if(status.equals("up")){
                 return "down";
@@ -100,6 +102,31 @@ public enum NodeType {
             }
         }
     },
+    sengen{
+        public String getStatus(String status){
+            if(status.equals("1")){
+                return "on";
+            }else{
+                return "off";
+            }
+        }
+        @Override
+        public String getToggleStatus(String status){
+            if(status.equals("1")){
+                return "off";
+            }else{
+                return "on";
+            }
+        }
+        @Override
+        public int getIcon(String status){
+            if(status.equals("on")){
+                return R.drawable.node_bulb_on;
+            }else{
+                return R.drawable.node_bulb_off;
+            }
+        }
+    },
     generic;
 
     public static NodeType getType(String device){
@@ -119,6 +146,8 @@ public enum NodeType {
             return NodeType.fan;
         }else if (device.contains("heater")) {
             return NodeType.heater;
+        }else if (device.contains("sengen")) {
+            return NodeType.sengen;
         }else{
             return NodeType.generic;
         }
