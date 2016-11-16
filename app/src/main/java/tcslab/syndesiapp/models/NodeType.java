@@ -146,7 +146,7 @@ public enum NodeType {
             return NodeType.fan;
         }else if (device.contains("heater")) {
             return NodeType.heater;
-        }else if (device.contains("sengen")) {
+        }else if (device.contains("sengen") || device.substring(0, 2).equals("SG")) {
             return NodeType.sengen;
         }else{
             return NodeType.generic;

@@ -129,7 +129,7 @@ public class RESTService {
         // Get the sever address from the preferences
         String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
         // TEST URL
-        server_url = "http://129.194.69.178:8111";
+//        server_url = "http://129.194.69.178:8111";
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
