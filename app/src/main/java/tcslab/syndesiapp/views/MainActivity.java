@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        }else if(id == R.id.action_controller){
+            startActivity(new Intent(this, NodesControllerActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

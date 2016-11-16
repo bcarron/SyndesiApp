@@ -11,6 +11,7 @@ import android.util.Log;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.BroadcastType;
+import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.PreferenceKey;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -115,6 +116,20 @@ public class RESTService {
         } else {
             RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
+    }
+
+    /**
+     * Get all the nodes registered on the server
+     */
+    public void fetchNodes() {
+        Log.d("TODO", "Node fetcher not implemented");
+    }
+
+    /**
+     * Toggle the node given in attribute
+     */
+    public void toggleNode(final NodeDevice node) {
+        Log.d("TODO", "Node toggler not implemented");
     }
 
     /**
