@@ -56,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
         //Set the account controller to use with Syndesi server (legacy)
         this.mAccountController = AccountController.getInstance(getApplicationContext());
         Account account = mAccountController.getAccount();
-        if (account != null) {
-            String id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-            Account newAccount = new Account(id, "", "", "", 0, 0, SensorController.getInstance(this).getmAvailableSensors());
+        String id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        Account newAccount = new Account(id, "", "", "", 0, 0, SensorController.getInstance(this).getmAvailableSensors());
+        if (account == null) {
             AccountController.getInstance(getApplicationContext()).createAccount(newAccount);
+        }else{
+            AccountController.getInstance(getApplicationContext()).saveAccount(newAccount);
         }
 
         //Creates the broadcast receiver that updates the UI

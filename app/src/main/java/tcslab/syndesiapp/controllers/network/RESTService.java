@@ -99,6 +99,8 @@ public class RESTService {
                     });
 
                     mRequestQueue.add(request);
+                }else{
+                    Log.e("Account", "No account set");
                 }
             }else {
                 String id = Secure.getString(mAppContext.getContentResolver(), Secure.ANDROID_ID);
@@ -294,7 +296,9 @@ public class RESTService {
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
-            final String url = server_url + "/crowdusers";
+            // TEST URL
+            server_url = "http://129.194.69.178:8111";
+            final String url = server_url + "/ero2proxy/crowdusers";
 
             //Initiate the JSON request
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, account,
@@ -331,7 +335,9 @@ public class RESTService {
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
-            final String url = server_url + "/crowdusers";
+            // TEST URL
+            server_url = "http://129.194.69.178:8111";
+            final String url = server_url + "/ero2proxy/crowdusers";
 
             //Initiate the JSON request
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, account,
