@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +15,12 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
+import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.sensor.SensorAdapter;
 import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.controllers.ui.UIReceiver;
+import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private UIReceiver uiReceiver;
     private ArrayList<SensorData> mSensorsList;
     private SensorAdapter mSensorsAdapter;
+    private AccountController mAccountController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
         mSensorsList = new ArrayList<>();
         mSensorsAdapter = new SensorAdapter(this, mSensorsList);
         listView.setAdapter(mSensorsAdapter);
+
+        //Set the account controller to use with Syndesi server (legacy)
+        this.mAccountController = AccountController.getInstance(getApplicationContext());
+        Account account = mAccountController.getAccount();
+        if (account != null) {
+            String id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            Account newAccount = new Account(id, "", "", "", 0, 0, SensorController.getInstance(this).getmAvailableSensors());
+            AccountController.getInstance(getApplicationContext()).createAccount(newAccount);
+        }
 
         //Creates the broadcast receiver that updates the UI
         uiReceiver = new UIReceiver(this);
