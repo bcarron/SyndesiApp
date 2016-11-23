@@ -111,14 +111,6 @@ public enum NodeType {
             }
         }
         @Override
-        public String getToggleStatus(String status){
-            if(status.equals("1")){
-                return "off";
-            }else{
-                return "on";
-            }
-        }
-        @Override
         public int getIcon(String status){
             if(status.equals("on")){
                 return R.drawable.node_bulb_on;
