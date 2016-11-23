@@ -128,8 +128,6 @@ public class RESTService {
     public void fetchNodes() {
         // Get the sever address from the preferences
         String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
-        // TEST URL
-        server_url = "http://129.194.69.178:8111";
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -139,6 +137,8 @@ public class RESTService {
 
             // Check server type
             if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
+                // TEST URL
+                //server_url = "http://129.194.69.178:8111";
                 final String url = server_url + "/ero2proxy/service";
 
                 StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -228,8 +228,6 @@ public class RESTService {
     public void toggleNode(final NodeDevice node) {
         // Get the sever address from the preferences
         String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
-        // TEST URL
-        server_url = "http://129.194.69.178:8111";
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -239,6 +237,8 @@ public class RESTService {
 
             // Check server type
             if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
+                // TEST URL
+                //server_url = "http://129.194.69.178:8111";
                 final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=sengen&status=" + node.getmType().getToggleStatus(node.getmStatus());
                 Log.d("URL", url);
 
@@ -257,14 +257,14 @@ public class RESTService {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Update the UI with the error message
-                        Log.d("HTTP", "Error connecting to server address " + url);
+                        Log.e("HTTP", "Error connecting to server address " + url);
                         RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                     }
                 });
 
                 mRequestQueue.add(request);
             }else{
-                Log.d("TODO", "Node toggler not implemented");
+                Log.e("TODO", "Node toggler not implemented for Sengen DB");
             }
         }
     }
