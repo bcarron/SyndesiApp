@@ -70,48 +70,16 @@ public class RESTService {
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
+            // TEST URL
+            server_url = "http://129.194.69.178:8111";
 
-            // Check server type
-            if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
-                // TEST URL
-                server_url = "http://129.194.69.178:8111";
-                final String url = server_url + "/ero2proxy/crowddata";
+            final String url = server_url + "/ero2proxy/crowddata";
 
-                if(mAccountController.getAccount() != null) {
-                    JSONObject dataJSON = mAccountController.formatDataJSON(data, SensorList.getStringType(dataType));
-
-                    // Request a string response from the provided URL.
-                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, dataJSON,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.d("HTTP", response.toString());
-                                    //Send broadcast to update the UI if the app is active
-                                    RESTService.sendServerStatusBcast(mAppContext, response.toString());
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("HTTP", "Error connecting to server address " + url);
-                            //Send broadcast to update the UI if the app is active
-                            RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
-                        }
-                    });
-
-                    mRequestQueue.add(request);
-                }else{
-                    Log.e("Account", "No account set");
-                }
-            }else {
-                String id = Secure.getString(mAppContext.getContentResolver(), Secure.ANDROID_ID);
-                String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-
-                final String url = server_url + "/api/insertValueCrowd.php?node_name=" + id + "&resource_name=" + SensorList.getStringType(dataType) +
-                        "+at+" + id + "&value=" + data + "&unit=" + SensorList.getStringUnit(dataType) + "&timestamp=" +
-                        timestamp + "&relative_position=" + "0";
+            if(mAccountController.getAccount() != null) {
+                JSONObject dataJSON = mAccountController.formatDataJSON(data, SensorList.getStringType(dataType));
 
                 // Request a string response from the provided URL.
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null,
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, dataJSON,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -122,7 +90,6 @@ public class RESTService {
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("HTTP", error.toString());
                         Log.d("HTTP", "Error connecting to server address " + url);
                         //Send broadcast to update the UI if the app is active
                         RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
@@ -130,6 +97,8 @@ public class RESTService {
                 });
 
                 mRequestQueue.add(request);
+            }else{
+                Log.e("Account", "No account set");
             }
         } else {
             RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
@@ -148,87 +117,48 @@ public class RESTService {
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
+            // TEST URL
+            server_url = "http://129.194.69.178:8111";
 
-            // Check server type
-            if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
-                // TEST URL
-                server_url = "http://129.194.69.178:8111";
-                final String url = server_url + "/ero2proxy/service";
+            final String url = server_url + "/ero2proxy/service";
 
-                StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("HTTP", response);
+
+                    try {
                         Log.d("HTTP", response);
 
-                        try {
-                            Log.d("HTTP", response);
+                        // Convert the string response to JSON
+                        JSONObject jsonResponse = new JSONObject(response);
 
-                            // Convert the string response to JSON
-                            JSONObject jsonResponse = new JSONObject(response);
+                        // Get all the nodes
+                        JSONArray nl = jsonResponse.getJSONArray("services");
 
-                            // Get all the nodes
-                            JSONArray nl = jsonResponse.getJSONArray("services");
+                        for (int i = 0; i < nl.length(); i++) {
+                            JSONObject ns = nl.getJSONObject(i);
+                            JSONArray nr = ns.getJSONArray("resources");
+                            JSONObject n = nr.getJSONObject(0);
 
-                            for (int i = 0; i < nl.length(); i++) {
-                                JSONObject ns = nl.getJSONObject(i);
-                                JSONArray nr = ns.getJSONArray("resources");
-                                JSONObject n = nr.getJSONObject(0);
-
-                                // Add the node to the UI
-                                NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
-                                ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(n.getString("node_id"), nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state"))));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            // Add the node to the UI
+                            NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
+                            ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(n.getString("node_id"), nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state"))));
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Update the UI with the error message
-                        Log.d("HTTP", "Error connecting to server address " + url);
-                        RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
-                    }
-                });
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //Update the UI with the error message
+                    Log.d("HTTP", "Error connecting to server address " + url);
+                    RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                }
+            });
 
-                mRequestQueue.add(request);
-            }else{
-                final String url = server_url + "/api/getNodes.php";
-
-                StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("HTTP", response);
-
-                        try {
-                            // Convert the string response to JSON
-                            JSONObject jsonResponse = new JSONObject(response);
-
-                            // Get all the nodes
-                            JSONArray nl = jsonResponse.getJSONArray("Nodes");
-
-                            for (int i = 0; i < nl.length(); i++) {
-                                JSONObject n = nl.getJSONObject(i);
-
-                                // Add the node to the UI
-                                NodeType nodeType = NodeType.getType(n.getString("name"));
-                                ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(n.getString("name"), nodeType, nodeType.getStatus(n.getString("actuator1_state"))));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Update the UI with the error message
-                        Log.d("HTTP", "Error connecting to server address " + url);
-                        RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
-                    }
-                });
-
-                mRequestQueue.add(request);
-            }
+            mRequestQueue.add(request);
 
         } else {
             RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
@@ -248,38 +178,33 @@ public class RESTService {
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
+            // TEST URL
+            server_url = "http://129.194.69.178:8111";
 
-            // Check server type
-            if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
-                // TEST URL
-                server_url = "http://129.194.69.178:8111";
-                final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=sengen&status=" + node.getmType().getToggleStatus(node.getmStatus());
-                Log.d("URL", url);
+            final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=sengen&status=" + node.getmType().getToggleStatus(node.getmStatus());
+            Log.d("URL", url);
 
-                StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("HTTP", response);
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("HTTP", response);
 
-                        if (response.equals("ERROR")) {
-                            RESTService.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
-                        } else {
-                            ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response)));
-                        }
+                    if (response.equals("ERROR")) {
+                        RESTService.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
+                    } else {
+                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response)));
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Update the UI with the error message
-                        Log.e("HTTP", "Error connecting to server address " + url);
-                        RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
-                    }
-                });
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //Update the UI with the error message
+                    Log.e("HTTP", "Error connecting to server address " + url);
+                    RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                }
+            });
 
-                mRequestQueue.add(request);
-            }else{
-                Log.e("TODO", "Node toggler not implemented for Sengen DB");
-            }
+            mRequestQueue.add(request);
         }
     }
 
