@@ -129,7 +129,7 @@ public class RESTService {
         // Get the sever address from the preferences
         String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
         // TEST URL
-//        server_url = "http://129.194.69.178:8111";
+        server_url = "http://129.194.69.178:8111";
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -226,7 +226,47 @@ public class RESTService {
      * Toggle the node given in attribute
      */
     public void toggleNode(final NodeDevice node) {
-        Log.d("TODO", "Node toggler not implemented");
+        // Get the sever address from the preferences
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
+        // TEST URL
+        server_url = "http://129.194.69.178:8111";
+
+        if (!server_url.equals("")) {
+            // Instantiate the RequestQueue.
+            if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
+                server_url = "http://" + server_url;
+            }
+
+            // Check server type
+            if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
+                final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=sengen&status=" + node.getmType().getToggleStatus(node.getmStatus());
+                Log.d("URL", url);
+
+                StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("HTTP", response);
+
+                        if (response.equals("ERROR")) {
+                            RESTService.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
+                        } else {
+                            ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response)));
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Update the UI with the error message
+                        Log.d("HTTP", "Error connecting to server address " + url);
+                        RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                    }
+                });
+
+                mRequestQueue.add(request);
+            }else{
+                Log.d("TODO", "Node toggler not implemented");
+            }
+        }
     }
 
     /**
