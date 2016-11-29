@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+import org.opencv.ml.KNearest;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.sensor.SensorAdapter;
@@ -26,6 +27,8 @@ import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
 
 import java.util.ArrayList;
+
+import org.opencv.android.OpenCVLoader;
 
 /**
  * Displays the sensors readings and the server status.
@@ -125,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(String.valueOf(BroadcastType.BCAST_TYPE_SERVER_STATUS));
         filter.addAction(String.valueOf(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS));
         LocalBroadcastManager.getInstance(this).registerReceiver(uiReceiver, filter);
+
+        /* Load OpenCV*/
+        if (!OpenCVLoader.initDebug()) {
+            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
+        } else {
+            Log.d("OpenCV", "  OpenCVLoader.initDebug(), working.");
+            KNearest knn = KNearest.create();
+        }
     }
 
     @Override

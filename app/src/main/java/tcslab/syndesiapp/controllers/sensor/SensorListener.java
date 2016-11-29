@@ -37,7 +37,7 @@ public class SensorListener implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)){
             AsyncTask sendData = new SendDataTask(mAppContext);
-            sendData.execute(new SensorEvent[]{sensorEvent});
+            sendData.execute(new Object[]{sensorEvent});
         }
         mSensorManager.unregisterListener(this);
         this.mWakeLock.release();
