@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
@@ -30,8 +31,10 @@ public class SendDataTask extends AsyncTask<SensorEvent, Void, SensorEvent> {
         // Check server type
         if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
             RESTService.getInstance(mAppContext).sendData(data, event.sensor.getType());
+            Log.d("Test", "Rest Service");
         }else{
             RESTServiceSengen.getInstance(mAppContext).sendData(data, event.sensor.getType());
+            Log.d("Test", "Rest Service Sengen");
         }
 
         //Send broadcast to update the UI if the app is active

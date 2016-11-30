@@ -29,7 +29,7 @@ import java.util.Date;
  * Created by blais on 23.11.2016.
  */
 public class RESTServiceSengen {
-    private static RESTService mInstance;
+    private static RESTServiceSengen mInstance;
     private Context mAppContext;
     private RequestQueue mRequestQueue;
     private AccountController mAccountController;
@@ -40,9 +40,9 @@ public class RESTServiceSengen {
         mAccountController = AccountController.getInstance(mAppContext);
     }
 
-    public static synchronized RESTService getInstance(Context appContext) {
+    public static synchronized RESTServiceSengen getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new RESTService(appContext);
+            mInstance = new RESTServiceSengen(appContext);
         }
         return mInstance;
     }

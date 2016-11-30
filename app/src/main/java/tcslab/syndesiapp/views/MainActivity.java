@@ -130,12 +130,12 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(uiReceiver, filter);
 
         /* Load OpenCV*/
-        if (!OpenCVLoader.initDebug()) {
-            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
-        } else {
-            Log.d("OpenCV", "  OpenCVLoader.initDebug(), working.");
-            KNearest knn = KNearest.create();
-        }
+//        if (!OpenCVLoader.initDebug()) {
+//            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
+//        } else {
+//            Log.d("OpenCV", "  OpenCVLoader.initDebug(), working.");
+//            KNearest knn = KNearest.create();
+//        }
     }
 
     @Override
