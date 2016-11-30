@@ -28,14 +28,7 @@ public class SendDataTask extends AsyncTask<SensorEvent, Void, SensorEvent> {
         Float data = event.values[0];
 
         //Send data to server
-        // Check server type
-        if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
-            RESTService.getInstance(mAppContext).sendData(data, event.sensor.getType());
-            Log.d("Test", "Rest Service");
-        }else{
-            RESTServiceSengen.getInstance(mAppContext).sendData(data, event.sensor.getType());
-            Log.d("Test", "Rest Service Sengen");
-        }
+        RESTService.getInstance(mAppContext).sendData(data, event.sensor.getType());
 
         //Send broadcast to update the UI if the app is active
         Intent localIntent = new Intent(String.valueOf(event.sensor.getType()));

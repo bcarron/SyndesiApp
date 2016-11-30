@@ -28,7 +28,7 @@ import java.util.Date;
 /**
  * Created by blais on 23.11.2016.
  */
-public class RESTServiceSengen {
+public class RESTServiceSengen extends RESTService{
     private static RESTServiceSengen mInstance;
     private Context mAppContext;
     private RequestQueue mRequestQueue;
@@ -171,5 +171,18 @@ public class RESTServiceSengen {
 
             Log.e("TODO", "Node toggler not implemented for Sengen DB");
         }
+    }
+
+    public void createAccount(JSONObject account){
+        Log.d("Sengen", "No account with Sengen DB");
+    }
+
+
+    public void updateAccount(JSONObject account){
+        Log.d("Sengen", "No account with Sengen DB");
+    }
+
+    public void setmAppContext(Context appContext){
+        this.mAppContext = appContext;
     }
 }
