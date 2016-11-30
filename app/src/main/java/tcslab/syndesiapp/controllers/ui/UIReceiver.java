@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.models.BroadcastType;
@@ -33,7 +35,7 @@ public class UIReceiver extends BroadcastReceiver {
             String response = intent.getStringExtra(BroadcastType.BCAST_EXTRA_SERVER_RESPONSE.toString());
             TextView server = (TextView) mActivity.findViewById(R.id.controller_display_status);
             server.setText(response);
-        }else{
+        } else{
             //Add sensor reading to the UI
             Float data = intent.getFloatExtra(BroadcastType.BCAST_EXTRA_SENSOR_DATA.toString(), 0);
             ((MainActivity)mActivity).addSensor(new SensorData("", data, intent.getAction()));

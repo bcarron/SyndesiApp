@@ -12,8 +12,6 @@ import android.os.PowerManager;
  * Created by Blaise on 30.04.2015.
  */
 public class SensorService extends IntentService {
-    private SensorManager sensorManager;
-
     public SensorService() {
         super("SensorListener");
     }
@@ -23,11 +21,11 @@ public class SensorService extends IntentService {
         //Get a wakelock to keep the system on while sending the data
         PowerManager.WakeLock wakeLock = ((PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WakeLock");
         wakeLock.acquire();
-        sensorManager = (SensorManager) getSystemService(this.SENSOR_SERVICE);
+        SensorManager sensorManager = (SensorManager) getSystemService(this.SENSOR_SERVICE);
         //Get the sensor from the workIntent
         Sensor sensor = sensorManager.getDefaultSensor(Integer.parseInt(workIntent.getAction()));
         //Register a listener to read data from the sensor
         sensorManager.registerListener(new SensorListener(getApplicationContext(), sensorManager), sensor, SensorManager.SENSOR_DELAY_NORMAL);
-        wakeLock.acquire();
+        wakeLock.release();
     }
 }

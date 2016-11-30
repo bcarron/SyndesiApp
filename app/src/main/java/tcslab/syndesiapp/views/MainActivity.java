@@ -1,7 +1,11 @@
 package tcslab.syndesiapp.views;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -12,15 +16,21 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.ml.KNearest;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
+import tcslab.syndesiapp.controllers.localization.LocalizationController;
+import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.controllers.sensor.SensorAdapter;
 import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
+import tcslab.syndesiapp.controllers.sensor.SensorService;
 import tcslab.syndesiapp.controllers.ui.UIReceiver;
+import tcslab.syndesiapp.controllers.ui.WifiReceiver;
 import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
@@ -35,10 +45,14 @@ import org.opencv.android.OpenCVLoader;
  * Created by Blaise on 27.04.2015.
  */
 public class MainActivity extends AppCompatActivity {
-    private UIReceiver uiReceiver;
+    private UIReceiver mUiReceiver;
+    private WifiReceiver mWifiReceiver;
     private ArrayList<SensorData> mSensorsList;
     private SensorAdapter mSensorsAdapter;
     private AccountController mAccountController;
+    private LocalizationController mLocalizationController;
+    private AlarmManager mAlarmManager;
+    private PendingIntent mLocalizationLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +81,16 @@ public class MainActivity extends AppCompatActivity {
             AccountController.getInstance(getApplicationContext()).saveAccount(newAccount);
         }
 
+        // Set the localization controller
+        mLocalizationController = LocalizationController.getInstance(this);
+        mAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
         //Creates the broadcast receiver that updates the UI
-        uiReceiver = new UIReceiver(this);
+        mUiReceiver = new UIReceiver(this);
+
+        //Create the Wifi receiver that listen to system broadcast
+        mWifiReceiver = new WifiReceiver(this);
+
         //Set the preferences listener
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(SensorController.getInstance(this));
     }
@@ -127,22 +149,37 @@ public class MainActivity extends AppCompatActivity {
         }
         filter.addAction(String.valueOf(BroadcastType.BCAST_TYPE_SERVER_STATUS));
         filter.addAction(String.valueOf(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS));
-        LocalBroadcastManager.getInstance(this).registerReceiver(uiReceiver, filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
-        /* Load OpenCV*/
-//        if (!OpenCVLoader.initDebug()) {
-//            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
-//        } else {
-//            Log.d("OpenCV", "  OpenCVLoader.initDebug(), working.");
-//            KNearest knn = KNearest.create();
-//        }
+        //Register the Wifi Listener
+        this.registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        /* Load OpenCV */
+        if (!OpenCVLoader.initDebug()) {
+            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
+        } else {
+            mLocalizationController.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+
+        // Launch Service for localization
+        Intent localizationIntent = new Intent(this, WifiService.class);
+        mLocalizationLauncher = PendingIntent.getService(this, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 5000, mLocalizationLauncher);
+    }
+
+    public void relocate(View v){
+        ((WifiManager) getSystemService(this.WIFI_SERVICE)).startScan();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //Unregister the Broadcast listener
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(uiReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mUiReceiver);
+
+        //Unregister the Wifi Listener
+        this.unregisterReceiver(mWifiReceiver);
+        mAlarmManager.cancel(mLocalizationLauncher);
     }
 
     @Override
@@ -155,5 +192,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         ((TextView) findViewById(R.id.sensors_status)).setText(savedInstanceState.getString(String.valueOf(R.id.sensors_status)));
         ((TextView) findViewById(R.id.server_display_status)).setText(savedInstanceState.getString(String.valueOf(R.id.server_display_status)));
+    }
+
+    public LocalizationController getmLocalizationController() {
+        return mLocalizationController;
     }
 }
