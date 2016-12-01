@@ -33,17 +33,15 @@ public class RESTServiceSengen extends RESTService{
     private static RESTServiceSengen mInstance;
     private Context mAppContext;
     private RequestQueue mRequestQueue;
-    private AccountController mAccountController;
 
     public RESTServiceSengen(Context appContext) {
         mAppContext = appContext;
         mRequestQueue = this.getRequestQueue();
-        mAccountController = AccountController.getInstance(mAppContext);
     }
 
     public static synchronized RESTServiceSengen getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new RESTServiceSengen(appContext);
+            mInstance = new RESTServiceSengen(appContext.getApplicationContext());
         }
         return mInstance;
     }

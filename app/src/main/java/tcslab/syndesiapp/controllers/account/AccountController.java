@@ -33,7 +33,7 @@ public class AccountController {
 
     public static synchronized AccountController getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new AccountController(appContext);
+            mInstance = new AccountController(appContext.getApplicationContext());
         }
         return mInstance;
     }

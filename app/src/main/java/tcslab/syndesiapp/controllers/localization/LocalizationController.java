@@ -75,7 +75,7 @@ public class LocalizationController {
 
     public static synchronized LocalizationController getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new LocalizationController(appContext);
+            mInstance = new LocalizationController(appContext.getApplicationContext());
         }
         return mInstance;
     }

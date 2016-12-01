@@ -42,7 +42,7 @@ public class RESTServiceSyndesi extends RESTService{
 
     public static synchronized RESTServiceSyndesi getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new RESTServiceSyndesi(appContext);
+            mInstance = new RESTServiceSyndesi(appContext.getApplicationContext());
         }
         return mInstance;
     }
