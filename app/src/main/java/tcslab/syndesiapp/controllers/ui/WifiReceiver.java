@@ -31,11 +31,11 @@ public class WifiReceiver extends BroadcastReceiver {
 
             ScanResult resWifi;
             List<ScanResult> apsList = ((WifiManager) mActivity.getSystemService(mActivity.WIFI_SERVICE)).getScanResults();
-            double officeNumber = mActivity.getmLocalizationController().updateLocation(apsList);
+            String officeNumber = mActivity.getmLocalizationController().updateLocation(apsList);
 
             //Update the UI office status
             TextView officeTextView = (TextView) mActivity.findViewById(R.id.office_display);
-            String newOfficeText = mActivity.getString(R.string.office_display) + " " + Double.toString(officeNumber);
+            String newOfficeText = mActivity.getString(R.string.office_display) + " " + officeNumber;
             officeTextView.setText(newOfficeText);
         }
     }

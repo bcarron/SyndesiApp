@@ -25,19 +25,20 @@ import java.util.List;
  */
 public class LocalizationController {
     private static LocalizationController mInstance;
-    Context mAppContext;
+    private Context mAppContext;
     static final int READ_BLOCK_SIZE = 100;
-    File file;
+    private File file;
+    private String mCurrentPosition;
 
 
     public int numberAN;
     private List<double[]> samplesFloorList=new ArrayList<double[]>();
     private double[][] samplesFloor;
-    int numberSamples, numberAttributes;
-    KNearest knn;
-    SVM svm;
-    String fileName = "rssData.txt";
-    private double[] currentLocation;
+    private int numberSamples, numberAttributes;
+    private KNearest knn;
+    private SVM svm;
+    private String fileName = "rssData.txt";
+    private double[] mRSSIs;
 
     // Geneve AP MAC address
     /*private final static String[] anchorNodes={
@@ -66,20 +67,20 @@ public class LocalizationController {
     public LocalizationController(Context mAppContext) {
         this.mAppContext = mAppContext;
         this.checkFile();
-        currentLocation = new double[mAnchorNodes.length];
+        mRSSIs = new double[mAnchorNodes.length];
         for(int i=0; i < mAnchorNodes.length; i++){
-            currentLocation[i] = 0;
+            mRSSIs[i] = 0;
         }
     }
 
-    public static synchronized LocalizationController getInstance(Activity activity) {
+    public static synchronized LocalizationController getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new LocalizationController(activity);
+            mInstance = new LocalizationController(appContext);
         }
         return mInstance;
     }
 
-    public double updateLocation(List<ScanResult> APsList){
+    public String updateLocation(List<ScanResult> APsList){
         ScanResult scanResult;
         String test = "";
 
@@ -89,12 +90,13 @@ public class LocalizationController {
             //search by SSID or MAC
             for(int j=0; j < mAnchorNodes.length; j++){
                 if(scanResult.BSSID.equals(mAnchorNodes[j])){
-                    currentLocation[j] = scanResult.level;
+                    mRSSIs[j] = scanResult.level;
                     test += " " + Integer.toString(scanResult.level);
                 }
             }
         }
-        return this.checkFloorSVN(this.currentLocation);
+        this.mCurrentPosition = Double.toString(this.checkFloorSVN(this.mRSSIs));
+        return this.mCurrentPosition;
     }
 
     // Read text from file and train machine learning approaches
@@ -219,11 +221,7 @@ public class LocalizationController {
         Toast.makeText(mAppContext, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void checkPosition(View v) {
-        double resp=checkFloorSVN(currentLocation);
-    }
-
-    public static String[] getmAnchorNodes() {
-        return mAnchorNodes;
+    public String getmCurrentPosition() {
+        return mCurrentPosition;
     }
 }

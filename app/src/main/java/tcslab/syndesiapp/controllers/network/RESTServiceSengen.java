@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
+import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
@@ -71,10 +72,11 @@ public class RESTServiceSengen extends RESTService{
 
             String id = Settings.Secure.getString(mAppContext.getContentResolver(), Settings.Secure.ANDROID_ID);
             String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+            String position = LocalizationController.getInstance(mAppContext).getmCurrentPosition();
 
-            final String url = server_url + "/api/insertValueCrowd.php?node_name=" + id + "&resource_name=" + SensorList.getStringType(dataType) +
-                    "+at+" + id + "&value=" + data + "&unit=" + SensorList.getStringUnit(dataType) + "&timestamp=" +
-                    timestamp + "&relative_position=" + "0";
+            final String url = server_url + "/api/insertValueCrowd.php?node_name=" + id + "&resource_name=" +
+                    SensorList.getStringType(dataType) + "+at+" + id + "&value=" + data + "&unit=" +
+                    SensorList.getStringUnit(dataType) + "&timestamp=" + timestamp + "&relative_position=" + position;
 
             // Request a string response from the provided URL.
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null,
