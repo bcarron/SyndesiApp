@@ -41,7 +41,7 @@ public class LocalizationController {
     private double[] mRSSIs;
 
     // Geneve AP MAC address
-    private final static String[] anchorNodes={
+    private final static String[] mAnchorNodes={
             "2c:56:dc:d2:06:a8",
             "9c:5c:8e:c5:fb:a0",
             "9c:5c:8e:c5:f1:1a",
