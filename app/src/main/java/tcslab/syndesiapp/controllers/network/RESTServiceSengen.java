@@ -1,5 +1,6 @@
 package tcslab.syndesiapp.controllers.network;
 
+import android.app.Activity;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -15,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.NodeDevice;

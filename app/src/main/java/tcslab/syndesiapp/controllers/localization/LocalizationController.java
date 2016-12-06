@@ -1,10 +1,8 @@
 package tcslab.syndesiapp.controllers.localization;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -29,6 +27,7 @@ public class LocalizationController {
     static final int READ_BLOCK_SIZE = 100;
     private File file;
     private String mCurrentPosition;
+    private Boolean toastPermission = false;
 
 
     public int numberAN;
@@ -41,30 +40,25 @@ public class LocalizationController {
     private double[] mRSSIs;
 
     // Geneve AP MAC address
-    private final static String[] mAnchorNodes={
+/*    private final static String[] mAnchorNodes={
             "2c:56:dc:d2:06:a8",
             "9c:5c:8e:c5:fb:a0",
             "9c:5c:8e:c5:f1:1a",
             "9c:5c:8e:c5:fb:7a",
             "9c:5c:8e:c5:fb:a6"
-    };
+    };*/
 
-/*    // Bussigny AP MAC address
+    // Bussigny AP MAC address
     private final static String[] mAnchorNodes={
             "1c:87:2c:67:80:3c",
             "88:f7:c7:44:fb:40",
             "1c:87:2c:67:80:3c",
             "a4:52:6f:a5:45:11",
             "4e:66:41:fd:26:47"
-    };*/
+    };
 
 
-
-
-
-
-
-    public LocalizationController(Context mAppContext) {
+    private LocalizationController(Context mAppContext) {
         this.mAppContext = mAppContext;
         this.checkFile();
         mRSSIs = new double[mAnchorNodes.length];
@@ -121,39 +115,41 @@ public class LocalizationController {
                     }
 
                 }
-                //Put samples in a double[][] array before training
-                samplesFloor=new double[samplesFloorList.size()][mAnchorNodes.length + 1];
-                int rowCount=0;
-                for(double[] sample:samplesFloorList){
-                    samplesFloor[rowCount]=sample;
-                    rowCount++;
-                }
+                if(samplesFloorList.size() > 0) {
+                    //Put samples in a double[][] array before training
+                    samplesFloor = new double[samplesFloorList.size()][mAnchorNodes.length + 1];
+                    int rowCount = 0;
+                    for (double[] sample : samplesFloorList) {
+                        samplesFloor[rowCount] = sample;
+                        rowCount++;
+                    }
 
-                //Once training samples are uploaded, train machine learning
-                numberAttributes = mAnchorNodes.length;
-                numberSamples = samplesFloor.length;
-                matTrainD = new Mat(numberSamples,numberAttributes, CvType.CV_32F);//Training set rows, cols, type
-                matTrainL = new Mat(numberSamples,1,CvType.CV_32SC1); //the same number of rows
-                matTest = new Mat(1,numberAttributes,CvType.CV_32F);//Set to test
-                //Training data are int, labels are double
-                for (int i = 0; i < numberSamples; i++) {
-                    for (int j = 0; j <= numberAttributes; j++) {
-                        matTrainD.put(i, j, samplesFloor[i][j]);
-                        if (j == numberAttributes) { //fill the label
-                            matTrainL.put(i, 0,(int)samplesFloor[i][j]);
+                    //Once training samples are uploaded, train machine learning
+                    numberAttributes = mAnchorNodes.length;
+                    numberSamples = samplesFloor.length;
+                    matTrainD = new Mat(numberSamples, numberAttributes, CvType.CV_32F);//Training set rows, cols, type
+                    matTrainL = new Mat(numberSamples, 1, CvType.CV_32SC1); //the same number of rows
+                    matTest = new Mat(1, numberAttributes, CvType.CV_32F);//Set to test
+                    //Training data are int, labels are double
+                    for (int i = 0; i < numberSamples; i++) {
+                        for (int j = 0; j <= numberAttributes; j++) {
+                            matTrainD.put(i, j, samplesFloor[i][j]);
+                            if (j == numberAttributes) { //fill the label
+                                matTrainL.put(i, 0, (int) samplesFloor[i][j]);
+                            }
                         }
                     }
+
+                    knn.train(matTrainD, Ml.ROW_SAMPLE, matTrainL);
+                    svm.setType(SVM.C_SVC);
+                    svm.setKernel(SVM.LINEAR);
+                    svm.setGamma(3);
+                    svm.train(matTrainD, Ml.ROW_SAMPLE, matTrainL);
+
+                    Mat centers = new Mat();
+                    TermCriteria criteria = new TermCriteria(TermCriteria.COUNT, 100, 1);
+                    Core.kmeans(matTrainD, matTrainL.rows(), matTrainL, criteria, 1, Core.KMEANS_PP_CENTERS, centers);
                 }
-
-                knn.train(matTrainD, Ml.ROW_SAMPLE, matTrainL);
-                svm.setType(SVM.C_SVC);
-                svm.setKernel(SVM.LINEAR);
-                svm.setGamma(3);
-                svm.train(matTrainD, Ml.ROW_SAMPLE, matTrainL);
-
-                Mat centers=new Mat();
-                TermCriteria criteria=new TermCriteria(TermCriteria.COUNT,100,1);
-                Core.kmeans(matTrainD,matTrainL.rows(),matTrainL,criteria,1,Core.KMEANS_PP_CENTERS,centers);
             }
             catch (Exception es)
             {
@@ -180,7 +176,11 @@ public class LocalizationController {
                     svm = SVM.create();
                     matResp = new Mat(3,1,CvType.CV_32F);// row =number of neighbors
                     //Training process RSSI AND GEOMAGNETIC FIELD
-                    readTraining();
+                    if(file.exists()) {
+                        readTraining();
+                    }else{
+                        toaster("Cannot train the classifiers: missing training file");
+                    }
                 }
                 break;
                 default: {
@@ -192,36 +192,43 @@ public class LocalizationController {
     };
 
     public double checkFloorSVN(double[] test){
-        //Arrange  Mat to test RSS AND MAGNETIC FIELD
-        for(int i=0;i<numberAttributes;i++){
-            matTest.put(0,i,test[i]);
+        if(file.exists()) {
+            //Arrange  Mat to test RSS AND MAGNETIC FIELD
+            for (int i = 0; i < numberAttributes; i++) {
+                matTest.put(0, i, test[i]);
+            }
+            knn.findNearest(matTest, 3, matResp);
+            int respS = (int) svm.predict(matTest);
+            int respK = (int) matResp.get(0, 0)[0];
+            toaster("Location updated - SVM: " + Integer.toString(respS) + " KNN: " + Integer.toString(respK));
+            return respS;  //return SVM response
         }
-        knn.findNearest(matTest, 3, matResp);
-        int respS= (int)svm.predict(matTest);
-        int respK=(int) matResp.get(0, 0)[0];
-        toaster("Location updated - SVM: "+ Integer.toString(respS)+" KNN: "+Integer.toString(respK));
-        return respS;  //return SVM response
+        return -1;
     }
 
     public void checkFile(){
         file = new File(mAppContext.getExternalFilesDir(null), fileName);
         if(!file.exists()){
-            try {
-                FileOutputStream os = new FileOutputStream(file);
-                os.close();
-            }catch (IOException e){
-                toaster("Cannot write data to file");
-            }
             toaster("No training file detected");
         }
     }
 
     public void toaster(String message)
     {
-        Toast.makeText(mAppContext, message, Toast.LENGTH_SHORT).show();
+        if(this.toastPermission) {
+            Toast.makeText(mAppContext, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public String getmCurrentPosition() {
         return mCurrentPosition;
+    }
+
+    public Boolean getToastPermission() {
+        return toastPermission;
+    }
+
+    public void setToastPermission(Boolean toastPermission) {
+        this.toastPermission = toastPermission;
     }
 }

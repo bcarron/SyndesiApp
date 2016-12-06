@@ -1,16 +1,22 @@
 package tcslab.syndesiapp.views;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,6 +45,7 @@ import tcslab.syndesiapp.models.SensorData;
 import java.util.ArrayList;
 
 import org.opencv.android.OpenCVLoader;
+import tcslab.syndesiapp.tools.RuntimePermissionChecker;
 
 /**
  * Displays the sensors readings and the server status.
@@ -53,6 +60,16 @@ public class MainActivity extends AppCompatActivity {
     private LocalizationController mLocalizationController;
     private AlarmManager mAlarmManager;
     private PendingIntent mLocalizationLauncher;
+
+    private String[] permissionNeeded = new String[] {
+            Manifest.permission.INTERNET,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
 
         //Set the preferences listener
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(SensorController.getInstance(this));
+
+        // Runtime permissions for Android 6+
+        if (Build.VERSION.SDK_INT >= 23) {
+            RuntimePermissionChecker rpc = new RuntimePermissionChecker(this);
+            Boolean permission = rpc.getPermissions();
+            this.mLocalizationController.setToastPermission(permission);
+        }else{
+            this.mLocalizationController.setToastPermission(true);
+        }
     }
 
     public void removeSensors(){
@@ -112,6 +138,20 @@ public class MainActivity extends AppCompatActivity {
             mSensorsList.add(sensor);
         }
         mSensorsAdapter.notifyDataSetChanged();
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        Boolean allPermissionsOk = true;
+        for(int i = 0; i < permissions.length; i++){
+            if(grantResults[i] == PackageManager.PERMISSION_DENIED){
+                allPermissionsOk = false;
+            }
+        }
+        if(allPermissionsOk){
+            this.mLocalizationController.setToastPermission(true);
+        }else{
+            ((TextView) findViewById(R.id.office_display)).setText(R.string.office_noperm);
+        }
     }
 
     @Override
@@ -140,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         //Reset the context on the sensor controller
         SensorController.getInstance(this).setmActivity(this);
         //Register the Broadcast listener

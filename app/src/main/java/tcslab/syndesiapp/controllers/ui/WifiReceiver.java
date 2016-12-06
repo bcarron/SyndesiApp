@@ -29,13 +29,17 @@ public class WifiReceiver extends BroadcastReceiver {
         Log.d("WifiReceiver", intent.getAction());
         if (intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
 
-            ScanResult resWifi;
             List<ScanResult> apsList = ((WifiManager) mActivity.getSystemService(mActivity.WIFI_SERVICE)).getScanResults();
             String officeNumber = mActivity.getmLocalizationController().updateLocation(apsList);
 
             //Update the UI office status
             TextView officeTextView = (TextView) mActivity.findViewById(R.id.office_display);
-            String newOfficeText = mActivity.getString(R.string.office_display) + " " + officeNumber;
+            String newOfficeText;
+            if(officeNumber.equals("-1.0")){
+                newOfficeText = "Cannot locate you (missing training file?)";
+            }else {
+                newOfficeText = mActivity.getString(R.string.office_display) + " " + officeNumber;
+            }
             officeTextView.setText(newOfficeText);
         }
     }
