@@ -26,22 +26,22 @@ public class RuntimePermissionChecker {
         this.mActivity = activity;
     }
 
-    public Boolean hasPermission(String[] permissions){
+
+    public Boolean getPermissions(){
+        if (hasPermission(permissionNeeded)) {
+            return true;
+        } else {
+            ActivityCompat.requestPermissions(mActivity, permissionNeeded, 123);
+            return false;
+        }
+    }
+
+    private Boolean hasPermission(String[] permissions){
         for(String perm : permissions){
             if (ContextCompat.checkSelfPermission(mActivity, perm) == PackageManager.PERMISSION_DENIED){
                 return false;
             }
         }
         return true;
-    }
-
-    public Boolean getPermissions(){
-        if (hasPermission(permissionNeeded)) {
-            Log.d("Permission", "Permissions granted");
-            return true;
-        } else {
-            ActivityCompat.requestPermissions(mActivity, permissionNeeded, 123);
-            return false;
-        }
     }
 }

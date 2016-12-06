@@ -140,6 +140,14 @@ public class MainActivity extends AppCompatActivity {
         mSensorsAdapter.notifyDataSetChanged();
     }
 
+    /**
+     *
+     * Check that the user did allow the application to use the WiFi and access external storage
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         Boolean allPermissionsOk = true;
         for(int i = 0; i < permissions.length; i++){
