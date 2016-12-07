@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Reset the context on the sensor controller
         SensorController.getInstance(this).setmActivity(this);
+
         //Register the Broadcast listener
         IntentFilter filter = new IntentFilter();
         for(Integer sensorType : SensorList.sensorUsed){
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         // Launch Service for localization
         Intent localizationIntent = new Intent(this, WifiService.class);
         mLocalizationLauncher = PendingIntent.getService(this, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 60000, mLocalizationLauncher);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 30000, mLocalizationLauncher);
     }
 
     public void relocate(View v){
@@ -235,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
+        Log.d("Restoration", "save");
         savedInstanceState.putString(String.valueOf(R.id.sensors_status), ((TextView) findViewById(R.id.sensors_status)).getText().toString());
         savedInstanceState.putString(String.valueOf(R.id.office_display), ((TextView) findViewById(R.id.office_display)).getText().toString());
         savedInstanceState.putString(String.valueOf(R.id.server_display_status), ((TextView) findViewById(R.id.server_display_status)).getText().toString());
@@ -246,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
+        Log.d("Restoration", "restore");
         ((TextView) findViewById(R.id.sensors_status)).setText(savedInstanceState.getString(String.valueOf(R.id.sensors_status)));
         ((TextView) findViewById(R.id.office_display)).setText(savedInstanceState.getString(String.valueOf(R.id.office_display)));
         ((TextView) findViewById(R.id.server_display_status)).setText(savedInstanceState.getString(String.valueOf(R.id.server_display_status)));

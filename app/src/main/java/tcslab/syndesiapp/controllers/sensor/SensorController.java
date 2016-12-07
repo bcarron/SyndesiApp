@@ -44,16 +44,8 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
             this.disableSensors();
         }
 
-        String urlType;
-        if(sharedPreferences.getString(PreferenceKey.PREF_SERVER_TYPE.toString(), "").equals("syndesi")){
-            urlType = PreferenceKey.PREF_SYNDESI_URL.toString();
-        }else{
-            urlType = PreferenceKey.PREF_SENGEN_URL.toString();
-        }
-
-        if (sharedPreferences.getString(urlType, "").equals("")) {
-            ((TextView) mActivity.findViewById(R.id.server_display_status)).setText(R.string.connection_no_server_set);
-        }
+        //Update the UI
+        this.updateUI();
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -94,7 +86,28 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         return mInstance;
     }
 
-    public void enableSensors() {
+    private void updateUI(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
+            ((TextView) mActivity.findViewById(R.id.sensors_status)).setText("");
+        } else {
+            ((TextView) mActivity.findViewById(R.id.sensors_status)).setText(R.string.sensors_disabled);
+            ((TextView) mActivity.findViewById(R.id.server_display_status)).setText(R.string.connection_no_data);
+        }
+
+        String urlType;
+        if(sharedPreferences.getString(PreferenceKey.PREF_SERVER_TYPE.toString(), "").equals("syndesi")){
+            urlType = PreferenceKey.PREF_SYNDESI_URL.toString();
+        }else{
+            urlType = PreferenceKey.PREF_SENGEN_URL.toString();
+        }
+
+        if (sharedPreferences.getString(urlType, "").equals("")) {
+            ((TextView) mActivity.findViewById(R.id.server_display_status)).setText(R.string.connection_no_server_set);
+        }
+    }
+
+    private void enableSensors() {
         ((TextView) mActivity.findViewById(R.id.sensors_status)).setText("");
         //Set Alarm to launch the listener
         for(PendingIntent sensorLauncher : mSensorsLauncher){
@@ -102,7 +115,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         }
     }
 
-    public void disableSensors() {
+    private void disableSensors() {
         ((TextView) mActivity.findViewById(R.id.sensors_status)).setText(R.string.sensors_disabled);
         ((TextView) mActivity.findViewById(R.id.server_display_status)).setText(R.string.connection_no_data);
         ((MainActivity)mActivity).removeSensors();
@@ -115,7 +128,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     /**
      * Get all the sensors available and build the PendingIntent to launch SensorService
      */
-    public void getSensorLaunchers(){
+    private void getSensorLaunchers(){
         mSensorsLauncher = new ArrayList<PendingIntent>();
         SensorManager sensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE);
         mAvailableSensors = new ArrayList<>();
@@ -141,5 +154,6 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
 
     public void setmActivity(Activity activity) {
         this.mActivity = activity;
+        this.updateUI();
     }
 }
