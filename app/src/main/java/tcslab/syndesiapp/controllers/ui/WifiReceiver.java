@@ -40,6 +40,7 @@ public class WifiReceiver extends BroadcastReceiver {
                 Toast.makeText(mActivity, "Scan " + mReadings.size() + " of " + precision, Toast.LENGTH_SHORT).show();
                 ((WifiManager) mActivity.getSystemService(mActivity.WIFI_SERVICE)).startScan();
             }else {
+                Toast.makeText(mActivity, "Scan " + mReadings.size() + " of " + precision, Toast.LENGTH_SHORT).show();
                 String officeNumber = mActivity.getmLocalizationController().updateLocation(mReadings);
 
                 //Update the UI office status

@@ -18,6 +18,6 @@ public class WifiService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        ((WifiManager) getSystemService(this.WIFI_SERVICE)).startScan();
+        ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
     }
 }

@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.ml.KNearest;
 import tcslab.syndesiapp.R;
@@ -217,7 +218,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void relocate(View v){
-        ((WifiManager) getSystemService(this.WIFI_SERVICE)).startScan();
+        Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
+        ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
     }
 
     @Override
