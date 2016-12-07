@@ -92,8 +92,8 @@ public class LocalizationController {
 
             double[] response = this.checkFloorSVN(mRSSIs);
 
-            if(response.length == 1){
-                return "-1.0";
+            if(response == null){
+                return null;
             }else {
                 for(double resp : response){
                     if (results.containsKey(resp)) {

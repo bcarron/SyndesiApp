@@ -41,15 +41,16 @@ public class WifiReceiver extends BroadcastReceiver {
                 ((WifiManager) mActivity.getSystemService(mActivity.WIFI_SERVICE)).startScan();
             }else {
                 Toast.makeText(mActivity, "Scan " + mReadings.size() + " of " + precision, Toast.LENGTH_SHORT).show();
+                Log.d("WifiReceiver", Integer.toString(mReadings.size()));
                 String officeNumber = mActivity.getmLocalizationController().updateLocation(mReadings);
 
                 //Update the UI office status
                 TextView officeTextView = (TextView) mActivity.findViewById(R.id.office_display);
                 String newOfficeText;
-                if (officeNumber.equals("-1.0")) {
-                    newOfficeText = "Cannot locate you (missing training file?)";
-                } else {
+                if (officeNumber != null) {
                     newOfficeText = mActivity.getString(R.string.office_display) + " " + officeNumber;
+                } else {
+                    newOfficeText = "Cannot locate you (missing training file?)";
                 }
                 officeTextView.setText(newOfficeText);
 
