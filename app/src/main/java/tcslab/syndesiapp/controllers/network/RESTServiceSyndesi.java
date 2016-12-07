@@ -61,7 +61,7 @@ public class RESTServiceSyndesi extends RESTService{
      * @param dataType the type of sensor used to collect the data
      */
     public void sendData(Float data, int dataType) {
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -108,7 +108,7 @@ public class RESTServiceSyndesi extends RESTService{
      */
     public void fetchNodes() {
         // Get the sever address from the preferences
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -169,7 +169,7 @@ public class RESTServiceSyndesi extends RESTService{
      */
     public void toggleNode(final NodeDevice node) {
         // Get the sever address from the preferences
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -212,7 +212,7 @@ public class RESTServiceSyndesi extends RESTService{
      * @param account the account to create
      */
     public void createAccount(JSONObject account) {
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -251,7 +251,7 @@ public class RESTServiceSyndesi extends RESTService{
      * @param account the account to update
      */
     public void updateAccount(JSONObject account) {
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.

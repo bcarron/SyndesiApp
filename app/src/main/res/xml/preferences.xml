@@ -1,6 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_header_general"></PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_general" />
 
     <ListPreference
         android:defaultValue="60"
@@ -20,7 +20,7 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_loc_precision" />
 
-    <PreferenceCategory android:title="@string/pref_header_server"></PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_server" />
 
     <ListPreference
         android:defaultValue="sengen"
@@ -32,12 +32,18 @@
         android:title="@string/pref_title_server_type" />
 
     <EditTextPreference
-        android:defaultValue="@string/pref_default_server_address"
-        android:key="PREF_SERVER_URL"
-        android:title="@string/pref_title_server_url"
+        android:defaultValue="@string/pref_default_syndesi_address"
+        android:key="PREF_SYNDESI_URL"
+        android:title="@string/pref_title_syndesi_url"
         android:dialogMessage="Use this format address:port"/>
 
-    <PreferenceCategory android:title="@string/pref_header_sensor"></PreferenceCategory>
+    <EditTextPreference
+        android:defaultValue="@string/pref_default_sengen_address"
+        android:key="PREF_SENGEN_URL"
+        android:title="@string/pref_title_sengen_url"
+        android:dialogMessage="Use this format address:port"/>
+
+    <PreferenceCategory android:title="@string/pref_header_sensor" />
 
     <SwitchPreference
         android:defaultValue="false"

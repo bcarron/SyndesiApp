@@ -42,16 +42,24 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         } else {
             this.disableSensors();
         }
-        if (sharedPreferences.getString(PreferenceKey.PREF_SERVER_URL.toString(), "").equals("")) {
+
+        String urlType;
+        if(sharedPreferences.getString(PreferenceKey.PREF_SERVER_TYPE.toString(), "").equals("syndesi")){
+            urlType = PreferenceKey.PREF_SYNDESI_URL.toString();
+        }else{
+            urlType = PreferenceKey.PREF_SENGEN_URL.toString();
+        }
+
+        if (sharedPreferences.getString(urlType, "").equals("")) {
             ((TextView) mActivity.findViewById(R.id.server_display_status)).setText(R.string.connection_no_server_set);
         }
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(PreferenceKey.PREF_SERVER_URL.toString())) {
+        if (key.equals(PreferenceKey.PREF_SYNDESI_URL.toString())) {
             Log.d("PREF", "Server changed");
             final TextView connection = (TextView) mActivity.findViewById(R.id.server_display_status);
-            String server_url = PreferenceManager.getDefaultSharedPreferences(mActivity).getString(PreferenceKey.PREF_SERVER_URL.toString(), "");
+            String server_url = PreferenceManager.getDefaultSharedPreferences(mActivity).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 
             if (server_url.equals("")) {
                 connection.setText(R.string.connection_no_server_set);
