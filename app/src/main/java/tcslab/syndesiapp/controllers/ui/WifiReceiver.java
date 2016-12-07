@@ -28,6 +28,7 @@ public class WifiReceiver extends BroadcastReceiver {
     private AccountController mAccountController;
 
     public WifiReceiver(MainActivity activity) {
+        Log.d("WifiReceiver", "New receiver");
         this.mActivity = activity;
         this.mAccountController = AccountController.getInstance(this.mActivity);
     }
@@ -44,8 +45,8 @@ public class WifiReceiver extends BroadcastReceiver {
                 Toast.makeText(mActivity, "Scan " + mReadings.size() + " of " + precision, Toast.LENGTH_SHORT).show();
                 ((WifiManager) mActivity.getSystemService(mActivity.WIFI_SERVICE)).startScan();
             }else {
+                Log.d("WifiReceiver", "Starting loc");
                 Toast.makeText(mActivity, "Scan " + mReadings.size() + " of " + precision, Toast.LENGTH_SHORT).show();
-                Log.d("WifiReceiver", Integer.toString(mReadings.size()));
                 String officeNumber = mActivity.getmLocalizationController().updateLocation(mReadings);
 
                 //Update the UI office status

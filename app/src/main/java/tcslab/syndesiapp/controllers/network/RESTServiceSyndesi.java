@@ -68,8 +68,6 @@ public class RESTServiceSyndesi extends RESTService{
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
-            // TEST URL
-            server_url = "http://129.194.69.178:8111";
 
             final String url = server_url + "/ero2proxy/crowddata";
 
@@ -115,8 +113,6 @@ public class RESTServiceSyndesi extends RESTService{
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
-            // TEST URL
-            server_url = "http://129.194.69.178:8111";
 
             final String url = server_url + "/ero2proxy/service";
 
@@ -176,8 +172,6 @@ public class RESTServiceSyndesi extends RESTService{
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
-            // TEST URL
-            server_url = "http://129.194.69.178:8111";
 
             final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=sengen&status=" + node.getmType().getToggleStatus(node.getmStatus());
             Log.d("URL", url);
@@ -219,8 +213,7 @@ public class RESTServiceSyndesi extends RESTService{
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
-            // TEST URL
-            server_url = "http://129.194.69.178:8111";
+
             final String url = server_url + "/ero2proxy/crowdusers";
 
             //Initiate the JSON request
@@ -258,8 +251,7 @@ public class RESTServiceSyndesi extends RESTService{
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
             }
-            // TEST URL
-            server_url = "http://129.194.69.178:8111";
+
             final String url = server_url + "/ero2proxy/crowdusers";
 
             //Initiate the JSON request
