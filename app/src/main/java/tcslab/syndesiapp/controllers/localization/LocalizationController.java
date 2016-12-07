@@ -15,8 +15,7 @@ import org.opencv.ml.Ml;
 import org.opencv.ml.SVM;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by blais on 30.11.2016.
@@ -27,6 +26,7 @@ public class LocalizationController {
     static final int READ_BLOCK_SIZE = 100;
     private File file;
     private String mCurrentPosition;
+    private int nbReadings = 0;
     private Boolean toastPermission = false;
 
 
@@ -40,16 +40,15 @@ public class LocalizationController {
     private double[] mRSSIs;
 
     // Geneve AP MAC address
-    private final static String[] mAnchorNodes={
+/*    private final static String[] mAnchorNodes={
             "2c:56:dc:d2:06:a8",
             "9c:5c:8e:c5:fb:a0",
             "9c:5c:8e:c5:f1:1a",
             "9c:5c:8e:c5:fb:7a",
             "9c:5c:8e:c5:fb:a6"
-    };
+    };*/
 
     // Bussigny AP MAC address
-/*
     private final static String[] mAnchorNodes={
             "1c:87:2c:67:80:3c",
             "88:f7:c7:44:fb:40",
@@ -57,7 +56,6 @@ public class LocalizationController {
             "a4:52:6f:a5:45:11",
             "4e:66:41:fd:26:47"
     };
-*/
 
 
     private LocalizationController(Context mAppContext) {
@@ -76,22 +74,52 @@ public class LocalizationController {
         return mInstance;
     }
 
-    public String updateLocation(List<ScanResult> APsList){
+    public String updateLocation(List<List<ScanResult>> readings){
+        HashMap<Double, Integer> results = new HashMap<>();
         ScanResult scanResult;
-        String test = "";
 
-        for (int i=0; i<APsList.size(); i++) {
-            scanResult = APsList.get(i);
+        for(List<ScanResult> APsList : readings) {
+            for (int i = 0; i < APsList.size(); i++) {
+                scanResult = APsList.get(i);
 
-            //search by SSID or MAC
-            for(int j=0; j < mAnchorNodes.length; j++){
-                if(scanResult.BSSID.equals(mAnchorNodes[j])){
-                    mRSSIs[j] = scanResult.level;
-                    test += " " + Integer.toString(scanResult.level);
+                //search by SSID or MAC
+                for (int j = 0; j < mAnchorNodes.length; j++) {
+                    if (scanResult.BSSID.equals(mAnchorNodes[j])) {
+                        mRSSIs[j] = scanResult.level;
+                    }
+                }
+            }
+
+            double[] response = this.checkFloorSVN(mRSSIs);
+
+            if(response.length == 1){
+                return "-1.0";
+            }else {
+                for(double resp : response){
+                    if (results.containsKey(resp)) {
+                        results.put(resp, results.get(resp) + 1);
+                    } else {
+                        results.put(resp, 1);
+                    }
                 }
             }
         }
-        this.mCurrentPosition = Double.toString(this.checkFloorSVN(this.mRSSIs));
+
+        double maxPosition = -1;
+        String toastMessage = "";
+        for(Double result : results.keySet()){
+            toastMessage += result + " (" + results.get(result) + "), ";
+            if(maxPosition == -1 || results.get(result) > results.get(maxPosition)){
+                maxPosition = result;
+            }
+        }
+
+        toastMessage = toastMessage.substring(0, toastMessage.length() - 2);
+        this.toaster(toastMessage);
+        Log.d("Loc", maxPosition + ": " + results.get(maxPosition));
+
+        this.mCurrentPosition = Double.toString(maxPosition);
+
         return this.mCurrentPosition;
     }
 
@@ -193,7 +221,7 @@ public class LocalizationController {
         }
     };
 
-    public double checkFloorSVN(double[] test){
+    public double[] checkFloorSVN(double[] test){
         if(file.exists()) {
             //Arrange  Mat to test RSS AND MAGNETIC FIELD
             for (int i = 0; i < numberAttributes; i++) {
@@ -202,10 +230,9 @@ public class LocalizationController {
             knn.findNearest(matTest, 3, matResp);
             int respS = (int) svm.predict(matTest);
             int respK = (int) matResp.get(0, 0)[0];
-            toaster("Location updated - SVM: " + Integer.toString(respS) + " KNN: " + Integer.toString(respK));
-            return respS;  //return SVM response
+            return new double[]{respS, respK};  //return both response
         }
-        return -1;
+        return null;
     }
 
     public void checkFile(){
