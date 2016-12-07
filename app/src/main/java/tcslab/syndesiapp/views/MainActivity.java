@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         // Launch Service for localization
         Intent localizationIntent = new Intent(this, WifiService.class);
         mLocalizationLauncher = PendingIntent.getService(this, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 30000, mLocalizationLauncher);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 60000, mLocalizationLauncher);
     }
 
     public void relocate(View v){
