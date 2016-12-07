@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import tcslab.syndesiapp.R;
+import tcslab.syndesiapp.controllers.account.AccountController;
+import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.views.MainActivity;
 
@@ -23,9 +25,11 @@ import java.util.List;
 public class WifiReceiver extends BroadcastReceiver {
     private MainActivity mActivity;
     private List<List<ScanResult>> mReadings = new ArrayList<>();
+    private AccountController mAccountController;
 
     public WifiReceiver(MainActivity activity) {
-        mActivity = activity;
+        this.mActivity = activity;
+        this.mAccountController = AccountController.getInstance(this.mActivity);
     }
 
 
@@ -53,6 +57,13 @@ public class WifiReceiver extends BroadcastReceiver {
                     newOfficeText = "Cannot locate you (missing training file?)";
                 }
                 officeTextView.setText(newOfficeText);
+
+                // Update account office if using Syndesi
+                if(PreferenceManager.getDefaultSharedPreferences(this.mActivity).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
+                    Account oldAccount = mAccountController.getAccount();
+                    oldAccount.setmOffice(officeNumber);
+                    mAccountController.saveAccount(oldAccount);
+                }
 
                 mReadings.clear();
             }
