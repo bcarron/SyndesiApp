@@ -1,7 +1,12 @@
 package tcslab.syndesiapp.controllers.localization;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.ScanResult;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import org.opencv.android.BaseLoaderCallback;
@@ -13,6 +18,7 @@ import org.opencv.core.TermCriteria;
 import org.opencv.ml.KNearest;
 import org.opencv.ml.Ml;
 import org.opencv.ml.SVM;
+import tcslab.syndesiapp.models.PreferenceKey;
 
 import java.io.*;
 import java.util.*;
@@ -20,9 +26,11 @@ import java.util.*;
 /**
  * Created by blais on 30.11.2016.
  */
-public class LocalizationController {
+public class LocalizationController implements SharedPreferences.OnSharedPreferenceChangeListener{
     private static LocalizationController mInstance;
     private Context mAppContext;
+    private AlarmManager mAlarmManager;
+    private PendingIntent mLocalizationLauncher;
     static final int READ_BLOCK_SIZE = 100;
     private File file;
     private String mCurrentPosition;
@@ -58,12 +66,20 @@ public class LocalizationController {
     };*/
 
 
-    private LocalizationController(Context mAppContext) {
-        this.mAppContext = mAppContext;
+    private LocalizationController(Context appContext) {
+        this.mAppContext = appContext;
+        this.mAlarmManager = (AlarmManager) this.mAppContext.getSystemService(Context.ALARM_SERVICE);
         this.checkFile();
         mRSSIs = new double[mAnchorNodes.length];
         for(int i=0; i < mAnchorNodes.length; i++){
             mRSSIs[i] = 0;
+        }
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.mAppContext);
+        if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+            this.startLocalization();
+        }else{
+            this.stopLocalization();
         }
     }
 
@@ -201,7 +217,6 @@ public class LocalizationController {
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
-                    toaster("OpenCV loaded successfully");
                     knn = KNearest.create();
                     svm = SVM.create();
                     matResp = new Mat(3,1,CvType.CV_32F);// row =number of neighbors
@@ -266,5 +281,30 @@ public class LocalizationController {
 
     public void setToastPermission(Boolean toastPermission) {
         this.toastPermission = toastPermission;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(PreferenceKey.PREF_LOC_PERM.toString())) {
+            if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+                this.startLocalization();
+            } else {
+                this.stopLocalization();
+            }
+        }
+    }
+
+    private void startLocalization(){
+        // Launch Service for localization
+        Intent localizationIntent = new Intent(this.mAppContext, WifiService.class);
+        mLocalizationLauncher = PendingIntent.getService(this.mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 300000, mLocalizationLauncher);
+        Log.d("PREF", "Localization enabled");
+    }
+
+
+    private void stopLocalization(){
+        mAlarmManager.cancel(mLocalizationLauncher);
+        Log.d("PREF", "Localization disabled");
     }
 }

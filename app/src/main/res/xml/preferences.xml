@@ -52,4 +52,11 @@
         android:summaryOn="Sensors enabled"
         android:title="@string/pref_title_sensor_perm" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="PREF_LOC_PERM"
+        android:summaryOff="Localization disabled"
+        android:summaryOn="Localization enabled"
+        android:title="@string/pref_title_loc_perm" />
+
 </PreferenceScreen>

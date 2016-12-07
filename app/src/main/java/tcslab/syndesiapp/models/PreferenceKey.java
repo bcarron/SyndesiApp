@@ -10,6 +10,7 @@ public enum PreferenceKey {
     PREF_SERVER_TYPE,
     PREF_SENSOR_RATE,
     PREF_SENSOR_PERM,
+    PREF_LOC_PERM,
     PREF_SAVED_ACCOUNT,
     PREF_LOC_PRECISION
 }

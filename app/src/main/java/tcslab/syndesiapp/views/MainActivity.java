@@ -59,9 +59,6 @@ public class MainActivity extends AppCompatActivity {
     private SensorAdapter mSensorsAdapter;
     private AccountController mAccountController;
     private LocalizationController mLocalizationController;
-    private AlarmManager mAlarmManager;
-    private PendingIntent mLocalizationLauncher;
-
     private String[] permissionNeeded = new String[] {
             Manifest.permission.INTERNET,
             Manifest.permission.WAKE_LOCK,
@@ -101,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the localization controller
         mLocalizationController = LocalizationController.getInstance(this);
-        mAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
         //Creates the broadcast receiver that updates the UI
         mUiReceiver = new UIReceiver(this);
@@ -211,11 +207,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mLocalizationController.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
-
-        // Launch Service for localization
-        Intent localizationIntent = new Intent(this, WifiService.class);
-        mLocalizationLauncher = PendingIntent.getService(this, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 30000, mLocalizationLauncher);
     }
 
     public void relocate(View v){
@@ -231,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Unregister the Wifi Listener
         this.unregisterReceiver(mWifiReceiver);
-        mAlarmManager.cancel(mLocalizationLauncher);
     }
 
     @Override
