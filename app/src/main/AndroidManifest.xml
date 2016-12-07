@@ -17,7 +17,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <activity android:name=".views.MainActivity" android:enabled="true">
+        <activity android:name=".views.MainActivity"
+                  android:enabled="true"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -27,7 +30,9 @@
         <activity
                 android:name=".views.SettingsActivity"
                 android:label="@string/title_activity_settings"
-                android:parentActivityName=".views.MainActivity">
+                android:parentActivityName=".views.MainActivity"
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".views.MainActivity" />
@@ -36,7 +41,9 @@
         <activity
             android:name=".views.NodesControllerActivity"
             android:label="@string/title_controller"
-            android:parentActivityName=".views.MainActivity">
+            android:parentActivityName=".views.MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.MainActivity" />
