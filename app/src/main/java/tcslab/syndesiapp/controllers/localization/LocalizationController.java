@@ -108,14 +108,14 @@ public class LocalizationController {
         double maxPosition = -1;
         String toastMessage = "";
         for(Double result : results.keySet()){
-            toastMessage += result + " (" + results.get(result) + "), ";
+            toastMessage += "Room " + result + " (" + results.get(result) + "/" + (readings.size() * 2) + "), ";
             if(maxPosition == -1 || results.get(result) > results.get(maxPosition)){
                 maxPosition = result;
             }
         }
 
         toastMessage = toastMessage.substring(0, toastMessage.length() - 2);
-        this.toaster(toastMessage);
+        this.toaster(toastMessage, Toast.LENGTH_LONG);
         Log.d("Loc", maxPosition + ": " + results.get(maxPosition));
 
         this.mCurrentPosition = Double.toString(maxPosition);
@@ -246,6 +246,13 @@ public class LocalizationController {
     {
         if(this.toastPermission) {
             Toast.makeText(mAppContext, message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void toaster(String message, int duration)
+    {
+        if(this.toastPermission) {
+            Toast.makeText(mAppContext, message, duration).show();
         }
     }
 
