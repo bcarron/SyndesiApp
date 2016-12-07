@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
+import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.views.MainActivity;
 
@@ -64,6 +65,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
             if (server_url.equals("")) {
                 connection.setText(R.string.connection_no_server_set);
             } else {
+                AccountController.getInstance(mActivity).updateAccount();
                 Log.d("PREF", "User account updated");
             }
         }
