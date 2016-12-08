@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.ScanResult;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 import org.opencv.android.BaseLoaderCallback;
@@ -18,6 +19,7 @@ import org.opencv.core.TermCriteria;
 import org.opencv.ml.KNearest;
 import org.opencv.ml.Ml;
 import org.opencv.ml.SVM;
+import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 
 import java.io.*;
@@ -292,6 +294,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
                 this.stopLocalization();
             }
         }
+        this.updateUI();
     }
 
     private void startLocalization(){
@@ -306,5 +309,31 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     private void stopLocalization(){
         mAlarmManager.cancel(mLocalizationLauncher);
         Log.d("PREF", "Localization disabled");
+    }
+
+    private void updateUI(){
+        Boolean status;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.mAppContext);
+
+        if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+            status = true;
+        }else{
+            status = false;
+        }
+        Log.d("LocalizationController","Update ui");
+        Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
+        localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_STATUS.toString(), status);
+        localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_OFFICE.toString(), this.mCurrentPosition);
+        Boolean res = LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(localIntent);
+        Log.d("LocalizationController", Boolean.toString(res));
+    }
+
+    public Context getmAppContext() {
+        return mAppContext;
+    }
+
+    public void setmAppContext(Context mAppContext) {
+        this.mAppContext = mAppContext;
+        this.updateUI();
     }
 }

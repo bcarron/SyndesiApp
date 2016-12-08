@@ -25,6 +25,7 @@ public class UIReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("UIReceiver", intent.getAction());
         if (intent.getAction().equals(BroadcastType.BCAST_TYPE_SERVER_STATUS.toString())) {
             //Update the UI server status
             String response = intent.getStringExtra(BroadcastType.BCAST_EXTRA_SERVER_RESPONSE.toString());
@@ -35,7 +36,7 @@ public class UIReceiver extends BroadcastReceiver {
             String response = intent.getStringExtra(BroadcastType.BCAST_EXTRA_SERVER_RESPONSE.toString());
             TextView server = (TextView) mActivity.findViewById(R.id.controller_display_status);
             server.setText(response);
-        } else{
+        } else {
             //Add sensor reading to the UI
             Float data = intent.getFloatExtra(BroadcastType.BCAST_EXTRA_SENSOR_DATA.toString(), 0);
             ((MainActivity)mActivity).addSensor(new SensorData("", data, intent.getAction()));

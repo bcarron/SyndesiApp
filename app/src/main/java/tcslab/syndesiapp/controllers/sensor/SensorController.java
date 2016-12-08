@@ -48,6 +48,13 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         this.updateUI();
     }
 
+    public static synchronized SensorController getInstance(Activity activity) {
+        if (mInstance == null) {
+            mInstance = new SensorController(activity);
+        }
+        return mInstance;
+    }
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(PreferenceKey.PREF_SYNDESI_URL.toString())) {
             Log.d("PREF", "Server changed");
@@ -79,14 +86,8 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         }
     }
 
-    public static synchronized SensorController getInstance(Activity activity) {
-        if (mInstance == null) {
-            mInstance = new SensorController(activity);
-        }
-        return mInstance;
-    }
-
     private void updateUI(){
+        Log.d("Sensor", "Update UI");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
             ((TextView) mActivity.findViewById(R.id.sensors_status)).setText("");

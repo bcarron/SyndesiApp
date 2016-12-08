@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Set the preferences listener
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(SensorController.getInstance(this));
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(LocalizationController.getInstance(this));
 
         // Runtime permissions for Android 6+
         if (Build.VERSION.SDK_INT >= 23) {
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         if(allPermissionsOk){
             this.mLocalizationController.setToastPermission(true);
         }else{
-            ((TextView) findViewById(R.id.office_display)).setText(R.string.office_noperm);
+            ((TextView) findViewById(R.id.loc_display)).setText(R.string.loc_noperm);
         }
     }
 
@@ -177,20 +178,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //Reset the context on the sensor controller
-        SensorController.getInstance(this).setmActivity(this);
-
         //Register the Broadcast listener
         IntentFilter filter = new IntentFilter();
         for(Integer sensorType : SensorList.sensorUsed){
             filter.addAction(String.valueOf(sensorType));
         }
-        filter.addAction(String.valueOf(BroadcastType.BCAST_TYPE_SERVER_STATUS));
-        filter.addAction(String.valueOf(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS));
+        filter.addAction(BroadcastType.BCAST_TYPE_SERVER_STATUS.toString());
+        filter.addAction(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
         //Register the Wifi Listener
-        this.registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        IntentFilter wifiFilter = new IntentFilter();
+        wifiFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        wifiFilter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
+        this.registerReceiver(mWifiReceiver, wifiFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mWifiReceiver, wifiFilter);
 
         /* Load OpenCV */
         if (!OpenCVLoader.initDebug()) {
@@ -198,10 +200,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mLocalizationController.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
+
+        //Reset the context on the controllers
+        SensorController.getInstance(this).setmActivity(this);
+        mLocalizationController.setmAppContext(this);
     }
 
     public void relocate(View v){
-        Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
+        ((TextView) this.findViewById(R.id.loc_display)).setText(R.string.loc_scanning);
         ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
     }
 
@@ -213,13 +219,14 @@ public class MainActivity extends AppCompatActivity {
 
         //Unregister the Wifi Listener
         this.unregisterReceiver(mWifiReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mWifiReceiver);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d("Restoration", "save");
         savedInstanceState.putString(String.valueOf(R.id.sensors_status), ((TextView) findViewById(R.id.sensors_status)).getText().toString());
-        savedInstanceState.putString(String.valueOf(R.id.office_display), ((TextView) findViewById(R.id.office_display)).getText().toString());
+        savedInstanceState.putString(String.valueOf(R.id.loc_display), ((TextView) findViewById(R.id.loc_display)).getText().toString());
         savedInstanceState.putString(String.valueOf(R.id.server_display_status), ((TextView) findViewById(R.id.server_display_status)).getText().toString());
 
         super.onSaveInstanceState(savedInstanceState);
@@ -231,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("Restoration", "restore");
         ((TextView) findViewById(R.id.sensors_status)).setText(savedInstanceState.getString(String.valueOf(R.id.sensors_status)));
-        ((TextView) findViewById(R.id.office_display)).setText(savedInstanceState.getString(String.valueOf(R.id.office_display)));
+        ((TextView) findViewById(R.id.loc_display)).setText(savedInstanceState.getString(String.valueOf(R.id.loc_display)));
         ((TextView) findViewById(R.id.server_display_status)).setText(savedInstanceState.getString(String.valueOf(R.id.server_display_status)));
     }
 

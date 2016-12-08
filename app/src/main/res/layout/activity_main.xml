@@ -45,12 +45,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/office_title"
+        android:text="@string/loc_title"
         android:paddingTop="32dp" />
 
     <TextView
-        android:id="@+id/office_display"
-        android:text="@string/office_display"
+        android:id="@+id/loc_display"
+        android:text="@string/loc_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
