@@ -208,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void relocate(View v){
         ((TextView) this.findViewById(R.id.loc_display)).setText(R.string.loc_scanning);
+        Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
         ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
     }
 

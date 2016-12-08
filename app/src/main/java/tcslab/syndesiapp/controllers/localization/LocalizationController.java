@@ -320,12 +320,10 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         }else{
             status = false;
         }
-        Log.d("LocalizationController","Update ui");
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_STATUS.toString(), status);
         localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_OFFICE.toString(), this.mCurrentPosition);
-        Boolean res = LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(localIntent);
-        Log.d("LocalizationController", Boolean.toString(res));
+        LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(localIntent);
     }
 
     public Context getmAppContext() {
