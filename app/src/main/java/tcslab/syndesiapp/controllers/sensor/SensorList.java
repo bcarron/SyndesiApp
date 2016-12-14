@@ -4,6 +4,8 @@ import android.hardware.Sensor;
 import tcslab.syndesiapp.R;
 
 /**
+ * Sensor used by the app
+ *
  * Created by Blaise on 27.05.2015.
  */
 public class SensorList {

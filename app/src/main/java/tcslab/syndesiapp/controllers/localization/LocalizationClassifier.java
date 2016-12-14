@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Determine in which office the user is using neighbour WiFi access points
+ * Determine in which office the user is using neighbour WiFi access points by using two classifiers (SVM + KNN)
  *
  * Created by Blaise on 14.12.2016.
  */

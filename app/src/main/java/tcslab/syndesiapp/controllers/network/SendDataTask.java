@@ -13,6 +13,7 @@ import tcslab.syndesiapp.models.PreferenceKey;
 
 /**
  * Sends data to the server and fire broadcast intents to update the user interface
+ *
  * Created by Blaise on 30.04.2015.
  */
 public class SendDataTask extends AsyncTask<SensorEvent, Void, SensorEvent> {

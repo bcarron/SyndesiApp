@@ -13,6 +13,8 @@ import tcslab.syndesiapp.models.NodeDevice;
 import java.util.ArrayList;
 
 /**
+ * View used to display one node
+ *
  * Created by Blaise on 01.06.2015.
  */
 public class NodeAdapter extends ArrayAdapter<NodeDevice> {

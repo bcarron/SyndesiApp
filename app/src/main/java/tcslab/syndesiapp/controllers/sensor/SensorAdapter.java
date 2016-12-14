@@ -13,6 +13,8 @@ import tcslab.syndesiapp.models.SensorData;
 import java.util.ArrayList;
 
 /**
+ * View used to display one sensor
+ *
  * Created by Blaise on 02.06.2015.
  */
 public class SensorAdapter extends ArrayAdapter<SensorData> {

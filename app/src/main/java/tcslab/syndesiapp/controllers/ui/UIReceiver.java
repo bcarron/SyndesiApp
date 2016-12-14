@@ -11,15 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.localization.LocalizationClassifier;
-import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
 import tcslab.syndesiapp.views.MainActivity;
 
 /**
- * Updates the user interface by receiving broadcasts
+ * Updates the user interface by receiving local broadcasts from controllers and services
+ *
  * Created by Blaise on 01.05.2015.
  */
 public class UIReceiver extends BroadcastReceiver {

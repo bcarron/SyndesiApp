@@ -12,7 +12,7 @@ import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 
 /**
- * Handle the localization preference in the settings and enalbe or disable the associated localization service.
+ * Handle the localization preference in the settings and enable or disable the associated localization service.
  *
  * Created by Blaise on 30.11.2016.
  */
@@ -59,7 +59,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         // Launch Service for the localization
         Intent localizationIntent = new Intent(this.mAppContext, WifiService.class);
         mLocalizationLauncher = PendingIntent.getService(this.mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 120000, mLocalizationLauncher);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 300000, mLocalizationLauncher);
 
         Log.d("PREF", "Localization enabled");
     }

@@ -23,7 +23,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.opencv.android.LoaderCallbackInterface;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.localization.LocalizationController;
@@ -32,7 +31,6 @@ import tcslab.syndesiapp.controllers.sensor.SensorAdapter;
 import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.controllers.ui.UIReceiver;
-import tcslab.syndesiapp.controllers.ui.WifiReceiver;
 import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
@@ -40,11 +38,11 @@ import tcslab.syndesiapp.models.SensorData;
 
 import java.util.ArrayList;
 
-import org.opencv.android.OpenCVLoader;
 import tcslab.syndesiapp.tools.RuntimePermissionChecker;
 
 /**
  * Displays the sensors readings and the server status.
+ *
  * Created by Blaise on 27.04.2015.
  */
 public class MainActivity extends AppCompatActivity {

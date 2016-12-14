@@ -25,7 +25,8 @@ import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.views.NodesControllerActivity;
 
 /**
- * Implements a REST service in a singleton class to send data to the server
+ * Implements a REST service in a singleton class to send data to the Syndesi server
+ *
  * Created by Blaise on 04.05.2015.
  */
 public class RESTServiceSyndesi extends RESTService{

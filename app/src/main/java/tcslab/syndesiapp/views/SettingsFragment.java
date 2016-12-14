@@ -6,6 +6,7 @@ import tcslab.syndesiapp.R;
 
 /**
  * Shows the preferences screen
+ *
  * Created by Blaise on 27.04.2015.
  */
 public class SettingsFragment extends PreferenceFragment {

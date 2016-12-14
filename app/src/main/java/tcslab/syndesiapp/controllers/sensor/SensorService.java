@@ -10,6 +10,7 @@ import android.os.PowerManager;
 
 /**
  * Prepares a sensor listener for the right sensor.
+ *
  * Created by Blaise on 30.04.2015.
  */
 public class SensorService extends IntentService {

@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Implements a REST service in a singleton class to send data to the Sengen DB
+ *
  * Created by blais on 23.11.2016.
  */
 public class RESTServiceSengen extends RESTService{

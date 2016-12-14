@@ -7,6 +7,7 @@ import tcslab.syndesiapp.R;
 
 /**
  * Shows the preferences fragment
+ *
  * Created by Blaise on 27.04.2015.
  */
 public class SettingsActivity extends AppCompatActivity {

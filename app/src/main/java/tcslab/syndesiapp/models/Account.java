@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Represents the active user's account
+ *
  * Created by Blaise on 30.04.2015.
  */
 public class Account {

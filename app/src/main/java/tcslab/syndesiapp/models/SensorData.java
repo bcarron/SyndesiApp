@@ -2,6 +2,7 @@ package tcslab.syndesiapp.models;
 
 /**
  * Holds the data relative to a value coming from a sensor for a given account
+ *
  * Created by Blaise on 30.04.2015.
  */
 public class SensorData {

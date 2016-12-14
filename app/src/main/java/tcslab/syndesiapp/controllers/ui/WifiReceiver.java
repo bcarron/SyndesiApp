@@ -9,6 +9,8 @@ import android.util.Log;
 import tcslab.syndesiapp.controllers.localization.WifiService;
 
 /**
+ * Receive the system broadcast to update the values of the RSSI to the WiFi service
+ *
  * Created by blais on 30.11.2016.
  */
 public class WifiReceiver extends BroadcastReceiver {

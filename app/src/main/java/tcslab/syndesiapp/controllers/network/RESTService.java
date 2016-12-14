@@ -28,6 +28,7 @@ import java.util.Date;
 
 /**
  * Implements a REST service in a singleton class to send data to the server
+ *
  * Created by Blaise on 04.05.2015.
  */
 public abstract class RESTService {

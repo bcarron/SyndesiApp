@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 /**
  * Manages sensors and reacts to settings changes to adapt the sensors in a singleton controller.
+ *
  * Created by Blaise on 01.05.2015.
  */
 public class SensorController implements SharedPreferences.OnSharedPreferenceChangeListener {

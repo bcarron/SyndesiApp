@@ -14,6 +14,7 @@ import tcslab.syndesiapp.models.PreferenceKey;
 
 /**
  * Listens to sensors and prepares an AsyncTask to send data to the server and update the user interface.
+ *
  * Created by Blaise on 27.05.2015.
  */
 public class SensorListener implements SensorEventListener {

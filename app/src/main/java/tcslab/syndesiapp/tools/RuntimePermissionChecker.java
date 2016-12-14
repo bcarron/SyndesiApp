@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 /**
+ * Check the permission at runtime for Android 6+
+ *
  * Created by blais on 05.12.2016.
  */
 public class RuntimePermissionChecker {

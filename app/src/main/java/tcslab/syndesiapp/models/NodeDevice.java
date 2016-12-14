@@ -1,6 +1,8 @@
 package tcslab.syndesiapp.models;
 
 /**
+ * Represents a node connected to the system
+ *
  * Created by Blaise on 31.05.2015.
  */
 public class NodeDevice {

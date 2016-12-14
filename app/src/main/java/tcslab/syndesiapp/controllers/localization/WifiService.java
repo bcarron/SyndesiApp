@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Perform the WiFi access point scans in order to use the localization classifier
+ *
  * Created by blais on 30.11.2016.
  */
 public class WifiService extends IntentService {
