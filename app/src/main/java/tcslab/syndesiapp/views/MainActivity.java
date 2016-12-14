@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         }
         filter.addAction(BroadcastType.BCAST_TYPE_SERVER_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS.toString());
+        filter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
         /* Load OpenCV */

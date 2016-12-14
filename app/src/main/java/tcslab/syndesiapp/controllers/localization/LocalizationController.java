@@ -146,6 +146,8 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
         this.mCurrentPosition = Double.toString(maxPosition);
 
+        this.updateUI();
+
         return this.mCurrentPosition;
     }
 
@@ -325,13 +327,10 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         // Launch Service for localization
         Intent localizationIntent = new Intent(this.mAppContext, WifiService.class);
         mLocalizationLauncher = PendingIntent.getService(this.mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 300000, mLocalizationLauncher);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 120000, mLocalizationLauncher);
 
         //Register the Wifi Listener
-        IntentFilter wifiFilter = new IntentFilter();
-        wifiFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        wifiFilter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
-        this.mAppContext.registerReceiver(mWifiReceiver, wifiFilter);
+        this.mAppContext.registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         Log.d("PREF", "Localization enabled");
     }
@@ -350,11 +349,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         Boolean status;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.mAppContext);
 
-        if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
-            status = true;
-        }else{
-            status = false;
-        }
+        status = sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false);
+
+        // Send broadcast to update the UI
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_STATUS.toString(), status);
         localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_OFFICE.toString(), this.mCurrentPosition);
