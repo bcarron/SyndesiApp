@@ -55,16 +55,6 @@ public class WifiReceiver extends BroadcastReceiver {
                 Toast.makeText(mAppContext, "Scan " + mReadings.size() + " of " + precision, Toast.LENGTH_SHORT).show();
                 String officeNumber = mLocalizationController.updateLocation(mReadings);
 
-                //Update the UI office status TODO IN LOCCONTROLLER AND UI RECEIVER
-                /*TextView officeTextView = (TextView) mActivity.findViewById(R.id.loc_display);
-                String newOfficeText;
-                if (officeNumber != null) {
-                    newOfficeText = mActivity.getString(R.string.loc_display) + ": " + officeNumber;
-                } else {
-                    newOfficeText = "Cannot locate you (missing training file?)";
-                }
-                officeTextView.setText(newOfficeText);*/
-
                 // Update account office if using Syndesi
                 if(PreferenceManager.getDefaultSharedPreferences(this.mAppContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
                     Account oldAccount = mAccountController.getAccount();

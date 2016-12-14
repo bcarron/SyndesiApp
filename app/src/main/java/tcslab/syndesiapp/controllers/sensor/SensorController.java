@@ -28,7 +28,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     private AlarmManager mAlarmManager;
     private ArrayList<String> mAvailableSensors;
 
-    public SensorController(Activity activity) {
+    private SensorController(Activity activity) {
         this.mActivity = activity;
 
         //Get all sensors
@@ -147,10 +147,6 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
 
     public ArrayList<String> getmAvailableSensors() {
         return mAvailableSensors;
-    }
-
-    public void setmAvailableSensors(ArrayList<String> mAvailableSensors) {
-        this.mAvailableSensors = mAvailableSensors;
     }
 
     public void setmActivity(Activity activity) {

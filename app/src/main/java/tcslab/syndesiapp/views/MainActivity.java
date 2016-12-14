@@ -89,6 +89,13 @@ public class MainActivity extends AppCompatActivity {
         // Set the localization controller
         mLocalizationController = LocalizationController.getInstance(this);
 
+        /* Load OpenCV */
+        if (!OpenCVLoader.initDebug()) {
+            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
+        } else {
+            mLocalizationController.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+
         //Creates the broadcast receiver that updates the UI
         mUiReceiver = new UIReceiver(this);
 
@@ -183,13 +190,6 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
-
-        /* Load OpenCV */
-        if (!OpenCVLoader.initDebug()) {
-            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
-        } else {
-            mLocalizationController.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-        }
 
         //Reset the context on the controllers
         SensorController.getInstance(this).setmActivity(this);
