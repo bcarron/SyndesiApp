@@ -8,7 +8,7 @@ import tcslab.syndesiapp.R;
  */
 public class SensorList {
     public static Integer[] sensorUsed = new Integer[]
-            {Sensor.TYPE_LIGHT, Sensor.TYPE_AMBIENT_TEMPERATURE, Sensor.TYPE_PRESSURE, Sensor.TYPE_RELATIVE_HUMIDITY/*, Sensor.TYPE_PROXIMITY*/};
+            {Sensor.TYPE_LIGHT, Sensor.TYPE_AMBIENT_TEMPERATURE, Sensor.TYPE_PRESSURE, Sensor.TYPE_RELATIVE_HUMIDITY, Sensor.TYPE_STEP_COUNTER/*, Sensor.TYPE_PROXIMITY*/};
 
     public static String getStringType(int sensorType){
         String stringType;
@@ -17,6 +17,7 @@ public class SensorList {
             case Sensor.TYPE_AMBIENT_TEMPERATURE: stringType = "temperature"; break;
             case Sensor.TYPE_PRESSURE: stringType = "pressure"; break;
             case Sensor.TYPE_RELATIVE_HUMIDITY: stringType = "humidity"; break;
+            case Sensor.TYPE_STEP_COUNTER: stringType = "steps"; break;
 //            case Sensor.TYPE_PROXIMITY: stringType = "proximity"; break;
             default: stringType = "UNDEFINED"; break;
         }
@@ -30,6 +31,7 @@ public class SensorList {
             case Sensor.TYPE_AMBIENT_TEMPERATURE: stringType = "celsius"; break;
             case Sensor.TYPE_PRESSURE: stringType = "hPa"; break;
             case Sensor.TYPE_RELATIVE_HUMIDITY: stringType = "%25"; break;
+            case Sensor.TYPE_STEP_COUNTER: stringType = "steps"; break;
 //            case Sensor.TYPE_PROXIMITY: stringType = "cm"; break;
             default: stringType = "Undefined"; break;
         }

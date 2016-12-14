@@ -4,9 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -20,6 +22,7 @@ import org.opencv.core.TermCriteria;
 import org.opencv.ml.KNearest;
 import org.opencv.ml.Ml;
 import org.opencv.ml.SVM;
+import tcslab.syndesiapp.controllers.ui.WifiReceiver;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 
@@ -33,6 +36,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     private static LocalizationController mInstance;
     private Context mAppContext;
     private AlarmManager mAlarmManager;
+    private WifiReceiver mWifiReceiver;
     private PendingIntent mLocalizationLauncher;
     static final int READ_BLOCK_SIZE = 100;
     private File file;
@@ -77,6 +81,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         for(int i=0; i < mAnchorNodes.length; i++){
             mRSSIs[i] = 0;
         }
+
+        //Create the Wifi receiver that listen to system broadcast
+        mWifiReceiver = new WifiReceiver(mAppContext, this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.mAppContext);
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
@@ -319,12 +326,23 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         Intent localizationIntent = new Intent(this.mAppContext, WifiService.class);
         mLocalizationLauncher = PendingIntent.getService(this.mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 300000, mLocalizationLauncher);
+
+        //Register the Wifi Listener
+        IntentFilter wifiFilter = new IntentFilter();
+        wifiFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        wifiFilter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
+        this.mAppContext.registerReceiver(mWifiReceiver, wifiFilter);
+
         Log.d("PREF", "Localization enabled");
     }
 
 
     private void stopLocalization(){
+        // Stop the service for localization
         mAlarmManager.cancel(mLocalizationLauncher);
+
+        // Unregister the Wifi Listener
+        this.mAppContext.unregisterReceiver(mWifiReceiver);
         Log.d("PREF", "Localization disabled");
     }
 

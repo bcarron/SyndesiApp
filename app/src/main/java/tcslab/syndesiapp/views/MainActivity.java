@@ -45,7 +45,6 @@ import tcslab.syndesiapp.tools.RuntimePermissionChecker;
  */
 public class MainActivity extends AppCompatActivity {
     private UIReceiver mUiReceiver;
-    private WifiReceiver mWifiReceiver;
     private ArrayList<SensorData> mSensorsList;
     private SensorAdapter mSensorsAdapter;
     private AccountController mAccountController;
@@ -92,9 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Creates the broadcast receiver that updates the UI
         mUiReceiver = new UIReceiver(this);
-
-        //Create the Wifi receiver that listen to system broadcast
-        mWifiReceiver = new WifiReceiver(this);
 
         //Set the preferences listener
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(SensorController.getInstance(this));
@@ -187,13 +183,6 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
-        //Register the Wifi Listener
-        IntentFilter wifiFilter = new IntentFilter();
-        wifiFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        wifiFilter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
-        this.registerReceiver(mWifiReceiver, wifiFilter);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mWifiReceiver, wifiFilter);
-
         /* Load OpenCV */
         if (!OpenCVLoader.initDebug()) {
             Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
@@ -217,10 +206,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         //Unregister the Broadcast listener
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUiReceiver);
-
-        //Unregister the Wifi Listener
-        this.unregisterReceiver(mWifiReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mWifiReceiver);
     }
 
     @Override
@@ -241,9 +226,5 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.sensors_status)).setText(savedInstanceState.getString(String.valueOf(R.id.sensors_status)));
         ((TextView) findViewById(R.id.loc_display)).setText(savedInstanceState.getString(String.valueOf(R.id.loc_display)));
         ((TextView) findViewById(R.id.server_display_status)).setText(savedInstanceState.getString(String.valueOf(R.id.server_display_status)));
-    }
-
-    public LocalizationController getmLocalizationController() {
-        return mLocalizationController;
     }
 }
