@@ -2,6 +2,7 @@ package tcslab.syndesiapp.controllers.network;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -33,10 +34,12 @@ public class RESTServiceSengen extends RESTService{
     private static RESTServiceSengen mInstance;
     private Context mAppContext;
     private RequestQueue mRequestQueue;
+    private SharedPreferences mPreferences;
 
     public RESTServiceSengen(Context appContext) {
         mAppContext = appContext;
         mRequestQueue = this.getRequestQueue();
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
     }
 
     public static synchronized RESTServiceSengen getInstance(Context appContext) {
@@ -60,7 +63,7 @@ public class RESTServiceSengen extends RESTService{
      * @param dataType the type of sensor used to collect the data
      */
     public void sendData(Float data, int dataType) {
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -70,7 +73,7 @@ public class RESTServiceSengen extends RESTService{
 
             String id = Settings.Secure.getString(mAppContext.getContentResolver(), Settings.Secure.ANDROID_ID);
             String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-            String position = LocalizationController.getInstance(mAppContext).getmCurrentPosition();
+            String position = mPreferences.getString(PreferenceKey.PREF_CURRENT_POSITION.toString(), null);
 
             final String url = server_url + "/api/insertValueCrowd.php?node_name=" + id + "&resource_name=" +
                     SensorList.getStringType(dataType) + "+at+" + id + "&value=" + data + "&unit=" +
@@ -106,7 +109,7 @@ public class RESTServiceSengen extends RESTService{
      */
     public void fetchNodes() {
         // Get the sever address from the preferences
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -161,7 +164,7 @@ public class RESTServiceSengen extends RESTService{
      */
     public void toggleNode(final NodeDevice node) {
         // Get the sever address from the preferences
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.

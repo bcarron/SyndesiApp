@@ -22,7 +22,6 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     private Context mAppContext;
     private AlarmManager mAlarmManager;
     private PendingIntent mLocalizationLauncher;
-    private String mCurrentPosition;
 
 
     private LocalizationController(Context appContext) {
@@ -82,20 +81,11 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         // Send broadcast to update the UI
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_STATUS.toString(), status);
-        localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_OFFICE.toString(), this.mCurrentPosition);
         LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(localIntent);
     }
 
     public void setmAppContext(Context mAppContext) {
         this.mAppContext = mAppContext;
         this.updateUI();
-    }
-
-    public String getmCurrentPosition() {
-        return mCurrentPosition;
-    }
-
-    public void setmCurrentPosition(String mCurrentPosition) {
-        this.mCurrentPosition = mCurrentPosition;
     }
 }
