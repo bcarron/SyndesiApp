@@ -13,7 +13,8 @@ import org.json.JSONObject;
 
 /**
  * Manages account information on the app and the server in a singleton controller
- * and provides easy methods to convert to and from JSON
+ * and provides easy methods to convert to and from JSON.
+ *
  * Created by Blaise on 05.05.2015.
  */
 public class AccountController {
@@ -26,9 +27,9 @@ public class AccountController {
 
     public AccountController(Context context) {
         this.mAppContext = context;
-        this.mGson = new Gson();
-        this.mAccountPref = PreferenceManager.getDefaultSharedPreferences(mAppContext);
-        this.mAccountPrefEditor = mAccountPref.edit();
+        mGson = new Gson();
+        mAccountPref = PreferenceManager.getDefaultSharedPreferences(mAppContext);
+        mAccountPrefEditor = mAccountPref.edit();
     }
 
     public static synchronized AccountController getInstance(Context appContext) {
@@ -39,21 +40,21 @@ public class AccountController {
     }
 
     public void updateAccount() {
-        RESTService.getInstance(mAppContext).updateAccount(this.getJSON());
+        RESTService.getInstance(mAppContext).updateAccount(getJSON());
     }
 
     public void createAccount(Account account) {
-        this.setAccount(account);
-        RESTService.getInstance(mAppContext).createAccount(this.getJSON());
+        setAccount(account);
+        RESTService.getInstance(mAppContext).createAccount(getJSON());
     }
 
     public void saveAccount(Account account) {
-        this.setAccount(account);
-        RESTService.getInstance(mAppContext).updateAccount(this.getJSON());
+        setAccount(account);
+        RESTService.getInstance(mAppContext).updateAccount(getJSON());
     }
 
     public JSONObject formatDataJSON(Float data, String dataType) {
-        SensorData sensorData = new SensorData(this.getAccount().getmId(), data, dataType);
+        SensorData sensorData = new SensorData(getAccount().getmId(), data, dataType);
         JSONObject dataJSON = null;
         try {
             dataJSON = new JSONObject(mGson.toJson(sensorData));
@@ -71,7 +72,7 @@ public class AccountController {
         return mAccountPref.getString(PreferenceKey.PREF_SAVED_ACCOUNT.toString(), "");
     }
 
-    public JSONObject getJSON() {
+    private JSONObject getJSON() {
         JSONObject JSONaccount = null;
         try {
             JSONaccount = new JSONObject(mAccountPref.getString(PreferenceKey.PREF_SAVED_ACCOUNT.toString(), ""));
@@ -83,7 +84,6 @@ public class AccountController {
     }
 
     public void setAccount(Account account) {
-        mAccountPrefEditor.putString(PreferenceKey.PREF_SAVED_ACCOUNT.toString(), mGson.toJson(account));
-        mAccountPrefEditor.commit();
+        mAccountPrefEditor.putString(PreferenceKey.PREF_SAVED_ACCOUNT.toString(), mGson.toJson(account)).apply();
     }
 }

@@ -33,20 +33,20 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         this.mActivity = activity;
 
         //Get all sensors
-        this.getSensorLaunchers();
+        getSensorLaunchers();
 
         //Get the alarm manager
         mAlarmManager = (AlarmManager) mActivity.getSystemService(Context.ALARM_SERVICE);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
-            this.enableSensors();
+            enableSensors();
         } else {
-            this.disableSensors();
+            disableSensors();
         }
 
         //Update the UI
-        this.updateUI();
+        updateUI();
     }
 
     public static synchronized SensorController getInstance(Activity activity) {
@@ -71,17 +71,17 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         }
         if (key.equals(PreferenceKey.PREF_SENSOR_RATE.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
-                this.disableSensors();
-                this.enableSensors();
+                disableSensors();
+                enableSensors();
                 Log.d("PREF", "Sensor polling rate changed");
             }
         }
         if (key.equals(PreferenceKey.PREF_SENSOR_PERM.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
-                this.enableSensors();
+                enableSensors();
                 Log.d("PREF", "Sensors enabled");
             } else {
-                this.disableSensors();
+                disableSensors();
                 Log.d("PREF", "Sensors disabled");
             }
         }
@@ -152,6 +152,6 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
 
     public void setmActivity(Activity activity) {
         this.mActivity = activity;
-        this.updateUI();
+        updateUI();
     }
 }

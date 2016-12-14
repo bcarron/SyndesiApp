@@ -3,31 +3,12 @@ package tcslab.syndesiapp.controllers.network;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.provider.Settings.Secure;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
-import com.google.gson.Gson;
-import org.json.JSONArray;
-import org.json.JSONException;
-import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.account.AccountController;
-import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.*;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
-import tcslab.syndesiapp.views.NodesControllerActivity;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
- * Implements a REST service in a singleton class to send data to the server
+ * Implements a REST service in a singleton class to send data to the server.
  *
  * Created by Blaise on 04.05.2015.
  */

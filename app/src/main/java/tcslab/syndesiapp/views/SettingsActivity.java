@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import tcslab.syndesiapp.R;
 
 /**
- * Shows the preferences fragment
+ * Shows the preferences fragment.
  *
  * Created by Blaise on 27.04.2015.
  */

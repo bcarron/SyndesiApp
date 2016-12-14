@@ -5,7 +5,7 @@ import android.preference.PreferenceFragment;
 import tcslab.syndesiapp.R;
 
 /**
- * Shows the preferences screen
+ * Shows the preferences screen.
  *
  * Created by Blaise on 27.04.2015.
  */

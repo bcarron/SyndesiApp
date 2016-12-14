@@ -1,13 +1,10 @@
 package tcslab.syndesiapp.views;
 
 import android.Manifest;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -52,15 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private AccountController mAccountController;
     private SharedPreferences mPreferences;
     private LocalizationController mLocalizationController;
-    private String[] permissionNeeded = new String[] {
-            Manifest.permission.INTERNET,
-            Manifest.permission.WAKE_LOCK,
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.CHANGE_WIFI_STATE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(mSensorsAdapter);
 
         //Set the account controller to use with Syndesi server (legacy)
-        this.mAccountController = AccountController.getInstance(getApplicationContext());
+        mAccountController = AccountController.getInstance(getApplicationContext());
         Account account = mAccountController.getAccount();
         String id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Account newAccount = new Account(id, "", "", "", 0, 0, SensorController.getInstance(this).getmAvailableSensors());

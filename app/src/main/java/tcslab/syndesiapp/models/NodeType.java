@@ -3,7 +3,7 @@ package tcslab.syndesiapp.models;
 import tcslab.syndesiapp.R;
 
 /**
- * Contains the different types of sensors and their respective units, images, ...
+ * Contains the different types of sensors and their respective units, images and statuses.
  *
  * Created by Blaise on 31.05.2015.
  */

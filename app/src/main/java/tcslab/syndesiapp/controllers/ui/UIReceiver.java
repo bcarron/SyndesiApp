@@ -17,7 +17,7 @@ import tcslab.syndesiapp.models.SensorData;
 import tcslab.syndesiapp.views.MainActivity;
 
 /**
- * Updates the user interface by receiving local broadcasts from controllers and services
+ * Updates the user interface by receiving local broadcasts from controllers and services.
  *
  * Created by Blaise on 01.05.2015.
  */

@@ -25,8 +25,8 @@ public class SensorListener implements SensorEventListener {
     public SensorListener(Context appContext, SensorManager sensorManager){
         this.mAppContext = appContext;
         this.mSensorManager = sensorManager;
-        this.mWakeLock = ((PowerManager) appContext.getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WakeLock");
-        this.mWakeLock.acquire();
+        mWakeLock = ((PowerManager) appContext.getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WakeLock");
+        mWakeLock.acquire();
     }
 
     @Override
@@ -41,6 +41,6 @@ public class SensorListener implements SensorEventListener {
             sendData.execute(new SensorEvent[]{sensorEvent});
         }
         mSensorManager.unregisterListener(this);
-        this.mWakeLock.release();
+        mWakeLock.release();
     }
 }

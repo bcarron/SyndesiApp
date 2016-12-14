@@ -1,7 +1,7 @@
 package tcslab.syndesiapp.models;
 
 /**
- * Contains broadcast types and extras constants
+ * Contains broadcast types and extras constants.
  *
  * Created by Blaise on 06.05.2015.
  */

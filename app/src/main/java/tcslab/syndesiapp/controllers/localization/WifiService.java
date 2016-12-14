@@ -8,7 +8,6 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Perform the WiFi access point scans in order to use the localization classifier
+ * Perform the WiFi access point scans in order to use the localization classifier.
  *
  * Created by blais on 30.11.2016.
  */
@@ -49,8 +48,8 @@ public class WifiService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         PowerManager.WakeLock wakeLock = ((PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WifiWakeLock");
 
-        this.mLocalizationClassifier = new LocalizationClassifier(this);
-        this.mAccountController = AccountController.getInstance(this);
+        mLocalizationClassifier = new LocalizationClassifier(this);
+        mAccountController = AccountController.getInstance(this);
 
         /* Load OpenCV */
         if (!OpenCVLoader.initDebug()) {
@@ -62,7 +61,7 @@ public class WifiService extends IntentService {
         //Register the Wifi receiver
         //Register the Broadcast listener
         WifiReceiver mWifiReceiver = new WifiReceiver(this);
-        this.registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         String precision = PreferenceManager.getDefaultSharedPreferences(this).getString(PreferenceKey.PREF_LOC_PRECISION.toString(),"1");
 
@@ -77,7 +76,7 @@ public class WifiService extends IntentService {
             mNewResults = false;
         }
 
-        this.unregisterReceiver(mWifiReceiver);
+        unregisterReceiver(mWifiReceiver);
 
         String officeNumber = mLocalizationClassifier.updateLocation(mReadings);
 

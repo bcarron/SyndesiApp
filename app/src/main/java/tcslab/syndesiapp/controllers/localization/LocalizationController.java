@@ -26,13 +26,13 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
     private LocalizationController(Context appContext) {
         this.mAppContext = appContext;
-        this.mAlarmManager = (AlarmManager) this.mAppContext.getSystemService(Context.ALARM_SERVICE);
+        mAlarmManager = (AlarmManager) mAppContext.getSystemService(Context.ALARM_SERVICE);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.mAppContext);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
-            this.startLocalization();
+            startLocalization();
         }else{
-            this.stopLocalization();
+            stopLocalization();
         }
     }
 
@@ -47,18 +47,18 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(PreferenceKey.PREF_LOC_PERM.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
-                this.startLocalization();
+                startLocalization();
             } else {
-                this.stopLocalization();
+                stopLocalization();
             }
         }
-        this.updateUI();
+        updateUI();
     }
 
     private void startLocalization(){
         // Launch Service for the localization
-        Intent localizationIntent = new Intent(this.mAppContext, WifiService.class);
-        mLocalizationLauncher = PendingIntent.getService(this.mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent localizationIntent = new Intent(mAppContext, WifiService.class);
+        mLocalizationLauncher = PendingIntent.getService(mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 300000, mLocalizationLauncher);
 
         Log.d("PREF", "Localization enabled");
@@ -74,7 +74,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
     private void updateUI(){
         Boolean status;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.mAppContext);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
 
         status = sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false);
 
@@ -86,6 +86,6 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
     public void setmAppContext(Context mAppContext) {
         this.mAppContext = mAppContext;
-        this.updateUI();
+        updateUI();
     }
 }

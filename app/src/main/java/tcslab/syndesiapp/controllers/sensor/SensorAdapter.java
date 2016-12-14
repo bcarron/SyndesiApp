@@ -13,7 +13,7 @@ import tcslab.syndesiapp.models.SensorData;
 import java.util.ArrayList;
 
 /**
- * View used to display one sensor
+ * View used to display one sensor.
  *
  * Created by Blaise on 02.06.2015.
  */

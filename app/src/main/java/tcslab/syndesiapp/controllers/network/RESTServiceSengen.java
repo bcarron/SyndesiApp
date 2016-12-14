@@ -1,6 +1,5 @@
 package tcslab.syndesiapp.controllers.network;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -17,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
@@ -28,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Implements a REST service in a singleton class to send data to the Sengen DB
+ * Implements a REST service in a singleton class to send data to the Sengen DB.
  *
  * Created by blais on 23.11.2016.
  */
@@ -39,8 +37,8 @@ public class RESTServiceSengen extends RESTService{
     private SharedPreferences mPreferences;
 
     public RESTServiceSengen(Context appContext) {
-        mAppContext = appContext;
-        mRequestQueue = this.getRequestQueue();
+        this.mAppContext = appContext;
+        mRequestQueue = getRequestQueue();
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
     }
 

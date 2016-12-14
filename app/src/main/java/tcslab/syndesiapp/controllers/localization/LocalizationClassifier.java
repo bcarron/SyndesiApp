@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Determine in which office the user is using neighbour WiFi access points by using two classifiers (SVM + KNN)
+ * Determine in which office the user is using neighbour WiFi access points by using two classifiers (SVM + KNN).
  *
  * Created by Blaise on 14.12.2016.
  */
@@ -65,7 +65,7 @@ public class LocalizationClassifier {
 
     public LocalizationClassifier(WifiService wifiService) {
         this.mWifiService = wifiService;
-        this.checkFile();
+        checkFile();
         mRSSIs = new double[mAnchorNodes.length];
         for(int i=0; i < mAnchorNodes.length; i++){
             mRSSIs[i] = 0;
@@ -88,7 +88,7 @@ public class LocalizationClassifier {
                 }
             }
 
-            double[] response = this.checkFloorSVN(mRSSIs);
+            double[] response = checkFloorSVN(mRSSIs);
 
             if(response == null){
                 return null;
@@ -116,11 +116,11 @@ public class LocalizationClassifier {
         mWifiService.toaster(toastMessage, Toast.LENGTH_LONG);
         Log.d("Localization", maxPosition + ": " + results.get(maxPosition));
 
-        this.mCurrentPosition = Double.toString(maxPosition);
+        mCurrentPosition = Double.toString(maxPosition);
 
-        this.updateUI();
+        updateUI();
 
-        return this.mCurrentPosition;
+        return mCurrentPosition;
     }
 
     // Read text from file and train machine learning approaches
@@ -235,7 +235,7 @@ public class LocalizationClassifier {
     }
 
     public void checkFile(){
-        this.file = new File(mWifiService.getExternalFilesDir(null), fileName);
+        file = new File(mWifiService.getExternalFilesDir(null), fileName);
         if(!file.exists()){
             // If the file does not exist, write the default file to memory
             mWifiService.toaster("Using default training file");
@@ -243,7 +243,7 @@ public class LocalizationClassifier {
 
             try {
                 InputStream is = mWifiService.getAssets().open("default_training.txt");
-                FileOutputStream os = new FileOutputStream(this.file);
+                FileOutputStream os = new FileOutputStream(file);
                 byte[] buffer = new byte[is.available()];
                 is.read(buffer);
                 is.close();
@@ -260,7 +260,7 @@ public class LocalizationClassifier {
     private void updateUI(){
         // Send broadcast to update the UI
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());
-        localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_OFFICE.toString(), this.mCurrentPosition);
+        localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_OFFICE.toString(), mCurrentPosition);
         LocalBroadcastManager.getInstance(mWifiService).sendBroadcast(localIntent);
     }
 
@@ -273,6 +273,6 @@ public class LocalizationClassifier {
     }
 
     public void setToastPermission(Boolean toastPermission) {
-        this.toastPermission = toastPermission;
+        toastPermission = toastPermission;
     }
 }

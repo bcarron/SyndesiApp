@@ -4,15 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.SensorEvent;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
-import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.BroadcastType;
-import tcslab.syndesiapp.models.PreferenceKey;
 
 /**
- * Sends data to the server and fire broadcast intents to update the user interface
+ * Sends data to the server and fire broadcast intents to update the user interface.
  *
  * Created by Blaise on 30.04.2015.
  */

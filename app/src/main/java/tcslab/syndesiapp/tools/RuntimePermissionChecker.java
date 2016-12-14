@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 /**
- * Check the permission at runtime for Android 6+
+ * Check the permission at runtime for Android 6+.
  *
  * Created by blais on 05.12.2016.
  */
@@ -39,7 +39,7 @@ public class RuntimePermissionChecker {
         }
     }
 
-    public Boolean hasPermission(String[] permissions){
+    private Boolean hasPermission(String[] permissions){
         for(String perm : permissions){
             if (ContextCompat.checkSelfPermission(mActivity, perm) == PackageManager.PERMISSION_DENIED){
                 return false;

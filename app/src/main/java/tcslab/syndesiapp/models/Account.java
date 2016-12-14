@@ -3,7 +3,7 @@ package tcslab.syndesiapp.models;
 import java.util.ArrayList;
 
 /**
- * Represents the active user's account
+ * Represents the active user's account.
  *
  * Created by Blaise on 30.04.2015.
  */

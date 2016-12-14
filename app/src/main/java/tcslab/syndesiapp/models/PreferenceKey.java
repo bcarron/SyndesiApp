@@ -1,7 +1,7 @@
 package tcslab.syndesiapp.models;
 
 /**
- * Contains preferences keys
+ * Contains preferences keys.
  *
  * Created by Blaise on 06.05.2015.
  */

@@ -19,7 +19,7 @@ import tcslab.syndesiapp.models.NodeDevice;
 import java.util.ArrayList;
 
 /**
- * Controls the nodes connected to the system
+ * Controls the nodes connected to the system.
  *
  * Created by Blaise on 31.05.2015.
  */

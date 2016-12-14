@@ -1,9 +1,7 @@
 package tcslab.syndesiapp.controllers.network;
 
 import android.content.Context;
-import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,14 +16,13 @@ import org.json.JSONObject;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
-import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.views.NodesControllerActivity;
 
 /**
- * Implements a REST service in a singleton class to send data to the Syndesi server
+ * Implements a REST service in a singleton class to send data to the Syndesi server.
  *
  * Created by Blaise on 04.05.2015.
  */
@@ -36,8 +33,8 @@ public class RESTServiceSyndesi extends RESTService{
     private AccountController mAccountController;
 
     public RESTServiceSyndesi(Context appContext) {
-        mAppContext = appContext;
-        mRequestQueue = this.getRequestQueue();
+        this.mAppContext = appContext;
+        mRequestQueue = getRequestQueue();
         mAccountController = AccountController.getInstance(mAppContext);
     }
 
