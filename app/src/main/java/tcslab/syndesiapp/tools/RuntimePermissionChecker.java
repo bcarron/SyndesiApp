@@ -2,6 +2,7 @@ package tcslab.syndesiapp.tools;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -36,7 +37,7 @@ public class RuntimePermissionChecker {
         }
     }
 
-    private Boolean hasPermission(String[] permissions){
+    public Boolean hasPermission(String[] permissions){
         for(String perm : permissions){
             if (ContextCompat.checkSelfPermission(mActivity, perm) == PackageManager.PERMISSION_DENIED){
                 return false;

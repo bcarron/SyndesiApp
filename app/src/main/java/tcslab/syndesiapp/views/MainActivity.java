@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -32,6 +33,7 @@ import tcslab.syndesiapp.controllers.ui.UIReceiver;
 import tcslab.syndesiapp.controllers.ui.WifiReceiver;
 import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.BroadcastType;
+import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<SensorData> mSensorsList;
     private SensorAdapter mSensorsAdapter;
     private AccountController mAccountController;
+    private SharedPreferences mPreferences;
     private LocalizationController mLocalizationController;
     private String[] permissionNeeded = new String[] {
             Manifest.permission.INTERNET,
@@ -89,27 +92,21 @@ public class MainActivity extends AppCompatActivity {
         // Set the localization controller
         mLocalizationController = LocalizationController.getInstance(this);
 
-        /* Load OpenCV */
-        if (!OpenCVLoader.initDebug()) {
-            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
-        } else {
-            mLocalizationController.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-        }
-
         //Creates the broadcast receiver that updates the UI
         mUiReceiver = new UIReceiver(this);
 
         //Set the preferences listener
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(SensorController.getInstance(this));
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(LocalizationController.getInstance(this));
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mPreferences.registerOnSharedPreferenceChangeListener(SensorController.getInstance(this));
+        mPreferences.registerOnSharedPreferenceChangeListener(LocalizationController.getInstance(this));
 
         // Runtime permissions for Android 6+
         if (Build.VERSION.SDK_INT >= 23) {
             RuntimePermissionChecker rpc = new RuntimePermissionChecker(this);
             Boolean permission = rpc.getPermissions();
-            this.mLocalizationController.setToastPermission(permission);
+            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISION.toString(), permission).apply();
         }else{
-            this.mLocalizationController.setToastPermission(true);
+            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISION.toString(), true).apply();
         }
     }
 
@@ -148,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(allPermissionsOk){
-            this.mLocalizationController.setToastPermission(true);
+            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISION.toString(), true).apply();
         }else{
             ((TextView) findViewById(R.id.loc_display)).setText(R.string.loc_noperm);
         }
@@ -189,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BroadcastType.BCAST_TYPE_SERVER_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
+        filter.addAction(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
         //Reset the context on the controllers

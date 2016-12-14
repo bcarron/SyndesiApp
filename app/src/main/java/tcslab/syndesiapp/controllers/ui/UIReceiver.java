@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
+import tcslab.syndesiapp.controllers.localization.LocalizationClassifier;
+import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.SensorData;
 import tcslab.syndesiapp.views.MainActivity;
@@ -53,7 +55,16 @@ public class UIReceiver extends BroadcastReceiver {
                 newOfficeText.setText(mActivity.getString(R.string.loc_disabled));
                 relocateBtn.setVisibility(View.INVISIBLE);
             }
-        }else {
+        } else if(intent.getAction().equals(BroadcastType.BCAST_TYPE_LOC_POSITION.toString())){
+            String office = intent.getStringExtra(BroadcastType.BCAST_EXTRA_LOC_OFFICE.toString());
+            TextView newOfficeText = (TextView) mActivity.findViewById(R.id.loc_display);
+            if(office != null) {
+                newOfficeText.setText(mActivity.getString(R.string.loc_display) + " " + office);
+            }else{
+                newOfficeText.setText(mActivity.getString(R.string.loc_scanning));
+            }
+            LocalizationController.getInstance(mActivity).setmCurrentPosition(office);
+        } else {
             //Add sensor reading to the UI
             Float data = intent.getFloatExtra(BroadcastType.BCAST_EXTRA_SENSOR_DATA.toString(), 0);
             ((MainActivity)mActivity).addSensor(new SensorData("", data, intent.getAction()));
