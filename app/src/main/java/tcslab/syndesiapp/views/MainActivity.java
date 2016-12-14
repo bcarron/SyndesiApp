@@ -1,6 +1,7 @@
 package tcslab.syndesiapp.views;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -26,6 +27,7 @@ import org.opencv.android.LoaderCallbackInterface;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.localization.LocalizationController;
+import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.controllers.sensor.SensorAdapter;
 import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
@@ -197,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     public void relocate(View v){
         ((TextView) this.findViewById(R.id.loc_display)).setText(R.string.loc_scanning);
         Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
-        ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
+        startService(new Intent(this, WifiService.class));
     }
 
     @Override
