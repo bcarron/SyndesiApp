@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.net.wifi.ScanResult;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -134,7 +135,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
         toastMessage = toastMessage.substring(0, toastMessage.length() - 2);
         this.toaster(toastMessage, Toast.LENGTH_LONG);
-        Log.d("Loc", maxPosition + ": " + results.get(maxPosition));
+        Log.d("Localization", maxPosition + ": " + results.get(maxPosition));
 
         this.mCurrentPosition = Double.toString(maxPosition);
 
@@ -201,12 +202,12 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
             }
             catch (Exception es)
             {
-                Log.d("Error read samples:  ", es.getMessage());
+                Log.d("Localization", es.getMessage());
             }
             breader.close();
         }
         catch (IOException e) {
-            toaster("Error reading file: "+e.getMessage());
+            toaster("Localization"+e.getMessage());
         }
 
     }
@@ -253,9 +254,25 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     }
 
     public void checkFile(){
-        file = new File(mAppContext.getExternalFilesDir(null), fileName);
+        this.file = new File(mAppContext.getExternalFilesDir(null), fileName);
         if(!file.exists()){
-            toaster("No training file detected");
+            // If the file does not exist, write the default file to memory
+            toaster("Using default training file");
+            Log.d("Localization", "Using default training file");
+
+            try {
+                InputStream is = mAppContext.getAssets().open("default_training.txt");
+                FileOutputStream os = new FileOutputStream(this.file);
+                byte[] buffer = new byte[is.available()];
+                is.read(buffer);
+                is.close();
+
+                os.write(buffer);
+                os.close();
+            } catch (IOException e) {
+                toaster("Missing training file");
+                Log.e("Localization", "Missing training file");
+            }
         }
     }
 
@@ -326,12 +343,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(localIntent);
     }
 
-    public Context getmAppContext() {
-        return mAppContext;
-    }
-
     public void setmAppContext(Context mAppContext) {
         this.mAppContext = mAppContext;
+        this.checkFile();
         this.updateUI();
     }
 }
