@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -22,6 +23,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     private Context mAppContext;
     private AlarmManager mAlarmManager;
     private PendingIntent mLocalizationLauncher;
+    private long mLocalizationInterval = 300000;
 
 
     private LocalizationController(Context appContext) {
@@ -59,7 +61,8 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         // Launch Service for the localization
         Intent localizationIntent = new Intent(mAppContext, WifiService.class);
         mLocalizationLauncher = PendingIntent.getService(mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 300000, mLocalizationLauncher);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + mLocalizationInterval, mLocalizationInterval, mLocalizationLauncher);
+        mAppContext.startService(localizationIntent);
 
         Log.d("PREF", "Localization enabled");
     }

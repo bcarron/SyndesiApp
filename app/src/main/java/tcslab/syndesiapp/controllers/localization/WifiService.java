@@ -30,9 +30,8 @@ public class WifiService extends IntentService {
     private LocalizationClassifier mLocalizationClassifier;
     private AccountController mAccountController;
     private Handler mHandler;
-    private WifiReceiver mWifiReceiver;
     private List<List<ScanResult>> mReadings = new ArrayList<>();
-    private boolean mNewResults = false;
+    private final Object mLock = new Object();
 
     public WifiService() {
         super("WifiListener");
@@ -60,23 +59,25 @@ public class WifiService extends IntentService {
 
         //Register the Wifi receiver
         //Register the Broadcast listener
-        WifiReceiver mWifiReceiver = new WifiReceiver(this);
-        registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        WifiReceiver wifiReceiver = new WifiReceiver(this);
+        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         String precision = PreferenceManager.getDefaultSharedPreferences(this).getString(PreferenceKey.PREF_LOC_PRECISION.toString(),"1");
 
         while(mReadings.size() < Integer.parseInt(precision)) {
-            toaster("Scan " + (mReadings.size()+1) + " of " + precision);
+            toaster("Launching scan " + (mReadings.size()+1) + " of " + precision);
             ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
 
-            while (!mNewResults) {
-                // Wait for results
+            synchronized (mLock) {
+                try {
+                    mLock.wait();
+                } catch (InterruptedException e) {
+                    Log.e("WifiService", "Error while waiting scan results: " + e.getMessage());
+                }
             }
-
-            mNewResults = false;
         }
 
-        unregisterReceiver(mWifiReceiver);
+        unregisterReceiver(wifiReceiver);
 
         String officeNumber = mLocalizationClassifier.updateLocation(mReadings);
 
@@ -121,8 +122,10 @@ public class WifiService extends IntentService {
         }
     }
 
-    public void sendResults(List<ScanResult> readings){
+    public void sendResults(List<ScanResult> readings) {
         mReadings.add(readings);
-        mNewResults = true;
+        synchronized (mLock){
+            mLock.notifyAll();
+        }
     }
 }
