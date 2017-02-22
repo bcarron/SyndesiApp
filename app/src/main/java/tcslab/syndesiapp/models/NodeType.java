@@ -152,6 +152,10 @@ public enum NodeType {
             return "on";
         }else if(response.contains("OFF")){
             return "off";
+        }else if(response.contains("1")) {
+            return "on";
+        }else if(response.contains("0")){
+            return "off";
         }else if(response.contains("UP")){
             return "up";
         }else if(response.contains("DOWN")){
@@ -177,6 +181,14 @@ public enum NodeType {
             return "off";
         }else{
             return "on";
+        }
+    }
+
+    public int getSengenStatus(String status){
+        if(status.equals("on")){
+            return 1;
+        }else{
+            return 0;
         }
     }
 

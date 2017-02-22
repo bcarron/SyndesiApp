@@ -172,14 +172,39 @@ public class RESTServiceSengen extends RESTService{
                 server_url = "http://" + server_url;
             }
 
-            Log.e("TODO", "Node toggler not implemented for Sengen DB");
+            final String new_status = Integer.toString(node.getmType().getSengenStatus(node.getmType().getToggleStatus(node.getmStatus())));
+            final String url = server_url + "/api/updateActuator1Status.php?name=" + node.getmNID() + "&status=" + new_status;
+
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("HTTP", response);
+
+                    if (response.contains("Success")) {
+                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(new_status)));
+                    } else {
+                        RESTService.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //Update the UI with the error message
+                    Log.d("HTTP", "Error connecting to server address " + url);
+                    RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                }
+            });
+
+            mRequestQueue.add(request);
+
+        } else {
+            RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
     }
 
     public void createAccount(JSONObject account){
         Log.d("Sengen", "No account with Sengen DB");
     }
-
 
     public void updateAccount(JSONObject account){
         Log.d("Sengen", "No account with Sengen DB");
