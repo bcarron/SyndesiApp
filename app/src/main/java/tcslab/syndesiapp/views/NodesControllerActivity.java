@@ -12,7 +12,7 @@ import android.widget.TextView;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.automation.NodeCallback;
 import tcslab.syndesiapp.controllers.network.NodeAdapter;
-import tcslab.syndesiapp.controllers.network.RESTService;
+import tcslab.syndesiapp.controllers.network.RESTInterface;
 import tcslab.syndesiapp.controllers.ui.UIReceiver;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.NodeDevice;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 public class NodesControllerActivity extends AppCompatActivity implements NodeCallback{
     private UIReceiver uiReceiver;
-    private RESTService restService;
+    private RESTInterface restInterface;
     private ArrayList<NodeDevice> mNodeList;
     private NodeAdapter nodeAdapter;
 
@@ -41,7 +41,7 @@ public class NodesControllerActivity extends AppCompatActivity implements NodeCa
         //Creates the broadcast receiver that updates the UI
         uiReceiver = new UIReceiver(this);
         //Get the Rest service
-        restService = RESTService.getInstance(this);
+        restInterface = RESTInterface.getInstance(this);
         //Set the nodes list
         final ListView listView = (ListView) findViewById(R.id.nodes_list);
         mNodeList = new ArrayList<>();
@@ -51,7 +51,7 @@ public class NodesControllerActivity extends AppCompatActivity implements NodeCa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 NodeDevice node = (NodeDevice)listView.getAdapter().getItem(position);
-                restService.toggleNode(node);
+                restInterface.toggleNode(node);
             }
         });
     }
@@ -76,9 +76,9 @@ public class NodesControllerActivity extends AppCompatActivity implements NodeCa
     protected void onResume() {
         super.onResume();
         //List nodes
-        restService.fetchNodes(this);
+        restInterface.fetchNodes(this);
         //Reset the context on the REST service
-        restService.setmAppContext(this);
+        restInterface.setmAppContext(this);
         //Register the Broadcast listener
         IntentFilter filter = new IntentFilter(String.valueOf(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS));
         LocalBroadcastManager.getInstance(this).registerReceiver(uiReceiver, filter);

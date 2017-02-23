@@ -3,7 +3,7 @@ package tcslab.syndesiapp.controllers.account;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import tcslab.syndesiapp.controllers.network.RESTService;
+import tcslab.syndesiapp.controllers.network.RESTInterface;
 import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
@@ -40,17 +40,17 @@ public class AccountController {
     }
 
     public void updateAccount() {
-        RESTService.getInstance(mAppContext).updateAccount(getJSON());
+        RESTInterface.getInstance(mAppContext).updateAccount(getJSON());
     }
 
     public void createAccount(Account account) {
         setAccount(account);
-        RESTService.getInstance(mAppContext).createAccount(getJSON());
+        RESTInterface.getInstance(mAppContext).createAccount(getJSON());
     }
 
     public void saveAccount(Account account) {
         setAccount(account);
-        RESTService.getInstance(mAppContext).updateAccount(getJSON());
+        RESTInterface.getInstance(mAppContext).updateAccount(getJSON());
     }
 
     public JSONObject formatDataJSON(Float data, String dataType) {

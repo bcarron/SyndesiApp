@@ -13,18 +13,18 @@ import org.json.JSONObject;
  *
  * Created by Blaise on 04.05.2015.
  */
-public abstract class RESTService {
+public abstract class RESTInterface {
 
-     public static RESTService getInstance(Context appContext){
-         RESTService restService;
+     public static RESTInterface getInstance(Context appContext){
+         RESTInterface restInterface;
          // Check server type
          if(PreferenceManager.getDefaultSharedPreferences(appContext).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
-             restService = RESTServiceSyndesi.getInstance(appContext);
+             restInterface = RESTInterfaceSyndesi.getInstance(appContext);
          }else{
-             restService = RESTServiceSengen.getInstance(appContext);
+             restInterface = RESTInterfaceSengen.getInstance(appContext);
          }
 
-         return restService;
+         return restInterface;
      }
 
     /**

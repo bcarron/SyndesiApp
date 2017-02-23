@@ -1,20 +1,18 @@
 package tcslab.syndesiapp.controllers.power;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by blaise on 23.02.2017.
  */
-public class PowerService extends IntentService {
+public class PowerController extends IntentService {
 
-    public PowerService() {
-        super("PowerService");
+    public PowerController() {
+        super("PowerController");
     }
 
     @Override
@@ -28,6 +26,18 @@ public class PowerService extends IntentService {
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
         float batteryPct = level / (float)scale;
+
+        if (isCharging){
+            // TODO: Set max polling rate
+        }else{
+            if (batteryPct > 0.6){
+                // TODO: Set max polling rate
+            }else if (batteryPct > 0.2){
+                // TODO: Set reduced polling rate
+            }else{
+                // TODO: Disable all sensors
+            }
+        }
 
         Log.d("Battery", "Current level: " + Float.toString(batteryPct) + ", charging: " + Boolean.toString(isCharging));
     }

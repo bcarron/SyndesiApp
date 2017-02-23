@@ -3,8 +3,7 @@ package tcslab.syndesiapp.controllers.automation;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.util.Log;
-import tcslab.syndesiapp.controllers.network.RESTService;
+import tcslab.syndesiapp.controllers.network.RESTInterface;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
 
@@ -15,16 +14,16 @@ import java.util.ArrayList;
  */
 public class AutomationController extends ContextWrapper implements NodeCallback{
     private static AutomationController mInstance;
-    private RESTService restService;
+    private RESTInterface restInterface;
     private ArrayList<NodeDevice> mNodeList;
 
     public AutomationController(Context base) {
         super(base);
 
-        restService = RESTService.getInstance(this);
+        restInterface = RESTInterface.getInstance(this);
         mNodeList = new ArrayList<>();
 
-        restService.fetchNodes(this);
+        restInterface.fetchNodes(this);
     }
 
     public void changeOffice(String newOffice, String oldOffice){
@@ -38,7 +37,7 @@ public class AutomationController extends ContextWrapper implements NodeCallback
             if(node.getmOffice().equals(office)){
                 // If the node is a light and is off, turn it on
                 if(node.getmType() == NodeType.light && node.getmStatus().equals("off")){
-                    restService.toggleNode(node);
+                    restInterface.toggleNode(node);
                 }
             }
         }
@@ -50,7 +49,7 @@ public class AutomationController extends ContextWrapper implements NodeCallback
             if(node.getmOffice().equals(office)){
                 // If the node is a light and is on, turn it off
                 if(node.getmType() == NodeType.light && node.getmStatus().equals("on")){
-                    restService.toggleNode(node);
+                    restInterface.toggleNode(node);
                 }
             }
         }

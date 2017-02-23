@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
-import tcslab.syndesiapp.controllers.power.PowerService;
+import tcslab.syndesiapp.controllers.power.PowerController;
 import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.controllers.sensor.SensorAdapter;
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         mPreferences.registerOnSharedPreferenceChangeListener(LocalizationController.getInstance(this));
 
         // Register the service for battery management
-        Intent batteryIntent = new Intent(this, PowerService.class);
+        Intent batteryIntent = new Intent(this, PowerController.class);
         PendingIntent batteryLauncher = PendingIntent.getService(this, 0, batteryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         ((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10000, 10000, batteryLauncher);
         startService(batteryIntent);
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 //        IntentFilter batteryFilter = new IntentFilter();
 //        batteryFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
 ////        batteryFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-//        registerReceiver(new PowerService(this.getApplicationContext()), batteryFilter);
+//        registerReceiver(new PowerController(this.getApplicationContext()), batteryFilter);
 
         //Reset the context on the controllers
         SensorController.getInstance(this).setmActivity(this);

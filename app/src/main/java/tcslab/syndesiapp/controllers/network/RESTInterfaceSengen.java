@@ -32,21 +32,21 @@ import java.util.Date;
  *
  * Created by blais on 23.11.2016.
  */
-public class RESTServiceSengen extends RESTService{
-    private static RESTServiceSengen mInstance;
+public class RESTInterfaceSengen extends RESTInterface {
+    private static RESTInterfaceSengen mInstance;
     private Context mAppContext;
     private RequestQueue mRequestQueue;
     private SharedPreferences mPreferences;
 
-    public RESTServiceSengen(Context appContext) {
+    public RESTInterfaceSengen(Context appContext) {
         this.mAppContext = appContext;
         mRequestQueue = getRequestQueue();
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
     }
 
-    public static synchronized RESTServiceSengen getInstance(Context appContext) {
+    public static synchronized RESTInterfaceSengen getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new RESTServiceSengen(appContext.getApplicationContext());
+            mInstance = new RESTInterfaceSengen(appContext.getApplicationContext());
         }
         return mInstance;
     }
@@ -88,7 +88,7 @@ public class RESTServiceSengen extends RESTService{
                         public void onResponse(JSONObject response) {
                             Log.d("HTTP", response.toString());
                             //Send broadcast to update the UI if the app is active
-                            RESTService.sendServerStatusBcast(mAppContext, response.toString());
+                            RESTInterface.sendServerStatusBcast(mAppContext, response.toString());
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -96,13 +96,13 @@ public class RESTServiceSengen extends RESTService{
                     Log.e("HTTP", error.toString());
                     Log.d("HTTP", "Error connecting to server address " + url);
                     //Send broadcast to update the UI if the app is active
-                    RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                    RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
 
             mRequestQueue.add(request);
         } else {
-            RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
+            RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
     }
 
@@ -158,14 +158,14 @@ public class RESTServiceSengen extends RESTService{
                 public void onErrorResponse(VolleyError error) {
                     //Update the UI with the error message
                     Log.d("HTTP", "Error connecting to server address " + url);
-                    RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                    RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
 
             mRequestQueue.add(request);
 
         } else {
-            RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
+            RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
 
     }
@@ -194,7 +194,7 @@ public class RESTServiceSengen extends RESTService{
                     if (response.contains("Success")) {
                         ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(new_status), node.getmOffice()));
                     } else {
-                        RESTService.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
+                        RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     }
                 }
             }, new Response.ErrorListener() {
@@ -202,14 +202,14 @@ public class RESTServiceSengen extends RESTService{
                 public void onErrorResponse(VolleyError error) {
                     //Update the UI with the error message
                     Log.d("HTTP", "Error connecting to server address " + url);
-                    RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                    RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
 
             mRequestQueue.add(request);
 
         } else {
-            RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
+            RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
     }
 

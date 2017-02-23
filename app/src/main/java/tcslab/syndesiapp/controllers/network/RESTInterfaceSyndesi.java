@@ -29,21 +29,21 @@ import java.util.ArrayList;
  *
  * Created by Blaise on 04.05.2015.
  */
-public class RESTServiceSyndesi extends RESTService {
-    private static RESTServiceSyndesi mInstance;
+public class RESTInterfaceSyndesi extends RESTInterface {
+    private static RESTInterfaceSyndesi mInstance;
     private Context mAppContext;
     private RequestQueue mRequestQueue;
     private AccountController mAccountController;
 
-    public RESTServiceSyndesi(Context appContext) {
+    public RESTInterfaceSyndesi(Context appContext) {
         this.mAppContext = appContext;
         mRequestQueue = getRequestQueue();
         mAccountController = AccountController.getInstance(mAppContext);
     }
 
-    public static synchronized RESTServiceSyndesi getInstance(Context appContext) {
+    public static synchronized RESTInterfaceSyndesi getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new RESTServiceSyndesi(appContext.getApplicationContext());
+            mInstance = new RESTInterfaceSyndesi(appContext.getApplicationContext());
         }
         return mInstance;
     }
@@ -82,14 +82,14 @@ public class RESTServiceSyndesi extends RESTService {
                             public void onResponse(JSONObject response) {
                                 Log.d("HTTP", response.toString());
                                 //Send broadcast to update the UI if the app is active
-                                RESTService.sendServerStatusBcast(mAppContext, response.toString());
+                                RESTInterface.sendServerStatusBcast(mAppContext, response.toString());
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("HTTP", "Error connecting to server address " + url);
                         //Send broadcast to update the UI if the app is active
-                        RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                        RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                     }
                 });
 
@@ -98,7 +98,7 @@ public class RESTServiceSyndesi extends RESTService {
                 Log.e("Account", "No account set");
             }
         } else {
-            RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
+            RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
     }
 
@@ -156,14 +156,14 @@ public class RESTServiceSyndesi extends RESTService {
                 public void onErrorResponse(VolleyError error) {
                     //Update the UI with the error message
                     Log.d("HTTP", "Error connecting to server address " + url);
-                    RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                    RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
 
             mRequestQueue.add(request);
 
         } else {
-            RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
+            RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
 
         }
@@ -190,7 +190,7 @@ public class RESTServiceSyndesi extends RESTService {
                     Log.d("HTTP", response);
 
                     if (response.equals("ERROR")) {
-                        RESTService.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
+                        RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     } else {
                         ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice()));
                     }
@@ -200,7 +200,7 @@ public class RESTServiceSyndesi extends RESTService {
                 public void onErrorResponse(VolleyError error) {
                     //Update the UI with the error message
                     Log.e("HTTP", "Error connecting to server address " + url);
-                    RESTService.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                    RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
 
@@ -230,19 +230,19 @@ public class RESTServiceSyndesi extends RESTService {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("HTTP", response.toString());
-                            RESTService.sendServerStatusBcast(mAppContext, response.toString());
+                            RESTInterface.sendServerStatusBcast(mAppContext, response.toString());
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("HTTP", "Error connecting to server " + url);
-                    RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                    RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
 
             mRequestQueue.add(request);
         } else {
-            RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
+            RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
     }
 
@@ -268,19 +268,19 @@ public class RESTServiceSyndesi extends RESTService {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("HTTP", response.toString());
-                            RESTService.sendServerStatusBcast(mAppContext, response.toString());
+                            RESTInterface.sendServerStatusBcast(mAppContext, response.toString());
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("HTTP", "Error connecting to server " + url);
-                    RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                    RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
 
             mRequestQueue.add(request);
         } else {
-            RESTService.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
+            RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
     }
 

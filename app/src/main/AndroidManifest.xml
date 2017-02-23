@@ -58,7 +58,7 @@
             android:exported="false" />
 
         <service
-            android:name=".controllers.power.PowerService"
+            android:name=".controllers.power.PowerController"
             android:exported="false" />
 
     </application>
