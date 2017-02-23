@@ -6,6 +6,8 @@ import android.content.ContextWrapper;
 import android.util.Log;
 import tcslab.syndesiapp.controllers.network.RESTService;
 import tcslab.syndesiapp.models.NodeDevice;
+import tcslab.syndesiapp.models.NodeType;
+
 import java.util.ArrayList;
 
 /**
@@ -27,7 +29,13 @@ public class AutomationController extends ContextWrapper implements NodeCallback
 
     public void enterOffice(String office){
         for(NodeDevice node : mNodeList){
-            Log.d("Automation", node.toString());
+            // Check if the node is in the new office
+            if(node.getmOffice().equals(office)){
+                // If the node is a light and is off, turn it on
+                if(node.getmType() == NodeType.light && node.getmStatus().equals("off")){
+                    restService.toggleNode(node);
+                }
+            }
         }
     }
 
