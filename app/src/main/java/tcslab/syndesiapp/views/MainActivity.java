@@ -1,13 +1,15 @@
 package tcslab.syndesiapp.views;
 
-import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -23,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
-import tcslab.syndesiapp.controllers.automation.PowerController;
+import tcslab.syndesiapp.controllers.power.PowerService;
 import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.controllers.sensor.SensorAdapter;
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         mSensorsAdapter = new SensorAdapter(this, mSensorsList);
         listView.setAdapter(mSensorsAdapter);
 
-        //Set the account controller to use with Syndesi server (legacy)
+        // Set the account controller to use with Syndesi server (legacy)
         mAccountController = AccountController.getInstance(getApplicationContext());
         Account account = mAccountController.getAccount();
         String id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -83,13 +85,19 @@ public class MainActivity extends AppCompatActivity {
         // Set the localization controller
         mLocalizationController = LocalizationController.getInstance(this);
 
-        //Creates the broadcast receiver that updates the UI
+        // Creates the broadcast receiver that updates the UI
         mUiReceiver = new UIReceiver(this);
 
-        //Set the preferences listener
+        // Set the preferences listener
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mPreferences.registerOnSharedPreferenceChangeListener(SensorController.getInstance(this));
         mPreferences.registerOnSharedPreferenceChangeListener(LocalizationController.getInstance(this));
+
+        // Register the service for battery management
+        Intent batteryIntent = new Intent(this, PowerService.class);
+        PendingIntent batteryLauncher = PendingIntent.getService(this, 0, batteryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        ((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10000, 10000, batteryLauncher);
+        startService(batteryIntent);
 
         // Runtime permissions for Android 6+
         if (Build.VERSION.SDK_INT >= 23) {
@@ -164,12 +172,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Life cycle management
+    // Life cycle management
     @Override
     protected void onResume() {
         super.onResume();
 
-        //Register the local broadcast listener
+        // Register the local broadcast listener
         IntentFilter filter = new IntentFilter();
         for(Integer sensorType : SensorList.sensorUsed){
             filter.addAction(String.valueOf(sensorType));
@@ -180,11 +188,11 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
-        //Register the Battery listener
-        IntentFilter batteryFilter = new IntentFilter();
-        batteryFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-//        batteryFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-        registerReceiver(new PowerController(this.getApplicationContext()), batteryFilter);
+        // Register the Battery listener
+//        IntentFilter batteryFilter = new IntentFilter();
+//        batteryFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+////        batteryFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+//        registerReceiver(new PowerService(this.getApplicationContext()), batteryFilter);
 
         //Reset the context on the controllers
         SensorController.getInstance(this).setmActivity(this);

@@ -35,7 +35,7 @@ public class WifiService extends IntentService {
     private final Object mLock = new Object();
 
     public WifiService() {
-        super("WifiListener");
+        super("WifiService");
     }
 
     @Override
