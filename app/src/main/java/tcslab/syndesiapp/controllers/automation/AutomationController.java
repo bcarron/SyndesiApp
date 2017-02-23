@@ -27,12 +27,29 @@ public class AutomationController extends ContextWrapper implements NodeCallback
         restService.fetchNodes(this);
     }
 
+    public void changeOffice(String newOffice, String oldOffice){
+        enterOffice(newOffice);
+        leaveOffice(oldOffice);
+    }
+
     public void enterOffice(String office){
         for(NodeDevice node : mNodeList){
             // Check if the node is in the new office
             if(node.getmOffice().equals(office)){
                 // If the node is a light and is off, turn it on
                 if(node.getmType() == NodeType.light && node.getmStatus().equals("off")){
+                    restService.toggleNode(node);
+                }
+            }
+        }
+    }
+
+    public void leaveOffice(String office){
+        for(NodeDevice node : mNodeList){
+            // Check if the node is in the old office
+            if(node.getmOffice().equals(office)){
+                // If the node is a light and is on, turn it off
+                if(node.getmType() == NodeType.light && node.getmStatus().equals("on")){
                     restService.toggleNode(node);
                 }
             }

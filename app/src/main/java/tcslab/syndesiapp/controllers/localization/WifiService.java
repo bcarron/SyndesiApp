@@ -80,17 +80,20 @@ public class WifiService extends IntentService {
 
         unregisterReceiver(wifiReceiver);
 
-        String officeNumber = mLocalizationClassifier.updateLocation(mReadings);
+        String oldOffice = mLocalizationClassifier.getmCurrentPosition();
 
-        if(!mAccountController.getAccount().getmOffice().equals(officeNumber)){
+        String newOffice = mLocalizationClassifier.updateLocation(mReadings);
+
+        // When changing office trigger automation
+        if(!oldOffice.equals(newOffice)){
             AutomationController automationController = new AutomationController(this);
-            automationController.enterOffice(officeNumber);
+            automationController.changeOffice(newOffice, oldOffice);
         }
 
         // Update account office if using Syndesi
         if(PreferenceManager.getDefaultSharedPreferences(this).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {
             Account oldAccount = mAccountController.getAccount();
-            oldAccount.setmOffice(officeNumber);
+            oldAccount.setmOffice(newOffice);
             mAccountController.saveAccount(oldAccount);
         }
 
