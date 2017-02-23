@@ -136,7 +136,8 @@ public class RESTServiceSengen extends RESTService{
 
                             // Add the node to the UI
                             NodeType nodeType = NodeType.getType(n.getString("name"));
-                            ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(n.getString("name"), nodeType, nodeType.getStatus(n.getString("actuator1_state"))));
+                            NodeDevice newNode = new NodeDevice(n.getString("name"), nodeType, nodeType.getStatus(n.getString("actuator1_state")));
+                            ((NodesControllerActivity) mAppContext).addNode(newNode);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import tcslab.syndesiapp.controllers.account.AccountController;
+import tcslab.syndesiapp.controllers.automation.AutomationController;
 import tcslab.syndesiapp.controllers.ui.WifiReceiver;
 import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.PreferenceKey;
@@ -80,6 +81,10 @@ public class WifiService extends IntentService {
         unregisterReceiver(wifiReceiver);
 
         String officeNumber = mLocalizationClassifier.updateLocation(mReadings);
+
+        if(!mAccountController.getAccount().getmOffice().equals(officeNumber)){
+            AutomationController automationController = new AutomationController(this);
+        }
 
         // Update account office if using Syndesi
         if(PreferenceManager.getDefaultSharedPreferences(this).getString(PreferenceKey.PREF_SERVER_TYPE.toString(),"").equals("syndesi")) {

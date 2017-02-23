@@ -21,6 +21,8 @@ import tcslab.syndesiapp.models.NodeType;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.views.NodesControllerActivity;
 
+import java.util.ArrayList;
+
 /**
  * Implements a REST service in a singleton class to send data to the Syndesi server.
  *
@@ -120,8 +122,6 @@ public class RESTServiceSyndesi extends RESTService{
                     Log.d("HTTP", response);
 
                     try {
-                        Log.d("HTTP", response);
-
                         // Convert the string response to JSON
                         JSONObject jsonResponse = new JSONObject(response);
 
@@ -135,7 +135,8 @@ public class RESTServiceSyndesi extends RESTService{
 
                             // Add the node to the UI
                             NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
-                            ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(n.getString("node_id"), nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state"))));
+                            NodeDevice newNode = new NodeDevice(n.getString("node_id"), nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")));
+                            ((NodesControllerActivity) mAppContext).addNode(newNode);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
