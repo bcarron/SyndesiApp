@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
+import tcslab.syndesiapp.controllers.automation.PowerController;
 import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.controllers.sensor.SensorAdapter;
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //Register the Broadcast listener
+        //Register the local broadcast listener
         IntentFilter filter = new IntentFilter();
         for(Integer sensorType : SensorList.sensorUsed){
             filter.addAction(String.valueOf(sensorType));
@@ -177,6 +179,12 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
+
+        //Register the Battery listener
+        IntentFilter batteryFilter = new IntentFilter();
+        batteryFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+//        batteryFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        registerReceiver(new PowerController(this.getApplicationContext()), batteryFilter);
 
         //Reset the context on the controllers
         SensorController.getInstance(this).setmActivity(this);

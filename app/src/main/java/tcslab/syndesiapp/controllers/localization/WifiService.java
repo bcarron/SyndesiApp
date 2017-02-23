@@ -85,7 +85,7 @@ public class WifiService extends IntentService {
         String newOffice = mLocalizationClassifier.updateLocation(mReadings);
 
         // When changing office trigger automation
-        if(!oldOffice.equals(newOffice)){
+        if(oldOffice != null && !oldOffice.equals(newOffice)){
             AutomationController automationController = new AutomationController(this);
             automationController.changeOffice(newOffice, oldOffice);
         }
