@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
+import tcslab.syndesiapp.controllers.automation.NodeCallback;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  *
  * Created by Blaise on 04.05.2015.
  */
-public class RESTServiceSyndesi extends RESTService{
+public class RESTServiceSyndesi extends RESTService {
     private static RESTServiceSyndesi mInstance;
     private Context mAppContext;
     private RequestQueue mRequestQueue;
@@ -104,7 +105,7 @@ public class RESTServiceSyndesi extends RESTService{
     /**
      * Get all the nodes registered on the server
      */
-    public void fetchNodes() {
+    public void fetchNodes(final NodeCallback callback) {
         // Get the sever address from the preferences
         String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 
@@ -128,16 +129,24 @@ public class RESTServiceSyndesi extends RESTService{
                         // Get all the nodes
                         JSONArray nl = jsonResponse.getJSONArray("services");
 
+                        //Store the nodes
+                        ArrayList<NodeDevice> nodesList = new ArrayList<>();
+
                         for (int i = 0; i < nl.length(); i++) {
                             JSONObject ns = nl.getJSONObject(i);
                             JSONArray nr = ns.getJSONArray("resources");
                             JSONObject n = nr.getJSONObject(0);
 
                             // Add the node to the UI
+                            String NID = n.getString("node_id");
                             NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
-                            NodeDevice newNode = new NodeDevice(n.getString("node_id"), nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")));
-                            ((NodesControllerActivity) mAppContext).addNode(newNode);
+                            // TODO: Change NID to real Office
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), NID);
+                            nodesList.add(newNode);
                         }
+
+                        //Send nodes to the caller
+                        callback.addNodesCallback(nodesList);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -183,7 +192,7 @@ public class RESTServiceSyndesi extends RESTService{
                     if (response.equals("ERROR")) {
                         RESTService.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     } else {
-                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response)));
+                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice()));
                     }
                 }
             }, new Response.ErrorListener() {

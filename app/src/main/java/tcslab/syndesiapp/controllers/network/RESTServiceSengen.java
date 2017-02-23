@@ -20,9 +20,11 @@ import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
 import tcslab.syndesiapp.models.PreferenceKey;
+import tcslab.syndesiapp.controllers.automation.NodeCallback;
 import tcslab.syndesiapp.views.NodesControllerActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -107,7 +109,7 @@ public class RESTServiceSengen extends RESTService{
     /**
      * Get all the nodes registered on the server
      */
-    public void fetchNodes() {
+    public void fetchNodes(final NodeCallback callback) {
         // Get the sever address from the preferences
         String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
 
@@ -131,14 +133,22 @@ public class RESTServiceSengen extends RESTService{
                         // Get all the nodes
                         JSONArray nl = jsonResponse.getJSONArray("Nodes");
 
+                        //Store the nodes
+                        ArrayList<NodeDevice> nodesList = new ArrayList<>();
+
                         for (int i = 0; i < nl.length(); i++) {
                             JSONObject n = nl.getJSONObject(i);
 
                             // Add the node to the UI
-                            NodeType nodeType = NodeType.getType(n.getString("name"));
-                            NodeDevice newNode = new NodeDevice(n.getString("name"), nodeType, nodeType.getStatus(n.getString("actuator1_state")));
-                            ((NodesControllerActivity) mAppContext).addNode(newNode);
+                            String NID = n.getString("name");
+                            NodeType nodeType = NodeType.getType(NID);
+                            // TODO: Change NID to real Office
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getString("actuator1_state")), NID);
+                            nodesList.add(newNode);
                         }
+
+                        //Send nodes to the caller
+                        callback.addNodesCallback(nodesList);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -182,7 +192,7 @@ public class RESTServiceSengen extends RESTService{
                     Log.d("HTTP", response);
 
                     if (response.contains("Success")) {
-                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(new_status)));
+                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(new_status), node.getmOffice()));
                     } else {
                         RESTService.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     }

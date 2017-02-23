@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
+import tcslab.syndesiapp.controllers.automation.NodeCallback;
 import tcslab.syndesiapp.controllers.network.NodeAdapter;
 import tcslab.syndesiapp.controllers.network.RESTService;
 import tcslab.syndesiapp.controllers.ui.UIReceiver;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
  *
  * Created by Blaise on 31.05.2015.
  */
-public class NodesControllerActivity extends AppCompatActivity {
+public class NodesControllerActivity extends AppCompatActivity implements NodeCallback{
     private UIReceiver uiReceiver;
     private RESTService restService;
     private ArrayList<NodeDevice> mNodeList;
@@ -75,7 +76,7 @@ public class NodesControllerActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //List nodes
-        restService.fetchNodes();
+        restService.fetchNodes(this);
         //Reset the context on the REST service
         restService.setmAppContext(this);
         //Register the Broadcast listener
@@ -88,5 +89,12 @@ public class NodesControllerActivity extends AppCompatActivity {
         super.onPause();
         //Unregister the Broadcast listener
         LocalBroadcastManager.getInstance(this).unregisterReceiver(uiReceiver);
+    }
+
+    @Override
+    public void addNodesCallback(ArrayList<NodeDevice> nodesList) {
+        for(NodeDevice node : nodesList){
+            this.addNode(node);
+        }
     }
 }

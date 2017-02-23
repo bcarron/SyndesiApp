@@ -84,6 +84,7 @@ public class WifiService extends IntentService {
 
         if(!mAccountController.getAccount().getmOffice().equals(officeNumber)){
             AutomationController automationController = new AutomationController(this);
+            automationController.enterOffice(officeNumber);
         }
 
         // Update account office if using Syndesi

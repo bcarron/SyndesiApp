@@ -9,11 +9,13 @@ public class NodeDevice {
     private String mNID;
     private NodeType mType;
     private String mStatus;
+    private String mOffice;
 
-    public NodeDevice(String NID, NodeType type, String status){
+    public NodeDevice(String NID, NodeType type, String status, String office){
         this.mNID = NID;
         this.mType = type;
         this.mStatus = status;
+        this.mOffice = office;
     }
 
     public String getmNID() {
@@ -38,5 +40,13 @@ public class NodeDevice {
 
     public void setmStatus(String mStatus) {
         this.mStatus = mStatus;
+    }
+
+    public String getmOffice() {
+        return mOffice;
+    }
+
+    public void setmOffice(String mOffice) {
+        this.mOffice = mOffice;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import tcslab.syndesiapp.controllers.automation.NodeCallback;
 import tcslab.syndesiapp.models.*;
 import org.json.JSONObject;
 
@@ -37,7 +38,7 @@ public abstract class RESTService {
     /**
      * Get all the nodes registered on the server
      */
-    public abstract void fetchNodes();
+    public abstract void fetchNodes(NodeCallback callback);
 
     /**
      * Toggle the node given in attribute
