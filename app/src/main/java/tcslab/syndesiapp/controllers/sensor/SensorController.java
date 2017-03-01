@@ -31,6 +31,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     private AlarmManager mAlarmManager;
     private ArrayList<String> mAvailableSensors;
     private HashMap<String, Float> mLastSensorValues;
+    private double mIntervalModifier;
 
     private SensorController(Context appContext) {
         this.mAppContext = appContext;
@@ -43,6 +44,9 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
 
         // Set up the list of last values
         mLastSensorValues = new HashMap<>();
+
+        // Set up default interval modifier
+        mIntervalModifier = 1;
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
@@ -82,8 +86,8 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     }
 
     private void updateUI(){
-        Log.d("Sensor", "Update UI");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
+
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
             Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString());
             localIntent.putExtra(BroadcastType.BCAST_EXTRA_SENSOR_STATUS.toString(), "");
@@ -102,7 +106,10 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     private void enableSensors() {
         //Set Alarm to launch the listener
         for(PendingIntent sensorLauncher : mSensorsLauncher){
-            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENSOR_RATE.toString(), "60")) * 1000, sensorLauncher);
+            int baseInterval = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENSOR_RATE.toString(), "60"));
+            int interval = (int) (baseInterval * mIntervalModifier * 1000);
+            Log.d("Sensor", Integer.toString(interval));
+            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, interval, sensorLauncher);
         }
 
         updateUI();
@@ -115,7 +122,6 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
             mAlarmManager.cancel(sensorLauncher);
         }
         updateUI();
-
     }
 
 
@@ -156,5 +162,9 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     public void setmAppContext(Activity activity) {
         this.mAppContext = activity;
         updateUI();
+    }
+
+    public void setmIntervalModifier(Double mIntervalModifier) {
+        this.mIntervalModifier = mIntervalModifier;
     }
 }

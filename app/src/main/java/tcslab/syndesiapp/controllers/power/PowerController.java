@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.os.Handler;
 import android.util.Log;
 import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.sensor.SensorController;
@@ -40,12 +39,15 @@ public class PowerController extends IntentService {
         float batteryPct = level / (float)scale;
 
         if (isCharging){
-            // TODO: Set max polling rate
+            // Set max sensing rate
+            sensorController.setmIntervalModifier(1.0);
         }else{
             if (batteryPct > 0.6){
-                // TODO: Set max polling rate
+                // Set max sensing rate
+                sensorController.setmIntervalModifier(1.0);
             }else if (batteryPct > 0.2){
-                // TODO: Set reduced polling rate
+                // Reduce sensing rate by half
+                sensorController.setmIntervalModifier(2.0);
             }else{
                 // TODO: Disable all sensors
             }
