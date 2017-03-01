@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
+import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
@@ -23,10 +24,13 @@ import tcslab.syndesiapp.views.MainActivity;
  */
 public class UIReceiver extends BroadcastReceiver {
     private Activity mActivity;
-    SharedPreferences mPreferences;
+    private SensorController mSensorController;
+    private SharedPreferences mPreferences;
+
 
     public UIReceiver(Activity activity) {
         mActivity = activity;
+        mSensorController = SensorController.getInstance(mActivity);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
     }
 
@@ -69,9 +73,14 @@ public class UIReceiver extends BroadcastReceiver {
                 newOfficeText.setText(mActivity.getString(R.string.loc_scanning));
             }
         } else {
-            //Add sensor reading to the UI
             Float data = intent.getFloatExtra(BroadcastType.BCAST_EXTRA_SENSOR_DATA.toString(), 0);
-            ((MainActivity)mActivity).addSensor(new SensorData("", data, intent.getAction()));
+            SensorData sensorData = new SensorData("", data, intent.getAction());
+
+            //Add sensor reading to the UI
+            ((MainActivity)mActivity).addSensor(sensorData);
+
+            // Set last sensor value to the controller
+            mSensorController.setLastSensorValue(sensorData);
         }
     }
 }

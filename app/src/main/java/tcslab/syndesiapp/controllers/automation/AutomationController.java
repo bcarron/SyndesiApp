@@ -3,7 +3,9 @@ package tcslab.syndesiapp.controllers.automation;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.util.Log;
 import tcslab.syndesiapp.controllers.network.RESTInterface;
+import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
 
@@ -15,15 +17,24 @@ import java.util.ArrayList;
 public class AutomationController extends ContextWrapper implements NodeCallback{
     private static AutomationController mInstance;
     private RESTInterface restInterface;
+    private SensorController mSensorController;
     private ArrayList<NodeDevice> mNodeList;
 
     public AutomationController(Context base) {
         super(base);
 
         restInterface = RESTInterface.getInstance(this);
+        mSensorController = SensorController.getInstance(null);
         mNodeList = new ArrayList<>();
 
         restInterface.fetchNodes(this);
+    }
+
+    public static synchronized AutomationController getInstance(Context appContext) {
+        if (mInstance == null) {
+            mInstance = new AutomationController(appContext);
+        }
+        return mInstance;
     }
 
     public void changeOffice(String newOffice, String oldOffice){
@@ -37,6 +48,14 @@ public class AutomationController extends ContextWrapper implements NodeCallback
             if(node.getmOffice().equals(office)){
                 // If the node is a light and is off, turn it on
                 if(node.getmType() == NodeType.light && node.getmStatus().equals("off")){
+                    Log.d("Automation", "Turning lights on");
+                    restInterface.toggleNode(node);
+                }
+
+                // If the node is a fan and the temperature is too high, turn it on.
+                Float temperature = mSensorController.getLastSensorValue("temperature");
+                if(temperature != null && temperature > 25 && node.getmType() == NodeType.fan && node.getmStatus().equals("off")){
+                    Log.d("Automation", "Turning fans on");
                     restInterface.toggleNode(node);
                 }
             }
@@ -51,15 +70,13 @@ public class AutomationController extends ContextWrapper implements NodeCallback
                 if(node.getmType() == NodeType.light && node.getmStatus().equals("on")){
                     restInterface.toggleNode(node);
                 }
+
+                // If the node is a fan and is on, turn it off
+                if(node.getmType() == NodeType.fan && node.getmStatus().equals("on")){
+                    restInterface.toggleNode(node);
+                }
             }
         }
-    }
-
-    public static synchronized AutomationController getInstance(Activity activity) {
-        if (mInstance == null) {
-            mInstance = new AutomationController(activity);
-        }
-        return mInstance;
     }
 
     @Override

@@ -60,11 +60,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Set default settings
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
         //Set the layout
         setContentView(R.layout.activity_main);
+
         //Set the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //Set the sensor list
         ListView listView = (ListView) findViewById(R.id.sensor_list);
         mSensorsList = new ArrayList<>();

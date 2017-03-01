@@ -40,6 +40,7 @@ public class SensorListener implements SensorEventListener {
             AsyncTask sendData = new SendDataTask(mAppContext);
             sendData.execute(new SensorEvent[]{sensorEvent});
         }
+
         mSensorManager.unregisterListener(this);
         mWakeLock.release();
     }

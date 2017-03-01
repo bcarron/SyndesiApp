@@ -30,6 +30,7 @@ import java.util.List;
 public class WifiService extends IntentService {
     private LocalizationClassifier mLocalizationClassifier;
     private AccountController mAccountController;
+    private AutomationController mAutomationController;
     private Handler mHandler;
     private List<List<ScanResult>> mReadings = new ArrayList<>();
     private final Object mLock = new Object();
@@ -50,6 +51,7 @@ public class WifiService extends IntentService {
 
         mLocalizationClassifier = new LocalizationClassifier(this);
         mAccountController = AccountController.getInstance(this);
+        mAutomationController = AutomationController.getInstance(this.getApplicationContext());
 
         /* Load OpenCV */
         if (!OpenCVLoader.initDebug()) {
@@ -86,8 +88,7 @@ public class WifiService extends IntentService {
 
         // When changing office trigger automation
         if(oldOffice != null && !oldOffice.equals(newOffice)){
-            AutomationController automationController = new AutomationController(this);
-            automationController.changeOffice(newOffice, oldOffice);
+            mAutomationController.changeOffice(newOffice, oldOffice);
         }
 
         // Update account office if using Syndesi

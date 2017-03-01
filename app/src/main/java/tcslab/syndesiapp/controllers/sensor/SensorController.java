@@ -6,16 +6,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.preference.PreferenceManager;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.models.PreferenceKey;
+import tcslab.syndesiapp.models.SensorData;
 import tcslab.syndesiapp.views.MainActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Manages sensors and reacts to settings changes to adapt the sensors in a singleton controller.
@@ -28,6 +32,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     private ArrayList<PendingIntent> mSensorsLauncher;
     private AlarmManager mAlarmManager;
     private ArrayList<String> mAvailableSensors;
+    private HashMap<String, Float> mLastSensorValues;
 
     private SensorController(Activity activity) {
         this.mActivity = activity;
@@ -37,6 +42,9 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
 
         //Get the alarm manager
         mAlarmManager = (AlarmManager) mActivity.getSystemService(Context.ALARM_SERVICE);
+
+        // Set up the list of last values
+        mLastSensorValues = new HashMap<>();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
@@ -127,6 +135,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         }
     }
 
+
     /**
      * Get all the sensors available and build the PendingIntent to launch SensorService
      */
@@ -144,6 +153,17 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
                 mAvailableSensors.add(SensorList.getStringType(sensorType));
             }
         }
+    }
+
+    public void setLastSensorValue(SensorData sensor){
+        String sensorType = SensorList.getStringType(Integer.parseInt(sensor.getmDataType()));
+        Float data = sensor.getmData();
+
+        mLastSensorValues.put(sensorType, data);
+    }
+
+    public Float getLastSensorValue(String sensorType){
+        return mLastSensorValues.get(sensorType);
     }
 
     public ArrayList<String> getmAvailableSensors() {
