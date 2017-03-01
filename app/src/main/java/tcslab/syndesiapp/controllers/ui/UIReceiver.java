@@ -47,6 +47,12 @@ public class UIReceiver extends BroadcastReceiver {
             String response = intent.getStringExtra(BroadcastType.BCAST_EXTRA_SERVER_RESPONSE.toString());
             TextView server = (TextView) mActivity.findViewById(R.id.controller_display_status);
             server.setText(response);
+        }else if (intent.getAction().equals(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString())) {
+            //Update the UI sensor status
+            String status = intent.getStringExtra(BroadcastType.BCAST_EXTRA_SENSOR_STATUS.toString());
+            Log.d("SENSOR", "New sensor status: " + status);
+            TextView sensor = (TextView) mActivity.findViewById(R.id.sensors_status);
+            sensor.setText(status);
         } else if(intent.getAction().equals(BroadcastType.BCAST_TYPE_LOC_STATUS.toString())){
             Boolean status = intent.getBooleanExtra(BroadcastType.BCAST_EXTRA_LOC_STATUS.toString(), false);
             String office = mPreferences.getString(PreferenceKey.PREF_CURRENT_POSITION.toString(), null);

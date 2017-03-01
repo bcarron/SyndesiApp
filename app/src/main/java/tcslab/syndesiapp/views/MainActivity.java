@@ -187,18 +187,13 @@ public class MainActivity extends AppCompatActivity {
         }
         filter.addAction(BroadcastType.BCAST_TYPE_SERVER_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS.toString());
+        filter.addAction(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
-        // Register the Battery listener
-//        IntentFilter batteryFilter = new IntentFilter();
-//        batteryFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-////        batteryFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-//        registerReceiver(new PowerController(this.getApplicationContext()), batteryFilter);
-
         //Reset the context on the controllers
-        SensorController.getInstance(this).setmActivity(this);
+        SensorController.getInstance(this).setmAppContext(this);
         mLocalizationController.setmAppContext(this);
     }
 

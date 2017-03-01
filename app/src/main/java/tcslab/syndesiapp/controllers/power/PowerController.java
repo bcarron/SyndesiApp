@@ -4,15 +4,27 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.Handler;
 import android.util.Log;
+import tcslab.syndesiapp.controllers.localization.LocalizationController;
+import tcslab.syndesiapp.controllers.sensor.SensorController;
 
 /**
  * Created by blaise on 23.02.2017.
  */
 public class PowerController extends IntentService {
+    public SensorController sensorController;
+    public LocalizationController localizationController;
 
     public PowerController() {
         super("PowerController");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sensorController = SensorController.getInstance(this);
+        localizationController = LocalizationController.getInstance(this);
     }
 
     @Override

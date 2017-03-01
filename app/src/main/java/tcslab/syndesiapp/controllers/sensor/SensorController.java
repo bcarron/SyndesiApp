@@ -6,14 +6,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.preference.PreferenceManager;
-import android.util.ArrayMap;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.TextView;
 import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.account.AccountController;
+import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
 import tcslab.syndesiapp.views.MainActivity;
@@ -28,25 +26,25 @@ import java.util.HashMap;
  */
 public class SensorController implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static SensorController mInstance;
-    private Activity mActivity;
+    private Context mAppContext;
     private ArrayList<PendingIntent> mSensorsLauncher;
     private AlarmManager mAlarmManager;
     private ArrayList<String> mAvailableSensors;
     private HashMap<String, Float> mLastSensorValues;
 
-    private SensorController(Activity activity) {
-        this.mActivity = activity;
+    private SensorController(Context appContext) {
+        this.mAppContext = appContext;
 
         //Get all sensors
         getSensorLaunchers();
 
         //Get the alarm manager
-        mAlarmManager = (AlarmManager) mActivity.getSystemService(Context.ALARM_SERVICE);
+        mAlarmManager = (AlarmManager) mAppContext.getSystemService(Context.ALARM_SERVICE);
 
         // Set up the list of last values
         mLastSensorValues = new HashMap<>();
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
             enableSensors();
         } else {
@@ -57,26 +55,14 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         updateUI();
     }
 
-    public static synchronized SensorController getInstance(Activity activity) {
+    public static synchronized SensorController getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new SensorController(activity);
+            mInstance = new SensorController(appContext);
         }
         return mInstance;
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(PreferenceKey.PREF_SYNDESI_URL.toString())) {
-            Log.d("PREF", "Server changed");
-            final TextView connection = (TextView) mActivity.findViewById(R.id.server_display_status);
-            String server_url = PreferenceManager.getDefaultSharedPreferences(mActivity).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
-
-            if (server_url.equals("")) {
-                connection.setText(R.string.connection_no_server_set);
-            } else {
-                AccountController.getInstance(mActivity).updateAccount();
-                Log.d("PREF", "User account updated");
-            }
-        }
         if (key.equals(PreferenceKey.PREF_SENSOR_RATE.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
                 disableSensors();
@@ -97,42 +83,39 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
 
     private void updateUI(){
         Log.d("Sensor", "Update UI");
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
-            ((TextView) mActivity.findViewById(R.id.sensors_status)).setText("");
+            Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString());
+            localIntent.putExtra(BroadcastType.BCAST_EXTRA_SENSOR_STATUS.toString(), "");
+            LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(localIntent);
         } else {
-            ((TextView) mActivity.findViewById(R.id.sensors_status)).setText(R.string.sensors_disabled);
-            ((TextView) mActivity.findViewById(R.id.server_display_status)).setText(R.string.connection_no_data);
-        }
+            Intent sensorIntent = new Intent(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString());
+            sensorIntent.putExtra(BroadcastType.BCAST_EXTRA_SENSOR_STATUS.toString(), mAppContext.getString(R.string.sensors_disabled));
+            LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(sensorIntent);
 
-        String urlType;
-        if(sharedPreferences.getString(PreferenceKey.PREF_SERVER_TYPE.toString(), "").equals("syndesi")){
-            urlType = PreferenceKey.PREF_SYNDESI_URL.toString();
-        }else{
-            urlType = PreferenceKey.PREF_SENGEN_URL.toString();
-        }
-
-        if (sharedPreferences.getString(urlType, "").equals("")) {
-            ((TextView) mActivity.findViewById(R.id.server_display_status)).setText(R.string.connection_no_server_set);
+            Intent serverIntent = new Intent(BroadcastType.BCAST_TYPE_SERVER_STATUS.toString());
+            serverIntent.putExtra(BroadcastType.BCAST_EXTRA_SERVER_RESPONSE.toString(), mAppContext.getString(R.string.connection_no_data));
+            LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(serverIntent);
         }
     }
 
     private void enableSensors() {
-        ((TextView) mActivity.findViewById(R.id.sensors_status)).setText("");
         //Set Alarm to launch the listener
         for(PendingIntent sensorLauncher : mSensorsLauncher){
-            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mActivity).getString(PreferenceKey.PREF_SENSOR_RATE.toString(), "60")) * 1000, sensorLauncher);
+            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENSOR_RATE.toString(), "60")) * 1000, sensorLauncher);
         }
+
+        updateUI();
     }
 
     private void disableSensors() {
-        ((TextView) mActivity.findViewById(R.id.sensors_status)).setText(R.string.sensors_disabled);
-        ((TextView) mActivity.findViewById(R.id.server_display_status)).setText(R.string.connection_no_data);
-        ((MainActivity)mActivity).removeSensors();
+        ((MainActivity) mAppContext).removeSensors();
         //Disable alarms
         for(PendingIntent sensorLauncher : mSensorsLauncher){
             mAlarmManager.cancel(sensorLauncher);
         }
+        updateUI();
+
     }
 
 
@@ -141,15 +124,15 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
      */
     private void getSensorLaunchers(){
         mSensorsLauncher = new ArrayList<PendingIntent>();
-        SensorManager sensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE);
+        SensorManager sensorManager = (SensorManager) mAppContext.getSystemService(Context.SENSOR_SERVICE);
         mAvailableSensors = new ArrayList<>();
         //Get all the sensors listed in SensorList that are available on the device
         for(Integer sensorType : SensorList.sensorUsed){
             if (sensorManager.getDefaultSensor(sensorType) != null){
                 //Build an Intent to launch the SensorService
-                Intent sensorIntent = new Intent(mActivity, SensorService.class);
+                Intent sensorIntent = new Intent(mAppContext, SensorService.class);
                 sensorIntent.setAction(String.valueOf(sensorType));
-                mSensorsLauncher.add(PendingIntent.getService(mActivity, 0, sensorIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                mSensorsLauncher.add(PendingIntent.getService(mAppContext, 0, sensorIntent, PendingIntent.FLAG_UPDATE_CURRENT));
                 mAvailableSensors.add(SensorList.getStringType(sensorType));
             }
         }
@@ -170,8 +153,8 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         return mAvailableSensors;
     }
 
-    public void setmActivity(Activity activity) {
-        this.mActivity = activity;
+    public void setmAppContext(Activity activity) {
+        this.mAppContext = activity;
         updateUI();
     }
 }
