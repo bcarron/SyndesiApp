@@ -203,9 +203,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Populate sensors view with latest data
         if(mSensorController.ismAlarmIsSet()){
-            HashMap<String, Float> lastValues = mSensorController.getmLastSensorValues();
-            for(String type: lastValues.keySet()){
-                addSensor(new SensorData(mAccountController.getAccount().getmId(), lastValues.get(type), type));
+            HashMap<Integer, Float> lastValues = mSensorController.getmLastSensorValues();
+
+            for(Integer type: lastValues.keySet()){
+                addSensor(new SensorData(mAccountController.getAccount().getmId(), lastValues.get(type), String.valueOf(type)));
             }
         }
     }
@@ -225,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
-        Log.d("Restoration", "save");
         savedInstanceState.putString(String.valueOf(R.id.sensors_status), ((TextView) findViewById(R.id.sensors_status)).getText().toString());
         savedInstanceState.putString(String.valueOf(R.id.loc_display), ((TextView) findViewById(R.id.loc_display)).getText().toString());
         savedInstanceState.putString(String.valueOf(R.id.server_display_status), ((TextView) findViewById(R.id.server_display_status)).getText().toString());
@@ -237,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        Log.d("Restoration", "restore");
         ((TextView) findViewById(R.id.sensors_status)).setText(savedInstanceState.getString(String.valueOf(R.id.sensors_status)));
         ((TextView) findViewById(R.id.loc_display)).setText(savedInstanceState.getString(String.valueOf(R.id.loc_display)));
         ((TextView) findViewById(R.id.server_display_status)).setText(savedInstanceState.getString(String.valueOf(R.id.server_display_status)));

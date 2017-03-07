@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.hardware.SensorEvent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
+import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.models.BroadcastType;
 
 /**
@@ -26,6 +27,9 @@ public class SendDataTask extends AsyncTask<SensorEvent, Void, SensorEvent> {
 
         //Send data to server
         RESTInterface.getInstance(mAppContext).sendData(data, event.sensor.getType());
+
+        // Set last sensor value to the controller
+        SensorController.getInstance(mAppContext).getmLastSensorValues().put(event.sensor.getType(), data);
 
         //Send broadcast to update the UI if the app is active
         Intent localIntent = new Intent(String.valueOf(event.sensor.getType()));

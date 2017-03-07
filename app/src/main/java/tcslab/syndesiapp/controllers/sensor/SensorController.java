@@ -32,7 +32,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     private ArrayList<PendingIntent> mSensorsLauncher;
     private AlarmManager mAlarmManager;
     private ArrayList<String> mAvailableSensors;
-    private HashMap<String, Float> mLastSensorValues;
+    private HashMap<Integer, Float> mLastSensorValues;
     private double mIntervalModifier;
     private boolean mAlarmIsSet;
     private boolean mStopSensor;
@@ -42,7 +42,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
 
         mSensorManager = (SensorManager) mAppContext.getSystemService(Context.SENSOR_SERVICE);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
-        mSensorsLauncher = new ArrayList<PendingIntent>();
+        mSensorsLauncher = new ArrayList<>();
         mAvailableSensors = new ArrayList<>();
 
         //Get all sensors
@@ -133,7 +133,6 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     }
 
     private void disableSensors() {
-        ((MainActivity) mAppContext).removeSensors();
         //Disable alarms
         for(PendingIntent sensorLauncher : mSensorsLauncher){
             mAlarmManager.cancel(sensorLauncher);
@@ -196,19 +195,11 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         }
     }
 
-    public void setLastSensorValue(SensorData sensor){
-        mLastSensorValues.put(sensor.getmDataType(), sensor.getmData());
-    }
-
-    public Float getLastSensorValue(int sensorType){
-        return mLastSensorValues.get(String.valueOf(sensorType));
-    }
-
     public boolean ismAlarmIsSet() {
         return mAlarmIsSet;
     }
 
-    public HashMap<String, Float> getmLastSensorValues() {
+    public HashMap<Integer, Float> getmLastSensorValues() {
         return mLastSensorValues;
     }
 

@@ -51,6 +51,9 @@ public class UIReceiver extends BroadcastReceiver {
             String status = intent.getStringExtra(BroadcastType.BCAST_EXTRA_SENSOR_STATUS.toString());
             TextView sensor = (TextView) mActivity.findViewById(R.id.sensors_status);
             sensor.setText(status);
+            if(status.equals(mActivity.getString(R.string.sensors_disabled))){
+                ((MainActivity) mActivity).removeSensors();
+            }
         } else if(intent.getAction().equals(BroadcastType.BCAST_TYPE_LOC_STATUS.toString())){
             Boolean status = intent.getBooleanExtra(BroadcastType.BCAST_EXTRA_LOC_STATUS.toString(), false);
             String office = mPreferences.getString(PreferenceKey.PREF_CURRENT_POSITION.toString(), null);
@@ -82,9 +85,6 @@ public class UIReceiver extends BroadcastReceiver {
 
             //Add sensor reading to the UI
             ((MainActivity)mActivity).addSensor(sensorData);
-
-            // Set last sensor value to the controller
-            mSensorController.setLastSensorValue(sensorData);
         }
     }
 }

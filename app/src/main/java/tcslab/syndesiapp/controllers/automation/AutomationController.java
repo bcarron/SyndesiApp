@@ -54,7 +54,7 @@ public class AutomationController extends ContextWrapper implements NodeCallback
                 }
 
                 // If the node is a fan and the temperature is too high, turn it on.
-                Float temperature = mSensorController.getLastSensorValue(Sensor.TYPE_AMBIENT_TEMPERATURE);
+                Float temperature = mSensorController.getmLastSensorValues().get(Sensor.TYPE_AMBIENT_TEMPERATURE);
                 if(temperature != null && temperature > 25 && node.getmType() == NodeType.fan && node.getmStatus().equals("off")){
                     Log.d("Automation", "Turning fans on");
                     restInterface.toggleNode(node);
