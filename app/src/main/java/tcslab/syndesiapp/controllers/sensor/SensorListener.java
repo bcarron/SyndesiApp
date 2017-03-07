@@ -31,11 +31,12 @@ public class SensorListener implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Log.d("SENSOR", "Accuracy changed: " + accuracy);
+
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+        Log.d("SensorListener", "working");
         if(PreferenceManager.getDefaultSharedPreferences(mAppContext).getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)){
             AsyncTask sendData = new SendDataTask(mAppContext);
             sendData.execute(new SensorEvent[]{sensorEvent});

@@ -50,7 +50,6 @@ public class UIReceiver extends BroadcastReceiver {
         }else if (intent.getAction().equals(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString())) {
             //Update the UI sensor status
             String status = intent.getStringExtra(BroadcastType.BCAST_EXTRA_SENSOR_STATUS.toString());
-            Log.d("SENSOR", "New sensor status: " + status);
             TextView sensor = (TextView) mActivity.findViewById(R.id.sensors_status);
             sensor.setText(status);
         } else if(intent.getAction().equals(BroadcastType.BCAST_TYPE_LOC_STATUS.toString())){
