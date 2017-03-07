@@ -21,7 +21,6 @@ public class SensorService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent workIntent) {
-        Log.d("SensorService", "working");
         //Get a wakelock to keep the system on while sending the data
         PowerManager.WakeLock wakeLock = ((PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WakeLock");
         wakeLock.acquire();

@@ -10,7 +10,6 @@ import android.hardware.SensorManager;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import org.opencv.ml.Boost;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
@@ -35,8 +34,8 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     private ArrayList<String> mAvailableSensors;
     private HashMap<String, Float> mLastSensorValues;
     private double mIntervalModifier;
-    private boolean alarmIsSet;
-    private boolean stopSensor;
+    private boolean mAlarmIsSet;
+    private boolean mStopSensor;
 
     private SensorController(Context appContext) {
         this.mAppContext = appContext;
@@ -59,8 +58,8 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         mIntervalModifier = 1;
 
         // Default values at startup
-        alarmIsSet = false;
-        stopSensor = false;
+        mAlarmIsSet = false;
+        mStopSensor = false;
 
         if (mSharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
             enableSensors();
@@ -117,7 +116,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
 
     private void enableSensors() {
         //Set Alarm to launch the listener
-        if(!alarmIsSet && !stopSensor) {
+        if(!mAlarmIsSet && !mStopSensor) {
             for(PendingIntent sensorLauncher : mSensorsLauncher) {
                 int baseInterval = Integer.parseInt(mSharedPreferences.getString(PreferenceKey.PREF_SENSOR_RATE.toString(), "60"));
                 int interval = (int) (baseInterval * mIntervalModifier * 1000);
@@ -127,7 +126,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
             // Populate the UI without waiting for the first alarm to fire
             quickSense();
 
-            alarmIsSet = true;
+            mAlarmIsSet = true;
 
             updateUI();
         }
@@ -140,7 +139,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
             mAlarmManager.cancel(sensorLauncher);
         }
 
-        alarmIsSet = false;
+        mAlarmIsSet = false;
 
         updateUI();
     }
@@ -182,7 +181,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
      */
     public void stopSensing(){
         // Prevent sensors to be enabled by change in preferences
-        stopSensor = true;
+        mStopSensor = true;
         disableSensors();
     }
 
@@ -190,7 +189,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
      * Start the sensors
      */
     public void startSensing(){
-        stopSensor = false;
+        mStopSensor = false;
 
         if (mSharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
             enableSensors();
@@ -198,14 +197,19 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     }
 
     public void setLastSensorValue(SensorData sensor){
-        String sensorType = SensorList.getStringType(Integer.parseInt(sensor.getmDataType()));
-        Float data = sensor.getmData();
-
-        mLastSensorValues.put(sensorType, data);
+        mLastSensorValues.put(sensor.getmDataType(), sensor.getmData());
     }
 
-    public Float getLastSensorValue(String sensorType){
-        return mLastSensorValues.get(sensorType);
+    public Float getLastSensorValue(int sensorType){
+        return mLastSensorValues.get(String.valueOf(sensorType));
+    }
+
+    public boolean ismAlarmIsSet() {
+        return mAlarmIsSet;
+    }
+
+    public HashMap<String, Float> getmLastSensorValues() {
+        return mLastSensorValues;
     }
 
     public ArrayList<String> getmAvailableSensors() {

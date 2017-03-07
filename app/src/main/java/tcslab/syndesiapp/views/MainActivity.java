@@ -38,6 +38,7 @@ import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import tcslab.syndesiapp.tools.RuntimePermissionChecker;
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private UIReceiver mUiReceiver;
     private ArrayList<SensorData> mSensorsList;
     private SensorAdapter mSensorsAdapter;
+    private SensorController mSensorController;
     private AccountController mAccountController;
     private SharedPreferences mPreferences;
     private LocalizationController mLocalizationController;
@@ -74,11 +76,14 @@ public class MainActivity extends AppCompatActivity {
         mSensorsAdapter = new SensorAdapter(this, mSensorsList);
         listView.setAdapter(mSensorsAdapter);
 
+        // Set the sensor controller
+        mSensorController = SensorController.getInstance(this);
+
         // Set the account controller to use with Syndesi server (legacy)
         mAccountController = AccountController.getInstance(getApplicationContext());
         Account account = mAccountController.getAccount();
         String id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        Account newAccount = new Account(id, "", "", "", 0, 0, SensorController.getInstance(this).getmAvailableSensors());
+        Account newAccount = new Account(id, "", "", "", 0, 0, mSensorController.getmAvailableSensors());
         if (account == null) {
             AccountController.getInstance(getApplicationContext()).createAccount(newAccount);
         }else{
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the preferences listener
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mPreferences.registerOnSharedPreferenceChangeListener(SensorController.getInstance(this));
+        mPreferences.registerOnSharedPreferenceChangeListener(mSensorController);
         mPreferences.registerOnSharedPreferenceChangeListener(LocalizationController.getInstance(this));
 
         // Register the service for battery management
@@ -193,8 +198,16 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
         //Reset the context on the controllers
-        SensorController.getInstance(this).setmAppContext(this);
+        mSensorController.setmAppContext(this);
         mLocalizationController.setmAppContext(this);
+
+        //Populate sensors view with latest data
+        if(mSensorController.ismAlarmIsSet()){
+            HashMap<String, Float> lastValues = mSensorController.getmLastSensorValues();
+            for(String type: lastValues.keySet()){
+                addSensor(new SensorData(mAccountController.getAccount().getmId(), lastValues.get(type), type));
+            }
+        }
     }
 
     public void relocate(View v){
