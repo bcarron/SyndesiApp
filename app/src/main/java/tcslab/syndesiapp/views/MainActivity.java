@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(mSensorsAdapter);
 
         // Set the sensor controller
-        mSensorController = SensorController.getInstance(this);
+        mSensorController = SensorController.getInstance(getApplicationContext());
 
         // Set the account controller to use with Syndesi server (legacy)
         mAccountController = AccountController.getInstance(getApplicationContext());
