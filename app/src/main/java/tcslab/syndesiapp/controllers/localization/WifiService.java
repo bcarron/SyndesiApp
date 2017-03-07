@@ -49,6 +49,8 @@ public class WifiService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         PowerManager.WakeLock wakeLock = ((PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WifiWakeLock");
 
+        // TODO: Check if the user moved otherwise no need to perform localization
+
         mLocalizationClassifier = new LocalizationClassifier(this);
         mAccountController = AccountController.getInstance(this);
         mAutomationController = AutomationController.getInstance(this.getApplicationContext());
@@ -60,17 +62,20 @@ public class WifiService extends IntentService {
             mLocalizationClassifier.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
 
-        //Register the Wifi receiver
-        //Register the Broadcast listener
+        // Register the Wifi receiver
+        // Register the Broadcast listener
         WifiReceiver wifiReceiver = new WifiReceiver(this);
         registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
+        // Get the number of scans from the preferences
         String precision = PreferenceManager.getDefaultSharedPreferences(this).getString(PreferenceKey.PREF_LOC_PRECISION.toString(),"1");
 
+        // Perform the scans
         while(mReadings.size() < Integer.parseInt(precision)) {
             toaster("Launching scan " + (mReadings.size()+1) + " of " + precision);
             ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
 
+            // Wait for the scan's results
             synchronized (mLock) {
                 try {
                     mLock.wait();
@@ -82,8 +87,10 @@ public class WifiService extends IntentService {
 
         unregisterReceiver(wifiReceiver);
 
+        // Save old location
         String oldOffice = mLocalizationClassifier.getmCurrentPosition();
 
+        // Compute new location
         String newOffice = mLocalizationClassifier.updateLocation(mReadings);
 
         // When changing office trigger automation
@@ -98,6 +105,7 @@ public class WifiService extends IntentService {
             mAccountController.saveAccount(oldAccount);
         }
 
+        // Clear readings for next localization
         mReadings.clear();
 
         if(wakeLock.isHeld()){
@@ -105,7 +113,7 @@ public class WifiService extends IntentService {
         }
     }
 
-    public void toaster(String message){
+    private void toaster(String message){
         final String toastMessage = message;
         mHandler.post(new Runnable() {
             @Override
@@ -115,7 +123,7 @@ public class WifiService extends IntentService {
         });
     }
 
-    public void toaster(String message, int duration)
+    private void toaster(String message, int duration)
     {
         final String toastMessage = message;
         final int toastDuration = duration;
