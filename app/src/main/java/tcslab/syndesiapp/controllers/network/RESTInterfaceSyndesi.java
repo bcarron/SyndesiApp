@@ -139,9 +139,12 @@ public class RESTInterfaceSyndesi extends RESTInterface {
 
                             // Add the node to the UI
                             String NID = n.getString("node_id");
+                            String service = n.getJSONObject("resourcesnode").getString("path");
+                            service = service.substring(service.indexOf("service=")+8, service.indexOf("&resource"));
+                            NID = service;
                             NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
                             // TODO: Change NID to real Office
-                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), NID);
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus("off"), NID);
                             nodesList.add(newNode);
                         }
 
@@ -181,7 +184,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                 server_url = "http://" + server_url;
             }
 
-            final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=sengen&status=" + node.getmType().getToggleStatus(node.getmStatus());
+            final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=" + node.getmType()  + "&status=" + node.getmType().getToggleStatus(node.getmStatus());
             Log.d("URL", url);
 
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {

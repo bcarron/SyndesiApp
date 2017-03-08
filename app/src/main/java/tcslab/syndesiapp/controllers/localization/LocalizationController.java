@@ -23,6 +23,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     private Context mAppContext;
     private AlarmManager mAlarmManager;
     private PendingIntent mLocalizationLauncher;
+    // TODO: change default localization interval with preference
     private long mLocalizationInterval = 300000;
 
 

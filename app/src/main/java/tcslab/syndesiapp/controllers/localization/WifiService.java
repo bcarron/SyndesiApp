@@ -113,7 +113,7 @@ public class WifiService extends IntentService {
         }
     }
 
-    private void toaster(String message){
+    public void toaster(String message){
         final String toastMessage = message;
         mHandler.post(new Runnable() {
             @Override
@@ -123,7 +123,7 @@ public class WifiService extends IntentService {
         });
     }
 
-    private void toaster(String message, int duration)
+    public void toaster(String message, int duration)
     {
         final String toastMessage = message;
         final int toastDuration = duration;
