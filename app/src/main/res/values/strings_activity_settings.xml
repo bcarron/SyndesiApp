@@ -12,14 +12,16 @@
     <string name="pref_title_loc_precision">Localization precision</string>
     <string name="pref_title_server_type">Server type</string>
     <string name="pref_title_syndesi_url">Syndesi address</string>
-    <string name="pref_title_sengen_url">Sengen address</string>
+    <string name="pref_title_sengen_db_url">Sengen Database address</string>
+    <string name="pref_title_sengen_server_url">Sengen Server address</string>
 
     <string name="pref_title_sensor_perm">Sensors permission</string>
     <string name="pref_title_loc_perm">Localization permission</string>
 
 
-    <string name="pref_default_syndesi_address">http://129.194.69.178:8111</string>
-    <string name="pref_default_sengen_address">http://tcstestbed.unige.ch</string>
+    <string name="pref_default_syndesi_address">http://129.194.70.52:8111</string>
+    <string name="pref_default_sengen_server_address">http://129.194.69.178:8111</string>
+    <string name="pref_default_sengen_db_address">http://tcstestbed.unige.ch</string>
 
     <string-array name="pref_server_type_titles">
         <item>Use Sengen DB</item>

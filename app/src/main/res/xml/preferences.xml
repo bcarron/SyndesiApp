@@ -38,9 +38,15 @@
         android:dialogMessage="Use this format address:port"/>
 
     <EditTextPreference
-        android:defaultValue="@string/pref_default_sengen_address"
-        android:key="PREF_SENGEN_URL"
-        android:title="@string/pref_title_sengen_url"
+        android:defaultValue="@string/pref_default_sengen_server_address"
+        android:key="PREF_SENGEN_SERVER_URL"
+        android:title="@string/pref_title_sengen_server_url"
+        android:dialogMessage="Use this format address:port"/>
+
+    <EditTextPreference
+        android:defaultValue="@string/pref_default_sengen_db_address"
+        android:key="PREF_SENGEN_DB_URL"
+        android:title="@string/pref_title_sengen_db_url"
         android:dialogMessage="Use this format address:port"/>
 
     <PreferenceCategory android:title="@string/pref_header_sensor" />

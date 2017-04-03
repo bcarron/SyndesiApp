@@ -110,6 +110,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
         String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 
         if (!server_url.equals("")) {
+
             // Instantiate the RequestQueue.
             if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
                 server_url = "http://" + server_url;
@@ -135,13 +136,14 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                         for (int i = 0; i < nl.length(); i++) {
                             JSONObject ns = nl.getJSONObject(i);
                             JSONArray nr = ns.getJSONArray("resources");
-                            JSONObject n = nr.getJSONObject(0);
+                            JSONObject n = nr.getJSONObject(2);
 
                             // Add the node to the UI
                             String NID = n.getString("node_id");
-                            NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
+                            String device = n.getJSONObject("resourcesnode").getString("name");
+                            NodeType nodeType = NodeType.getType(device);
                             // TODO: Change NID to real Office
-                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), NID);
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(device), NID, n.getJSONObject("resourcesnode").getString("path"));
                             nodesList.add(newNode);
                         }
 
@@ -165,8 +167,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
         } else {
             RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
-
-        }
+    }
 
     /**
      * Toggle the node given in attribute
@@ -181,18 +182,18 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                 server_url = "http://" + server_url;
             }
 
-            final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=sengen&status=" + node.getmType().getToggleStatus(node.getmStatus());
+            final String url = server_url + node.getPath().replace("monitor", "mediate") + "&resource=" + node.getmType() + "&status=" + node.getmType().getToggleStatus(node.getmStatus());
             Log.d("URL", url);
 
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("HTTP", response);
+                    Log.d("SYNDESI", response);
 
                     if (response.equals("ERROR")) {
                         RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     } else {
-                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice()));
+                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice(), node.getPath()));
                     }
                 }
             }, new Response.ErrorListener() {
