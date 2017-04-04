@@ -70,7 +70,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
     private void stopLocalization(){
         // Stop the service for localization
-        mAlarmManager.cancel(mLocalizationLauncher);
+        if(mLocalizationLauncher != null){
+            mAlarmManager.cancel(mLocalizationLauncher);
+        }
 
         Log.d("PREF", "Localization disabled");
     }

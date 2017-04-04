@@ -43,7 +43,7 @@ public class PowerController extends IntentService {
             sensorController.setmIntervalModifier(1.0);
             sensorController.startSensing();
         }else{
-            if (batteryPct > 0.6){
+            if (batteryPct > 0.5){
                 // Set max sensing rate
                 sensorController.setmIntervalModifier(1.0);
                 sensorController.startSensing();

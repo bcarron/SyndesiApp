@@ -111,7 +111,7 @@ public class RESTInterfaceSengen extends RESTInterface {
      */
     public void fetchNodes(final NodeCallback callback) {
         // Get the sever address from the preferences
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_DB_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -119,7 +119,7 @@ public class RESTInterfaceSengen extends RESTInterface {
                 server_url = "http://" + server_url;
             }
 
-            final String url = server_url + "/ero2proxy/service";
+            final String url = server_url + "/api/getNodes.php";
 
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
@@ -131,23 +131,19 @@ public class RESTInterfaceSengen extends RESTInterface {
                         JSONObject jsonResponse = new JSONObject(response);
 
                         // Get all the nodes
-                        JSONArray nl = jsonResponse.getJSONArray("services");
+                        JSONArray nl = jsonResponse.getJSONArray("Nodes");
 
                         //Store the nodes
                         ArrayList<NodeDevice> nodesList = new ArrayList<>();
 
                         for (int i = 0; i < nl.length(); i++) {
-                            JSONObject ns = nl.getJSONObject(i);
-                            JSONArray nr = ns.getJSONArray("resources");
-                            JSONObject n = nr.getJSONObject(0);
+                            JSONObject n = nl.getJSONObject(i);
 
                             // Add the node to the UI
-                            String NID = n.getString("node_id");
-                            NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
-
+                            String NID = n.getString("name");
+                            NodeType nodeType = NodeType.getType(NID);
                             // TODO: Change NID to real Office
-
-                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), NID, n.getJSONObject("resourcesnode").getString("path"));
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getString("actuator1_state")), NID, n.getString("node_id"));
                             nodesList.add(newNode);
                         }
 
@@ -171,15 +167,15 @@ public class RESTInterfaceSengen extends RESTInterface {
         } else {
             RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
-    }
 
+    }
 
     /**
      * Toggle the node given in attribute
      */
     public void toggleNode(final NodeDevice node) {
         // Get the sever address from the preferences
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_DB_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -187,30 +183,31 @@ public class RESTInterfaceSengen extends RESTInterface {
                 server_url = "http://" + server_url;
             }
 
-            final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=sengen&status=" + node.getmType().getToggleStatus(node.getmStatus());
-            Log.d("URL", url);
+            final String new_status = Integer.toString(node.getmType().getSengenStatus(node.getmType().getToggleStatus(node.getmStatus())));
+            final String url = server_url + "/api/updateActuator1Status.php?name=" + node.getmNID() + "&status=" + new_status;
 
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("SENGEN", response);
+                    Log.d("HTTP", response);
 
-                    if (response.equals("ERROR")) {
-                        RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
+                    if (response.contains("Success")) {
+                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(new_status), node.getmOffice(), node.getPath()));
                     } else {
-                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice(), node.getPath()));
+                        RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     //Update the UI with the error message
-                    Log.e("HTTP", "Error connecting to server address " + url);
+                    Log.d("HTTP", "Error connecting to server address " + url);
                     RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
 
             mRequestQueue.add(request);
+
         } else {
             RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }

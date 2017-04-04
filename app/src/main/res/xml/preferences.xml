@@ -23,7 +23,7 @@
     <PreferenceCategory android:title="@string/pref_header_server" />
 
     <ListPreference
-        android:defaultValue="sengen"
+        android:defaultValue="syndesi"
         android:entries="@array/pref_server_type_titles"
         android:entryValues="@array/pref_server_type_values"
         android:key="PREF_SERVER_TYPE"
@@ -31,11 +31,11 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_server_type" />
 
-    <EditTextPreference
+<!--    <EditTextPreference
         android:defaultValue="@string/pref_default_syndesi_address"
         android:key="PREF_SYNDESI_URL"
         android:title="@string/pref_title_syndesi_url"
-        android:dialogMessage="Use this format address:port"/>
+        android:dialogMessage="Use this format address:port"/>-->
 
     <EditTextPreference
         android:defaultValue="@string/pref_default_sengen_server_address"
