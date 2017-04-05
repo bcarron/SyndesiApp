@@ -34,39 +34,19 @@
         <item>sengen</item>
     </string-array>
 
-    <string-array name="pref_sensor_rate_titles">
-        <item>Very fast (10s)</item>
-        <item>Fast (1min)</item>
-        <item>Medium (5min)</item>
-        <item>Slow (10min)</item>
-        <item>Very slow (30min)</item>
-    </string-array>
-    <string-array name="pref_sensor_rate_values">
-        <item>10</item>
-        <item>60</item>
-        <item>300</item>
-        <item>600</item>
-        <item>1800</item>
-    </string-array>
-
-    <string-array name="pref_loc_rate_titles">
+    <string-array name="pref_rate_titles">
         <item>Very fast (1min)</item>
-        <item>Fast (5min)</item>
-        <item>Medium (10min)</item>
+        <item>Fast (2min)</item>
+        <item>Medium (5min)</item>
         <item>Slow (30min)</item>
         <item>Very slow (60min)</item>
     </string-array>
-    <string-array name="pref_loc_rate_values">
-        <item>30</item>
+    <string-array name="pref_rate_values">
         <item>60</item>
         <item>120</item>
-        <item>180</item>
         <item>300</item>
-        <!--<item>60</item>-->
-        <!--<item>300</item>-->
-        <!--<item>600</item>-->
-        <!--<item>1800</item>-->
-        <!--<item>3600</item>-->
+        <item>1800</item>
+        <item>3600</item>
     </string-array>
 
     <string-array name="pref_loc_titles">
