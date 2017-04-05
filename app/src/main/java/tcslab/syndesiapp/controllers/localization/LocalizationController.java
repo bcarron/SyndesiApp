@@ -23,15 +23,17 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     private Context mAppContext;
     private AlarmManager mAlarmManager;
     private PendingIntent mLocalizationLauncher;
-    private long mLocalizationInterval = 300000;
+    private SharedPreferences mSharedPreferences;
+    private int mLocalizationInterval;
 
 
     private LocalizationController(Context appContext) {
         this.mAppContext = appContext;
         mAlarmManager = (AlarmManager) mAppContext.getSystemService(Context.ALARM_SERVICE);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
+        mLocalizationInterval = Integer.parseInt(mSharedPreferences.getString(PreferenceKey.PREF_LOC_RATE.toString(), "300")) * 1000;
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
-        if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+        if (mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
             startLocalization();
         }else{
             stopLocalization();
@@ -52,6 +54,15 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
                 startLocalization();
             } else {
                 stopLocalization();
+            }
+        }
+        else if (key.equals(PreferenceKey.PREF_LOC_RATE.toString())) {
+            mLocalizationInterval = Integer.parseInt(sharedPreferences.getString(PreferenceKey.PREF_LOC_RATE.toString(), "300")) * 1000;
+            Log.d("Localization", Long.toString(mLocalizationInterval));
+            if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+                stopLocalization();
+                startLocalization();
+                Log.d("PREF", "Localization rate changed");
             }
         }
         updateUI();
@@ -79,9 +90,8 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
     private void updateUI(){
         Boolean status;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
 
-        status = sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false);
+        status = mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false);
 
         // Send broadcast to update the UI
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
