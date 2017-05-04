@@ -9,12 +9,16 @@
     <string name="loc_scanning">Localization in progress...</string>
     <string name="loc_noperm">Please give this app access to your location in the settings</string>
     <string name="loc_disabled">Enable the localization in the settings</string>
+    <string name="loc_button">Relocate</string>
 
     <string name="server">Server Response</string>
     <string name="connection_no_server_set">Set server address in the settings</string>
     <string name="connection_no_data">No data to send</string>
     <string name="connection_ok">Server OK</string>
     <string name="connection_error">Error connecting to server</string>
+
+    <string name="automation">Automation Status</string>
+    <string name="automation_no_change">Temperature and light levels are good: nothing to do!</string>
 
     <string name="title_activity_account_setup">Account Setup</string>
     <string name="account_setup">Please fill in your information below to set up your account</string>

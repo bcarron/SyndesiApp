@@ -79,6 +79,11 @@ public class UIReceiver extends BroadcastReceiver {
             }else{
                 newOfficeText.setText(mActivity.getString(R.string.loc_scanning));
             }
+        } else if(intent.getAction().equals(BroadcastType.BCAST_TYPE_AUT_STATUS.toString())){
+            String status = intent.getStringExtra(BroadcastType.BCAST_TYPE_AUT_STATUS.toString());
+            int id = intent.getIntExtra(BroadcastType.BCAST_EXTRA_AUT_DISP.toString(), 0);
+            TextView newAutomationText = (TextView) mActivity.findViewById(id);
+            newAutomationText.setText(status);
         } else {
             Float data = intent.getFloatExtra(BroadcastType.BCAST_EXTRA_SENSOR_DATA.toString(), 0);
             SensorData sensorData = new SensorData("", data, intent.getAction());

@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -195,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());
+        filter.addAction(BroadcastType.BCAST_TYPE_AUT_STATUS.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
         //Reset the context on the controllers
