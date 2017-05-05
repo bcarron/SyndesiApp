@@ -55,11 +55,11 @@ public class LocalizationClassifier {
 
     // Bussigny AP MAC address
 /*    private final static String[] mAnchorNodes={
+            "1c:87:2c:67:80:38",
             "1c:87:2c:67:80:3c",
             "88:f7:c7:44:fb:40",
-            "1c:87:2c:67:80:3c",
-            "a4:52:6f:a5:45:11",
-            "4e:66:41:fd:26:47"
+            "08:3e:5d:35:21:29",
+            "f8:df:a8:7a:ed:6d"
     };*/
 
 

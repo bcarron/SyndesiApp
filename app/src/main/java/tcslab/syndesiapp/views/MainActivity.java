@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -174,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }else if(id == R.id.action_controller){
             startActivity(new Intent(this, NodesControllerActivity.class));
+            return true;
+        }else if(id == R.id.action_environment){
+            startActivity(new Intent(this, EnvironmentControlActivity.class));
             return true;
         }
 

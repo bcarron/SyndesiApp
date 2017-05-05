@@ -12,6 +12,15 @@
         android:title="@string/pref_title_sensor_rate" />
 
     <ListPreference
+        android:defaultValue="300"
+        android:entries="@array/pref_rate_titles"
+        android:entryValues="@array/pref_rate_values"
+        android:key="PREF_LOC_RATE"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_loc_rate" />
+
+    <ListPreference
         android:defaultValue="1"
         android:entries="@array/pref_loc_titles"
         android:entryValues="@array/pref_loc_precision"
@@ -23,7 +32,7 @@
     <PreferenceCategory android:title="@string/pref_header_server" />
 
     <ListPreference
-        android:defaultValue="sengen"
+        android:defaultValue="syndesi"
         android:entries="@array/pref_server_type_titles"
         android:entryValues="@array/pref_server_type_values"
         android:key="PREF_SERVER_TYPE"
@@ -31,19 +40,25 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_server_type" />
 
-    <EditTextPreference
+<!--    <EditTextPreference
         android:defaultValue="@string/pref_default_syndesi_address"
         android:key="PREF_SYNDESI_URL"
         android:title="@string/pref_title_syndesi_url"
+        android:dialogMessage="Use this format address:port"/>-->
+
+    <EditTextPreference
+        android:defaultValue="@string/pref_default_sengen_server_address"
+        android:key="PREF_SENGEN_SERVER_URL"
+        android:title="@string/pref_title_sengen_server_url"
         android:dialogMessage="Use this format address:port"/>
 
     <EditTextPreference
-        android:defaultValue="@string/pref_default_sengen_address"
-        android:key="PREF_SENGEN_URL"
-        android:title="@string/pref_title_sengen_url"
+        android:defaultValue="@string/pref_default_sengen_db_address"
+        android:key="PREF_SENGEN_DB_URL"
+        android:title="@string/pref_title_sengen_db_url"
         android:dialogMessage="Use this format address:port"/>
 
-    <PreferenceCategory android:title="@string/pref_header_sensor" />
+    <PreferenceCategory android:title="@string/pref_header_permission" />
 
     <SwitchPreference
         android:defaultValue="false"
@@ -58,5 +73,12 @@
         android:summaryOff="Localization disabled"
         android:summaryOn="Localization enabled"
         android:title="@string/pref_title_loc_perm" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="PREF_AUT_PERM"
+        android:summaryOff="Automation disabled"
+        android:summaryOn="Automation enabled"
+        android:title="@string/pref_title_aut_perm" />
 
 </PreferenceScreen>

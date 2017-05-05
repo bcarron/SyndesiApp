@@ -213,6 +213,10 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     }
 
     public void setmIntervalModifier(Double mIntervalModifier) {
-        this.mIntervalModifier = mIntervalModifier;
+        if(mIntervalModifier != this.mIntervalModifier || this.mStopSensor){
+            this.mIntervalModifier = mIntervalModifier;
+            stopSensing();
+            startSensing();
+        }
     }
 }

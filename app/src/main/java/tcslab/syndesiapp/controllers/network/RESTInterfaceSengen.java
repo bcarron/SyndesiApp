@@ -65,7 +65,7 @@ public class RESTInterfaceSengen extends RESTInterface {
      * @param dataType the type of sensor used to collect the data
      */
     public void sendData(Float data, int dataType) {
-        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_DB_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -111,7 +111,7 @@ public class RESTInterfaceSengen extends RESTInterface {
      */
     public void fetchNodes(final NodeCallback callback) {
         // Get the sever address from the preferences
-        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_DB_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -143,7 +143,7 @@ public class RESTInterfaceSengen extends RESTInterface {
                             String NID = n.getString("name");
                             NodeType nodeType = NodeType.getType(NID);
                             // TODO: Change NID to real Office
-                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getString("actuator1_state")), NID);
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getString("actuator1_state")), NID, n.getString("node_id"));
                             nodesList.add(newNode);
                         }
 
@@ -175,7 +175,7 @@ public class RESTInterfaceSengen extends RESTInterface {
      */
     public void toggleNode(final NodeDevice node) {
         // Get the sever address from the preferences
-        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_DB_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -192,7 +192,7 @@ public class RESTInterfaceSengen extends RESTInterface {
                     Log.d("HTTP", response);
 
                     if (response.contains("Success")) {
-                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(new_status), node.getmOffice()));
+                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(new_status), node.getmOffice(), node.getPath()));
                     } else {
                         RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     }

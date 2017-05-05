@@ -10,12 +10,14 @@ public class NodeDevice {
     private NodeType mType;
     private String mStatus;
     private String mOffice;
+    private String path;
 
-    public NodeDevice(String NID, NodeType type, String status, String office){
+    public NodeDevice(String NID, NodeType type, String status, String office, String path){
         this.mNID = NID;
         this.mType = type;
         this.mStatus = status;
         this.mOffice = office;
+        this.path = path;
     }
 
     public String getmNID() {
@@ -48,5 +50,13 @@ public class NodeDevice {
 
     public void setmOffice(String mOffice) {
         this.mOffice = mOffice;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

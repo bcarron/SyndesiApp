@@ -1,6 +1,7 @@
 package tcslab.syndesiapp.controllers.network;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.android.volley.Request;
@@ -25,19 +26,21 @@ import tcslab.syndesiapp.views.NodesControllerActivity;
 import java.util.ArrayList;
 
 /**
- * Implements a REST service in a singleton class to send data to the Syndesi server.
+ * Implements a REST service in a singleton class to send data to the Sengen DB.
  *
- * Created by Blaise on 04.05.2015.
+ * Created by blais on 23.11.2016.
  */
 public class RESTInterfaceSyndesi extends RESTInterface {
     private static RESTInterfaceSyndesi mInstance;
     private Context mAppContext;
     private RequestQueue mRequestQueue;
     private AccountController mAccountController;
+    private SharedPreferences mPreferences;
 
     public RESTInterfaceSyndesi(Context appContext) {
         this.mAppContext = appContext;
         mRequestQueue = getRequestQueue();
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
         mAccountController = AccountController.getInstance(mAppContext);
     }
 
@@ -62,7 +65,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
      * @param dataType the type of sensor used to collect the data
      */
     public void sendData(Float data, int dataType) {
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
+        String server_url = mPreferences.getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -107,7 +110,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
      */
     public void fetchNodes(final NodeCallback callback) {
         // Get the sever address from the preferences
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -143,8 +146,9 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                             service = service.substring(service.indexOf("service=")+8, service.indexOf("&resource"));
                             NID = service;
                             NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
+
                             // TODO: Change NID to real Office
-                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus("off"), NID);
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), NID, n.getJSONObject("resourcesnode").getString("path"));
                             nodesList.add(newNode);
                         }
 
@@ -168,15 +172,15 @@ public class RESTInterfaceSyndesi extends RESTInterface {
         } else {
             RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
+    }
 
-        }
 
     /**
      * Toggle the node given in attribute
      */
     public void toggleNode(final NodeDevice node) {
         // Get the sever address from the preferences
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -190,12 +194,12 @@ public class RESTInterfaceSyndesi extends RESTInterface {
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("HTTP", response);
+                    Log.d("SENGEN", response);
 
                     if (response.equals("ERROR")) {
                         RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     } else {
-                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice()));
+                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice(), node.getPath()));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -208,6 +212,8 @@ public class RESTInterfaceSyndesi extends RESTInterface {
             });
 
             mRequestQueue.add(request);
+        } else {
+            RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
         }
     }
 
@@ -217,7 +223,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
      * @param account the account to create
      */
     public void createAccount(JSONObject account) {
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.
@@ -255,7 +261,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
      * @param account the account to update
      */
     public void updateAccount(JSONObject account) {
-        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
 
         if (!server_url.equals("")) {
             // Instantiate the RequestQueue.

@@ -6,44 +6,51 @@
 
     <string name="pref_header_general">General</string>
     <string name="pref_header_server">Server</string>
-    <string name="pref_header_sensor">Sensors</string>
+    <string name="pref_header_permission">Permissions</string>
 
     <string name="pref_title_sensor_rate">Sensing rate</string>
+    <string name="pref_title_loc_rate">Localization rate</string>
     <string name="pref_title_loc_precision">Localization precision</string>
-    <string name="pref_title_server_type">Server type</string>
+    <string name="pref_title_server_type">Connection type</string>
     <string name="pref_title_syndesi_url">Syndesi address</string>
-    <string name="pref_title_sengen_url">Sengen address</string>
+    <string name="pref_title_sengen_server_url">WSN Gateway address</string>
+    <string name="pref_title_sengen_db_url">Database address</string>
 
     <string name="pref_title_sensor_perm">Sensors permission</string>
     <string name="pref_title_loc_perm">Localization permission</string>
 
+    <string name="pref_title_aut_perm">Automation permission</string>
 
-    <string name="pref_default_syndesi_address">http://129.194.69.178:8111</string>
-    <string name="pref_default_sengen_address">http://tcstestbed.unige.ch</string>
+
+    <string name="pref_default_syndesi_address">http://129.194.70.52:8111</string>
+    <string name="pref_default_sengen_server_address">http://129.194.69.178:8111</string>
+    <string name="pref_default_sengen_db_address">http://tcstestbed.unige.ch</string>
 
     <string-array name="pref_server_type_titles">
-        <item>Use Sengen DB</item>
-        <item>Use Syndesi server</item>
+        <item>WSN Gateway</item>
+        <item>Database</item>
     </string-array>
+
     <string-array name="pref_server_type_values">
-        <item>sengen</item>
         <item>syndesi</item>
+        <item>sengen</item>
     </string-array>
 
     <string-array name="pref_rate_titles">
-        <item>Very fast (10s)</item>
-        <item>Fast (1min)</item>
+        <item>Very fast (1min)</item>
+        <item>Fast (2min)</item>
         <item>Medium (5min)</item>
-        <item>Slow (10min)</item>
-        <item>Very slow (30min)</item>
+        <item>Slow (30min)</item>
+        <item>Very slow (60min)</item>
     </string-array>
     <string-array name="pref_rate_values">
-        <item>10</item>
         <item>60</item>
+        <item>120</item>
         <item>300</item>
-        <item>600</item>
         <item>1800</item>
+        <item>3600</item>
     </string-array>
+
     <string-array name="pref_loc_titles">
         <item>1 scan</item>
         <item>3 scans</item>

@@ -67,7 +67,7 @@ public enum NodeType {
     alarm{
         @Override
         public int getIcon(String status){
-            if(status.equals("up")){
+            if(status.equals("on")){
                 return R.drawable.node_alarm_on;
             }else{
                 return R.drawable.node_alarm_off;

@@ -12,8 +12,8 @@ import tcslab.syndesiapp.controllers.sensor.SensorController;
  * Created by blaise on 23.02.2017.
  */
 public class PowerController extends IntentService {
-    public SensorController sensorController;
-    public LocalizationController localizationController;
+    private SensorController sensorController;
+    private LocalizationController localizationController;
 
     public PowerController() {
         super("PowerController");
@@ -41,22 +41,23 @@ public class PowerController extends IntentService {
         if (isCharging){
             // Set max sensing rate
             sensorController.setmIntervalModifier(1.0);
-            sensorController.startSensing();
+            localizationController.setmIntervalModifier(1.0);
         }else{
-            if (batteryPct > 0.6){
+            if (batteryPct > 0.5){
                 // Set max sensing rate
                 sensorController.setmIntervalModifier(1.0);
-                sensorController.startSensing();
+                localizationController.setmIntervalModifier(1.0);
             }else if (batteryPct > 0.2){
                 // Reduce sensing rate by half
                 sensorController.setmIntervalModifier(2.0);
-                sensorController.startSensing();
+                localizationController.setmIntervalModifier(2.0);
             }else{
                 // Stop sensing
                 sensorController.stopSensing();
+                localizationController.stopLocalization();
             }
         }
 
-        Log.d("Battery", "Current level: " + Float.toString(batteryPct) + ", charging: " + Boolean.toString(isCharging));
+        Log.d("Power", "Current level: " + Float.toString(batteryPct) + ", charging: " + Boolean.toString(isCharging));
     }
 }

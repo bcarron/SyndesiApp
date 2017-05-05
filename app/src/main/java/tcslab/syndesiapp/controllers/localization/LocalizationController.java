@@ -23,19 +23,28 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     private Context mAppContext;
     private AlarmManager mAlarmManager;
     private PendingIntent mLocalizationLauncher;
-    // TODO: change default localization interval with preference
-    private long mLocalizationInterval = 300000;
+    private SharedPreferences mSharedPreferences;
+    private double mIntervalModifier;
+    private boolean mAlarmIsSet;
+    private boolean mStopLocalization;
 
 
     private LocalizationController(Context appContext) {
         this.mAppContext = appContext;
         mAlarmManager = (AlarmManager) mAppContext.getSystemService(Context.ALARM_SERVICE);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
-        if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
-            startLocalization();
+        // Set up default interval modifier
+        mIntervalModifier = 1;
+
+        // Default values at startup
+        mAlarmIsSet = false;
+        mStopLocalization = false;
+
+        if (mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+            enableLocalization();
         }else{
-            stopLocalization();
+            disableLocalization();
         }
     }
 
@@ -50,37 +59,68 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(PreferenceKey.PREF_LOC_PERM.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
-                startLocalization();
+                enableLocalization();
             } else {
-                stopLocalization();
+                disableLocalization();
+            }
+        }
+        else if (key.equals(PreferenceKey.PREF_LOC_RATE.toString())) {
+            if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+                disableLocalization();
+                enableLocalization();
+                Log.d("PREF", "Localization rate changed");
             }
         }
         updateUI();
     }
 
-    private void startLocalization(){
+    private void enableLocalization(){
         // Launch Service for the localization
-        Intent localizationIntent = new Intent(mAppContext, WifiService.class);
-        mLocalizationLauncher = PendingIntent.getService(mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + mLocalizationInterval, mLocalizationInterval, mLocalizationLauncher);
-        mAppContext.startService(localizationIntent);
+        if(!mAlarmIsSet && !mStopLocalization) {
+            Intent localizationIntent = new Intent(mAppContext, WifiService.class);
+            mLocalizationLauncher = PendingIntent.getService(mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            int baseInterval = Integer.parseInt(mSharedPreferences.getString(PreferenceKey.PREF_LOC_RATE.toString(), "300"));
+            int interval = (int) (baseInterval * mIntervalModifier * 1000);
+            Log.d("Localization", Integer.toString(interval));
+            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval, interval, mLocalizationLauncher);
+            mAppContext.startService(localizationIntent);
 
-        Log.d("PREF", "Localization enabled");
+            mAlarmIsSet = true;
+
+            Log.d("PREF", "Localization enabled");
+        }
     }
 
 
-    private void stopLocalization(){
+    private void disableLocalization(){
         // Stop the service for localization
-        mAlarmManager.cancel(mLocalizationLauncher);
+        if(mLocalizationLauncher != null){
+            mAlarmManager.cancel(mLocalizationLauncher);
+        }
+
+        mAlarmIsSet = false;
 
         Log.d("PREF", "Localization disabled");
     }
 
+    public void startLocalization(){
+        mStopLocalization = false;
+
+        if (mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+            enableLocalization();
+        }
+    }
+
+    public void stopLocalization(){
+        // Prevent localization to be enabled by change in preferences
+        mStopLocalization = true;
+        disableLocalization();
+    }
+
     private void updateUI(){
         Boolean status;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
 
-        status = sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false);
+        status = mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false);
 
         // Send broadcast to update the UI
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
@@ -91,5 +131,13 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     public void setmAppContext(Context mAppContext) {
         this.mAppContext = mAppContext;
         updateUI();
+    }
+
+    public void setmIntervalModifier(Double mIntervalModifier) {
+        if(mIntervalModifier != this.mIntervalModifier || this.mStopLocalization){
+            this.mIntervalModifier = mIntervalModifier;
+            stopLocalization();
+            startLocalization();
+        }
     }
 }
