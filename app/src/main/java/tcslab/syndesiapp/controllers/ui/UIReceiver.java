@@ -10,12 +10,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import org.w3c.dom.Node;
 import tcslab.syndesiapp.R;
+import tcslab.syndesiapp.controllers.automation.AutomationStatus;
 import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.models.BroadcastType;
+import tcslab.syndesiapp.models.NodeType;
 import tcslab.syndesiapp.models.PreferenceKey;
 import tcslab.syndesiapp.models.SensorData;
+import tcslab.syndesiapp.views.EnvironmentControlActivity;
 import tcslab.syndesiapp.views.MainActivity;
+
+import java.util.Date;
 
 /**
  * Updates the user interface by receiving local broadcasts from controllers and services.
@@ -80,10 +86,15 @@ public class UIReceiver extends BroadcastReceiver {
                 newOfficeText.setText(mActivity.getString(R.string.loc_scanning));
             }
         } else if(intent.getAction().equals(BroadcastType.BCAST_TYPE_AUT_STATUS.toString())){
-            String status = intent.getStringExtra(BroadcastType.BCAST_TYPE_AUT_STATUS.toString());
-            int id = intent.getIntExtra(BroadcastType.BCAST_EXTRA_AUT_DISP.toString(), 0);
-            TextView newAutomationText = (TextView) mActivity.findViewById(id);
-            newAutomationText.setText(status);
+            String office = intent.getStringExtra(BroadcastType.BCAST_EXTRA_AUT_OFFICE.toString());
+            String message = intent.getStringExtra(BroadcastType.BCAST_EXTRA_AUT_MESSAGE.toString());
+            String nodeType = intent.getStringExtra(BroadcastType.BCAST_EXTRA_AUT_TYPE.toString());
+            String status = intent.getStringExtra(BroadcastType.BCAST_EXTRA_AUT_STATUS.toString());
+            AutomationStatus automationStatus = new AutomationStatus(office, message, NodeType.getType(nodeType), status, new Date());
+
+            // Add message
+            ((EnvironmentControlActivity) mActivity).addMessage(automationStatus);
+
         } else {
             Float data = intent.getFloatExtra(BroadcastType.BCAST_EXTRA_SENSOR_DATA.toString(), 0);
             SensorData sensorData = new SensorData("", data, intent.getAction());

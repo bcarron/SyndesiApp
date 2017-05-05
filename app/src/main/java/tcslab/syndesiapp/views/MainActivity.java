@@ -176,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
         }else if(id == R.id.action_controller){
             startActivity(new Intent(this, NodesControllerActivity.class));
             return true;
+        }else if(id == R.id.action_environment){
+            startActivity(new Intent(this, EnvironmentControlActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -196,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());
-        filter.addAction(BroadcastType.BCAST_TYPE_AUT_STATUS.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(mUiReceiver, filter);
 
         //Reset the context on the controllers

@@ -3,39 +3,30 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_b2eac0047611f8b128571d858d28a55eccb00f05\classes.dex" />
+        sha1="26c6eef571592c91f29e56fda0bac73321de0c92">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-25.0.1_18a62aa8e546947159b0c11ce49c5640b5a907fc\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.0\jars\classes.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.1\jars\libs\internal_impl-25.0.1.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="26674000177e45447a0326a6ad84612761199a13">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.0.0_7712d8fccb6aee7fb99b01450cc8c0cda1577d57\classes.dex" />
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.1_614840fea9922a7a324a0269b5d6727de6e33483\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.0.0\jars\classes.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\design\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.0.0_40ff46f0736f135622960e6c60b0d2ce287bed55\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.0\jars\libs\internal_impl-25.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_494887a4fa75489fe983a137a3c1aaa43f4f6725\classes.dex" />
+        sha1="3b236883e0df6002cabb01ce57d00a5b1e5de610">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-25.0.1_8c87105cdb88da67815947f26105358ba3173040\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -43,26 +34,17 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="a23fb5178ec473c2ce0960b4f7f4843b4bbbccaa">
+        sha1="fbd2ce76ca243f4b2deb0cef886d92a97e593e6b">
         <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_325c32021d15a75368273c8041f3bc726b2c8fef\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\AppData\Local\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\25.0.0\support-annotations-25.0.0.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.0.0_8e081c012fbb09b04069725947a7aee454a8cb1c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.0.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.0.0_d473b9233dc3aae75d9d4ff3f9211d8181cfe25a\classes.dex" />
+        sha1="bc7e99e8d0fc279a05aa91378530f467ad62d443">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.0.1_742c8c784ac78743bf2bb2bad1cd80eaf2cf77cc\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -75,75 +57,75 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.0.0\jars\classes.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-25.0.0_efd8f3a5a109bf87735061ffeb5e4f9aacaf9def\classes.dex" />
+        sha1="772bed2d992b67b9d0327f766cc95cd63031dcd3">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.0.1_8ba1e9efcb2b51a36f962a23eb238f30089502ae\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.0\jars\classes.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.0.0_65904c599e3fc456a5ca619bf36cc14c45fba3e9\classes.dex" />
+        sha1="297d4bcf6ed4e747a1bf7d0d094a2d911a8d3a8e">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-25.0.1_e374788ff17c4b42f492da0dd30a110ae9a2a14d\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.0\jars\classes.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.0.0_5fa2ba156a341d2bf3ee20d2b8c45d1bb3b8c2f9\classes.dex" />
+        sha1="51eba4a4dd73044f90a9d58dd7ca34adbebfcf4e">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.0.1_c22a7ff132e30ec8e5aaaa5fcc758e7a846951f4\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.0.0\jars\classes.jar"
+        jar="C:\Users\blais\AppData\Local\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\25.0.1\support-annotations-25.0.1.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.0.0_37958744c164b15782b941567dea46f89e2e1c20\classes.dex" />
+        sha1="a09194311f8f89c3e6db09d79f50897a889d615e">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.0.1_0c8f3509a4ca6fdf1c1f1ca70b3c90348695c28f\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_f73554e1aeef84f898c870c2bc10425e71ce0285\classes.dex" />
+        sha1="f7ac4b327fdb9e2ee386f5adc46164927658de4b">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.0.1_e6708582cf112671089d170c639a9e575a7fc8b1\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.0\jars\classes.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.1\jars\libs\internal_impl-25.0.1.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-25.0.0_cbeaa0a5ea3c0b564d3575a54da360be7a5945e7\classes.dex" />
+        sha1="c5b7145fb34779b6639147b8f2f8dd77c0db771b">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.1_98b4b42241b7d033eaa2b6a0864336226d23d5e8\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.0\jars\classes.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-25.0.0_fca53c997f43addeeb08469c20d349eb76861e20\classes.dex" />
+        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.0.1_7f2980c3d8206ced95c50a63ca029634bed5d5c3\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\transition\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_646f1884322cbb1fe3ed5def969971ba4e89bf9f\classes.dex" />
+        sha1="c1b6ab157e8e12cb08b9ee82bb5e3c5d22632eb3">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-transition-25.0.1_a7b8132dc413770e226bc4037effea52b2d3d949\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -156,21 +138,66 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f83b00041ecfba705603fec40363416c7de69719">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.1_7f2426aa4806fa88af62fb3cbaf3a26d3cf1674a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c0bd6ffb002a85b5e7cad29f8558d1cc59539679">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.1_6ec1168842ff79e19eda1af8ec52b686ecc2385b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.1_975a8951686c99203a22175106ec36a057c0e0df\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="04c86d4fb1c84b2b5b9e020de35a1ff6e8d6ece3">
+        sha1="180a74783f1c62818345441c66b9ff7389b09bda">
         <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_6f4ed65a3f23f940eb8dfac82a89979f4e233aee\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
-        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.0_eb424e0948fba6b93fd49c748ad214805e37dd99\classes.dex" />
+        sha1="b24e1c688744078e1fa833ffadf696794761bbe5">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.0.1_76d04f9607c22d954eeceddf0fbf5ad16c55476a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-25.0.1_15cffbb6cf7545fa73a2e23608a5ce4d95455cf1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6a1479afe9f1b3645e1cd9a87318976893472818">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-25.0.1_6075d5d143c69981ccd20e1a17941071ad8ca306\classes.dex" />
     </item>
 
 </items>

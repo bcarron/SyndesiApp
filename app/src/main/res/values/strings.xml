@@ -17,20 +17,17 @@
     <string name="connection_ok">Server OK</string>
     <string name="connection_error">Error connecting to server</string>
 
+    <string name="action_environment">Environment Control</string>
+    <string name="title_environment">Environment Control</string>
     <string name="automation">Automation Status</string>
     <string name="automation_no_change">Temperature and light levels are good: nothing to do!</string>
 
-    <string name="title_activity_account_setup">Account Setup</string>
-    <string name="account_setup">Please fill in your information below to set up your account</string>
-    <string name="account_setup_empty_fields">Please fill in all the fields</string>
-    <string name="account_setup_acc_created">Account created</string>
-    <string name="account_setup_acc_updated">Account updated</string>
-    <string name="form_name">Name</string>
-    <string name="form_surname">Surname</string>
-    <string name="form_office">Office number</string>
+    <string name="preferences_saved">Preferences saved</string>
+    <string name="preferences_empty_fields">Please fill in all the fields!</string>
+    <string name="pref_title">Preferences</string>
     <string name="form_light_target">Preferred light level</string>
     <string name="form_temp_target">Preferred temperature</string>
-    <string name="form_submit_button">Submit</string>
+    <string name="form_save_button">Save</string>
 
     <string name="action_controller">Nodes Manager</string>
     <string name="title_controller">Nodes Manager</string>

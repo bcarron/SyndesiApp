@@ -34,7 +34,7 @@ public class NodesControllerActivity extends AppCompatActivity implements NodeCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Set the layout
-        setContentView(R.layout.activity_controller);
+        setContentView(R.layout.nodes_controller);
         //Set the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
