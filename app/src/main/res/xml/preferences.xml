@@ -58,7 +58,7 @@
         android:title="@string/pref_title_sengen_db_url"
         android:dialogMessage="Use this format address:port"/>
 
-    <PreferenceCategory android:title="@string/pref_header_sensor" />
+    <PreferenceCategory android:title="@string/pref_header_permission" />
 
     <SwitchPreference
         android:defaultValue="false"
@@ -73,5 +73,12 @@
         android:summaryOff="Localization disabled"
         android:summaryOn="Localization enabled"
         android:title="@string/pref_title_loc_perm" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="PREF_AUT_PERM"
+        android:summaryOff="Automation disabled"
+        android:summaryOn="Automation enabled"
+        android:title="@string/pref_title_aut_perm" />
 
 </PreferenceScreen>

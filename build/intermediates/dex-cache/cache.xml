@@ -34,7 +34,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="fbd2ce76ca243f4b2deb0cef886d92a97e593e6b">
+        sha1="442e2dd781492b182b4c32d3a1cfe5f4a4f4a543">
         <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_325c32021d15a75368273c8041f3bc726b2c8fef\classes.dex" />
     </item>
     <item
@@ -169,7 +169,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="180a74783f1c62818345441c66b9ff7389b09bda">
+        sha1="4970233fb51bcbf887c431873351f907747985e6">
         <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_6f4ed65a3f23f940eb8dfac82a89979f4e233aee\classes.dex" />
     </item>
     <item

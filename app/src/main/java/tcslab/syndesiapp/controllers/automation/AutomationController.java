@@ -26,7 +26,7 @@ public class AutomationController extends ContextWrapper implements NodeCallback
     private static AutomationController mInstance;
     private RESTInterface restInterface;
     private SensorController mSensorController;
-    private SharedPreferences mAccountPref;
+    private SharedPreferences mSharedPreferences;
     private ArrayList<NodeDevice> mNodeList;
     private String mCurrentPosition;
 
@@ -35,9 +35,10 @@ public class AutomationController extends ContextWrapper implements NodeCallback
 
         restInterface = RESTInterface.getInstance(this);
         mSensorController = SensorController.getInstance(null);
-        mAccountPref = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mNodeList = new ArrayList<>();
 
+        // Get all the nodes connected to the server
         restInterface.fetchNodes(this);
     }
 
@@ -49,19 +50,24 @@ public class AutomationController extends ContextWrapper implements NodeCallback
     }
 
     public void updatePosition(String newPosition){
+        Boolean perm = mSharedPreferences.getBoolean(PreferenceKey.PREF_AUT_PERM.toString(), false);
         if(mCurrentPosition != null && !mCurrentPosition.equals(newPosition)) {
-            enterOffice(newPosition);
-            leaveOffice(mCurrentPosition);
+            if(perm){
+                enterOffice(newPosition);
+                leaveOffice(mCurrentPosition);
+            }
         }
 
         mCurrentPosition = newPosition;
 
-        automation();
+        if(perm){
+            automation();
+        }
     }
 
     public void automation(){
-        Float targetLight = mAccountPref.getFloat(PreferenceKey.PREF_TARGET_LIGHT.toString(), 250);
-        Float targetTemp = mAccountPref.getFloat(PreferenceKey.PREF_TARGET_TEMP.toString(), 22);
+        Float targetLight = mSharedPreferences.getFloat(PreferenceKey.PREF_TARGET_LIGHT.toString(), 250);
+        Float targetTemp = mSharedPreferences.getFloat(PreferenceKey.PREF_TARGET_TEMP.toString(), 22);
 
         Float temperature = mSensorController.getmLastSensorValues().get(Sensor.TYPE_AMBIENT_TEMPERATURE);
         Float illuminance = mSensorController.getmLastSensorValues().get(Sensor.TYPE_LIGHT);
