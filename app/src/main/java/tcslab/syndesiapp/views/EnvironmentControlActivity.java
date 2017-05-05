@@ -17,6 +17,7 @@ import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.controllers.automation.AutomationAdapter;
 import tcslab.syndesiapp.controllers.ui.UIReceiver;
 import tcslab.syndesiapp.models.BroadcastType;
+import tcslab.syndesiapp.models.NodeType;
 import tcslab.syndesiapp.models.PreferenceKey;
 
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ import java.util.Date;
  */
 public class EnvironmentControlActivity extends AppCompatActivity {
     private UIReceiver uiReceiver;
-    private SharedPreferences.Editor mAccountPrefEditor;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor msharedPrefEditor;
     private AutomationAdapter mAutomationAdapter;
     private ArrayList<AutomationStatus> mMessages;
     private Handler mHandler;
@@ -48,12 +50,12 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Account preferences
-        SharedPreferences accountPref = PreferenceManager.getDefaultSharedPreferences(this);
-        mAccountPrefEditor = accountPref.edit();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        msharedPrefEditor = mSharedPreferences.edit();
 
         // Set stored preferences
-        Float targetLight = accountPref.getFloat(PreferenceKey.PREF_TARGET_LIGHT.toString(), 250);
-        Float targetTemp = accountPref.getFloat(PreferenceKey.PREF_TARGET_TEMP.toString(), 22);
+        Float targetLight = mSharedPreferences.getFloat(PreferenceKey.PREF_TARGET_LIGHT.toString(), 250);
+        Float targetTemp = mSharedPreferences.getFloat(PreferenceKey.PREF_TARGET_TEMP.toString(), 22);
         ((EditText) findViewById(R.id.light_target)).setText(targetLight.toString());
         ((EditText) findViewById(R.id.temp_target)).setText(targetTemp.toString());
 
@@ -71,6 +73,14 @@ public class EnvironmentControlActivity extends AppCompatActivity {
 
         // Updates the location
         relocate(new View(this));
+
+        if (!mSharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
+            addMessage(new AutomationStatus("", this.getString(R.string.sensors_disabled), NodeType.alarm, "on", new Date(System.currentTimeMillis() * 2)));
+        }
+
+        if (!mSharedPreferences.getBoolean(PreferenceKey.PREF_AUT_PERM.toString(), false)) {
+            addMessage(new AutomationStatus("", this.getString(R.string.automation_disabled), NodeType.alarm, "on", new Date(System.currentTimeMillis() * 2)));
+        }
     }
 
     //Life cycle management
@@ -97,7 +107,7 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         mHandler.removeCallbacks(mRefreshUI);
     }
 
-    public void checkMessages(){
+    private void checkMessages(){
         for(int i = 0; i < mMessages.size(); i++) {
             AutomationStatus currentStatus = mMessages.get(i);
             if(currentStatus.getmTimestamp().before(new Date(System.currentTimeMillis() - 30 * 1000))){
@@ -126,8 +136,12 @@ public class EnvironmentControlActivity extends AppCompatActivity {
     }
 
     public void relocate(View v){
-        Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
-        startService(new Intent(this, WifiService.class));
+        if (mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
+            Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
+            startService(new Intent(this, WifiService.class));
+        } else {
+            addMessage(new AutomationStatus("", this.getString(R.string.loc_disabled), NodeType.alarm, "on", new Date(System.currentTimeMillis() * 2)));
+        }
     }
 
     public void savePreferences(View v){
@@ -138,8 +152,8 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         String targetTemp = tempText.getText().toString();
 
         if(!targetLight.equals("") && !targetTemp.equals("")){
-            mAccountPrefEditor.putFloat(PreferenceKey.PREF_TARGET_LIGHT.toString(), Float.parseFloat(targetLight)).apply();
-            mAccountPrefEditor.putFloat(PreferenceKey.PREF_TARGET_TEMP.toString(), Float.parseFloat(targetTemp)).apply();
+            msharedPrefEditor.putFloat(PreferenceKey.PREF_TARGET_LIGHT.toString(), Float.parseFloat(targetLight)).apply();
+            msharedPrefEditor.putFloat(PreferenceKey.PREF_TARGET_TEMP.toString(), Float.parseFloat(targetTemp)).apply();
             Toast.makeText(this, R.string.preferences_saved, Toast.LENGTH_LONG).show();
         }else{
             Toast.makeText(this, R.string.preferences_empty_fields, Toast.LENGTH_LONG).show();
@@ -147,6 +161,7 @@ public class EnvironmentControlActivity extends AppCompatActivity {
     }
 
     private class RefreshMessages implements Runnable{
+        @Override
         public void run(){
             checkMessages();
             mHandler.postDelayed(this, mRefreshDelay);

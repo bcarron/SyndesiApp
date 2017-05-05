@@ -21,6 +21,8 @@
     <string name="title_environment">Environment Control</string>
     <string name="automation">Automation Status</string>
     <string name="automation_no_change">Temperature and light levels are good: nothing to do!</string>
+    <string name="automation_disabled">Enable the automation in the settings</string>
+
 
     <string name="preferences_saved">Preferences saved</string>
     <string name="preferences_empty_fields">Please fill in all the fields!</string>
