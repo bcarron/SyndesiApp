@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Controls the nodes connected to the system.
+ * Controls the environment.
  *
- * Created by Blaise on 31.05.2015.
+ * Created by Blaise on 04.05.2017.
  */
 public class EnvironmentControlActivity extends AppCompatActivity {
     private UIReceiver uiReceiver;

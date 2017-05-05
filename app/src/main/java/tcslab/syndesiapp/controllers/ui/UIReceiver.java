@@ -74,7 +74,7 @@ public class UIReceiver extends BroadcastReceiver {
                 relocateBtn.setVisibility(View.VISIBLE);
             }else{
                 newOfficeText.setText(mActivity.getString(R.string.loc_disabled));
-                relocateBtn.setVisibility(View.INVISIBLE);
+                relocateBtn.setVisibility(View.GONE);
             }
         } else if(intent.getAction().equals(BroadcastType.BCAST_TYPE_LOC_POSITION.toString())){
             String office = intent.getStringExtra(BroadcastType.BCAST_EXTRA_LOC_OFFICE.toString());
