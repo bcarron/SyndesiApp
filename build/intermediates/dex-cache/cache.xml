@@ -2,15 +2,6 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="bc7e99e8d0fc279a05aa91378530f467ad62d443">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-support-core-ui-25.0.1_dcfbe3133532afb6c9a43391f951462723bc9584.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.1/jars/classes.jar"
         jumboMode="true"
@@ -18,15 +9,6 @@
         revision="25.0.0"
         sha1="c1b6ab157e8e12cb08b9ee82bb5e3c5d22632eb3">
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.0.1_bb2cf559d251ccbaaf998c93f779f01d1d7077d7/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/internal_impl-25.0.1_2c0f52ebdd58944c92eb1fac863b7d6990f3c3f6.jar" />
     </item>
     <item
         is-multidex="true"
@@ -56,15 +38,6 @@
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.1_dcfbe3133532afb6c9a43391f951462723bc9584/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-support-core-utils-25.0.1_a54e7bde45cad24655de674b47d00fa4f5099b73.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar"
         jumboMode="true"
@@ -83,24 +56,6 @@
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.0.1_cd9af39dd8c79cfca4a5eff2f440fb4b563dea02/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="6a1479afe9f1b3645e1cd9a87318976893472818">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-support-media-compat-25.0.1_cd9af39dd8c79cfca4a5eff2f440fb4b563dea02.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c1b6ab157e8e12cb08b9ee82bb5e3c5d22632eb3">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-transition-25.0.1_bb2cf559d251ccbaaf998c93f779f01d1d7077d7.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/design/25.0.1/jars/classes.jar"
         jumboMode="true"
@@ -108,24 +63,6 @@
         revision="25.0.0"
         sha1="3b236883e0df6002cabb01ce57d00a5b1e5de610">
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.0.1_5c50f6c25f5591ea562fbfa48e29c8d5b57e58c5/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/design/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="3b236883e0df6002cabb01ce57d00a5b1e5de610">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-design-25.0.1_5c50f6c25f5591ea562fbfa48e29c8d5b57e58c5.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="26c6eef571592c91f29e56fda0bac73321de0c92">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-support-fragment-25.0.1_bdedc8fa00f9cb09a03c97442beb8a287c2976d6.jar" />
     </item>
     <item
         is-multidex="true"
@@ -137,15 +74,6 @@
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/2/volley_cf528197ce9fd71666a926cdae7e925434d4d395/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/libs/volley.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d4aaa36e04ee71a83444f8367c97a46fda662d2c">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/volley_cf528197ce9fd71666a926cdae7e925434d4d395.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/classes.jar"
         jumboMode="true"
@@ -155,31 +83,13 @@
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.0.1_bdedc8fa00f9cb09a03c97442beb8a287c2976d6/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c0bd6ffb002a85b5e7cad29f8558d1cc59539679">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/internal_impl-25.0.1_f1701b8453d5009ffb9dfa07ab4400ed35fbe5b5.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="713629168c7c06f95a2d04e366d4628b235d1a2f">
+        sha1="b1cf8e0487ef78b9c9ea4124461f43b4bcb8e5df">
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_dcbd383e2b0d90767e78de4ed9f9e02123bf91b1/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-support-v4-25.0.1_c19a139d7c387ed30e610299511237cad79ca3eb.jar" />
     </item>
     <item
         is-multidex="true"
@@ -198,24 +108,6 @@
         revision="25.0.0"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.0.1_c19a139d7c387ed30e610299511237cad79ca3eb/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="f7ac4b327fdb9e2ee386f5adc46164927658de4b">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-appcompat-v7-25.0.1_63c53be686a51fee41c6285512715ea8def6a8cb.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/internal_impl-25.0.1_bde5ab89dc03654ea2f50bc41ed6e68c370485e4.jar" />
     </item>
     <item
         is-multidex="true"
@@ -245,15 +137,6 @@
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_9c1ac1777489debabbee0280e475b965ca14c203/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="f83b00041ecfba705603fec40363416c7de69719">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/internal_impl-25.0.1_9c1ac1777489debabbee0280e475b965ca14c203.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/blaise/IdeaProjects/SyndesiApp/app/libs/gson-2.3.1.jar"
         jumboMode="true"
@@ -261,15 +144,6 @@
         revision="25.0.0"
         sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/2/gson-2.3.1_ada319d48b3facf4d03f84854eb92c721b46d91c/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="51eba4a4dd73044f90a9d58dd7ca34adbebfcf4e">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-support-compat-25.0.1_e8860577149dc63f3194b0a77b7609dcbd41e748.jar" />
     </item>
     <item
         is-multidex="true"
@@ -286,17 +160,8 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="716a05b4365ecd50a77ada4853a13266a2df83c5">
+        sha1="167fad0d3f7f56a2ed51a386d5441b72a5d046c7">
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_daad22567af7becc9fcf33545ce534f81add66bf/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="b24e1c688744078e1fa833ffadf696794761bbe5">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-support-vector-drawable-25.0.1_7f8e37801f24087e424998f46f63ee72dee7626e.jar" />
     </item>
     <item
         is-multidex="true"
@@ -308,24 +173,6 @@
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.1_b2fd4c5a022e3bee80582d10032828f8df566b84/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/libs/gson-2.3.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/gson-2.3.1_ada319d48b3facf4d03f84854eb92c721b46d91c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/Android/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/25.0.1/support-annotations-25.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="a09194311f8f89c3e6db09d79f50897a889d615e">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/support-annotations-25.0.1_b2fd4c5a022e3bee80582d10032828f8df566b84.jar" />
-    </item>
-    <item
         is-multidex="true"
         jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/jars/classes.jar"
         jumboMode="true"
@@ -333,15 +180,6 @@
         revision="25.0.0"
         sha1="b24e1c688744078e1fa833ffadf696794761bbe5">
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.1_7f8e37801f24087e424998f46f63ee72dee7626e/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="297d4bcf6ed4e747a1bf7d0d094a2d911a8d3a8e">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-recyclerview-v7-25.0.1_1fd23c7a85366d3bf0dbf1831ffdf0be3f39e6d5.jar" />
     </item>
     <item
         is-multidex="true"
@@ -360,33 +198,6 @@
         revision="25.0.0"
         sha1="297d4bcf6ed4e747a1bf7d0d094a2d911a8d3a8e">
         <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.0.1_1fd23c7a85366d3bf0dbf1831ffdf0be3f39e6d5/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/SyndesiApp/openCVLibrary310/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="b9f105aa966feb92ea2337ed21f2fd82d15ceba6">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/SyndesiApp-openCVLibrary310-unspecified_9f558228e8ebf4f86f8d3f4078f4a087fa9dc938.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="772bed2d992b67b9d0327f766cc95cd63031dcd3">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/com.android.support-animated-vector-drawable-25.0.1_310619b097a807f8a5f0ff4264d1dd1e072826c2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c5b7145fb34779b6639147b8f2f8dd77c0db771b">
-        <dex dex="/Users/blaise/IdeaProjects/SyndesiApp/app/build/intermediates/pre-dexed/release/internal_impl-25.0.1_1ba69846b33d782c3185041a8bb0ccf0d7892a92.jar" />
     </item>
 
 </items>

@@ -80,8 +80,9 @@ public class AutomationController extends ContextWrapper implements NodeCallback
             updateUI(mCurrentPosition, "Illuminance way too high: bringing down the curtains!", NodeType.curtain, "down");
             toggleNodes(NodeType.curtain, mCurrentPosition, "up");
         }else if(illuminance != null && illuminance < targetLight - 10){
-            updateUI(mCurrentPosition, "Illuminance too low: turning some lights on!", NodeType.bulb, "on");
-            toggleNodes(NodeType.bulb, mCurrentPosition, "off");
+
+            updateUI(mCurrentPosition, "Temperature too low: turning some fans off!", NodeType.fan, "off");
+            toggleNodes(NodeType.fan, mCurrentPosition, "on");
         }else if(illuminance != null && illuminance < targetLight - 100){
             updateUI(mCurrentPosition, "Illuminance way too low: bringing up the curtains!", NodeType.curtain, "up");
             toggleNodes(NodeType.curtain, mCurrentPosition, "down");

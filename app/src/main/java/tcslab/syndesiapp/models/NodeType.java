@@ -126,7 +126,7 @@ public enum NodeType {
     public static NodeType getType(String device){
         if (device.contains("bulb")) {
             return NodeType.bulb;
-        } else if (device.contains("curtain")) {
+        } else if (device.contains("curt")) {
             return NodeType.curtain;
         } else if (device.contains("light")) {
             return NodeType.light;

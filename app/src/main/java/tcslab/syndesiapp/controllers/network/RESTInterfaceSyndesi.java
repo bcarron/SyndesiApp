@@ -25,6 +25,8 @@ import tcslab.syndesiapp.views.NodesControllerActivity;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.max;
+
 /**
  * Implements a REST service in a singleton class to send data to the Sengen DB.
  *
@@ -143,12 +145,21 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                             // Add the node to the UI
                             String NID = n.getString("node_id");
                             String service = n.getJSONObject("resourcesnode").getString("path");
-                            service = service.substring(service.indexOf("service=")+8, service.indexOf("&resource"));
+                            service = service.substring(service.indexOf("service=")+8, max(service.indexOf("&resource"),service.length()));
                             NID = service;
+                            // TODO: Change office
+                            String office = String.valueOf(service.charAt(3));
+                            if(office.equals("A"))
+                                office = "1.0";
+                            else if(office.equals("B"))
+                                office = "2.0";
+                            else if(office.equals("C"))
+                                office = "3.0";
+                            else if(office.equals("D"))
+                                office = "4.0";
                             NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
 
-                            // TODO: Change NID to real Office
-                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), NID, n.getJSONObject("resourcesnode").getString("path"));
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), office, n.getJSONObject("resourcesnode").getString("path"));
                             nodesList.add(newNode);
                         }
 

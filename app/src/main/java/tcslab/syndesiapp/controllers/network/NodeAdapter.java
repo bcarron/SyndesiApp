@@ -36,7 +36,7 @@ public class NodeAdapter extends ArrayAdapter<NodeDevice> {
         ImageView image = (ImageView) nodeView.findViewById(R.id.node_icon);
 
         NodeDevice node = mNodesList.get(position);
-        label.setText(node.getmNID());
+        label.setText(node.getmNID()/*+ " - Office " + node.getmOffice()*/);
         status.setText("Status: " + node.getmStatus());
         image.setImageResource(node.getmType().getIcon(node.getmStatus()));
 

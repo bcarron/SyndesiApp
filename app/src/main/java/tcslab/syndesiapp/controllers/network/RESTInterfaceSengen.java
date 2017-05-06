@@ -142,8 +142,17 @@ public class RESTInterfaceSengen extends RESTInterface {
                             // Add the node to the UI
                             String NID = n.getString("name");
                             NodeType nodeType = NodeType.getType(NID);
-                            // TODO: Change NID to real Office
-                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getString("actuator1_state")), NID, n.getString("node_id"));
+                            // TODO: Change office
+                            String office = String.valueOf(NID.charAt(3));
+                            if(office.equals("A"))
+                                office = "1.0";
+                            else if(office.equals("B"))
+                                office = "2.0";
+                            else if(office.equals("C"))
+                                office = "3.0";
+                            else if(office.equals("D"))
+                                office = "4.0";
+                            NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getString("actuator1_state")), office, n.getString("node_id"));
                             nodesList.add(newNode);
                         }
 
