@@ -76,12 +76,10 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
             } else {
                 disableLocalization();
             }
-            Log.d("PREF", "Localization pref changed");
         } else if (key.equals(PreferenceKey.PREF_LOC_RATE.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
                 disableLocalization();
                 enableLocalization();
-                Log.d("PREF", "Localization rate changed");
             }
         } else if (key.equals(PreferenceKey.PREF_AUTO_LOC_PERM.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false) && sharedPreferences.getBoolean(PreferenceKey.PREF_AUTO_LOC_PERM.toString(), false)) {
@@ -117,7 +115,6 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
             mLocalizationLauncher = PendingIntent.getService(mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             int baseInterval = Integer.parseInt(mSharedPreferences.getString(PreferenceKey.PREF_LOC_RATE.toString(), "300"));
             int interval = (int) (baseInterval * mIntervalModifier * 1000);
-            Log.d("Localization", Integer.toString(interval));
             mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval, interval, mLocalizationLauncher);
             mAppContext.startService(localizationIntent);
 
