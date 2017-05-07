@@ -23,6 +23,15 @@
     <string name="automation_no_change">Temperature and light levels are good: nothing to do!</string>
     <string name="automation_disabled">Enable the automation in the settings</string>
 
+    <string name="action_training">Training</string>
+    <string name="title_training">Training</string>
+    <string name="training_title">Training</string>
+    <string name="form_room_number">Room</string>
+    <string name="form_training_button_start">Start</string>
+    <string name="form_training_button_stop">Stop</string>
+    <string name="form_training_button_reset">Reset</string>
+    <string name="training_message">RSS Readings</string>
+    <string name="training_warning">Your current training file will be overwritten if you click reset!</string>
 
     <string name="preferences_saved">Preferences saved</string>
     <string name="preferences_empty_fields">Please fill in all the fields!</string>

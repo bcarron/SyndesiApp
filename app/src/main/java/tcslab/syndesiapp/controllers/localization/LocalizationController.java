@@ -5,10 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import tcslab.syndesiapp.controllers.sensor.StepListener;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 
@@ -22,16 +26,21 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     private static LocalizationController mInstance;
     private Context mAppContext;
     private AlarmManager mAlarmManager;
+    private SensorManager mSensorManager;
+    private StepListener mStepListener;
     private PendingIntent mLocalizationLauncher;
     private SharedPreferences mSharedPreferences;
     private double mIntervalModifier;
     private boolean mAlarmIsSet;
     private boolean mStopLocalization;
+    private boolean mAutoLoc = false;
 
 
     private LocalizationController(Context appContext) {
         this.mAppContext = appContext;
         mAlarmManager = (AlarmManager) mAppContext.getSystemService(Context.ALARM_SERVICE);
+        mSensorManager = (SensorManager) mAppContext.getSystemService(Context.SENSOR_SERVICE);
+        mStepListener = new StepListener(mAppContext);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
 
         // Set up default interval modifier
@@ -43,8 +52,12 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
         if (mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
             enableLocalization();
+            if(mSharedPreferences.getBoolean(PreferenceKey.PREF_AUTO_LOC_PERM.toString(), false)){
+                enableAutoLoc();
+            }
         }else{
             disableLocalization();
+            disableAutoLoc();
         }
     }
 
@@ -63,15 +76,38 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
             } else {
                 disableLocalization();
             }
-        }
-        else if (key.equals(PreferenceKey.PREF_LOC_RATE.toString())) {
+            Log.d("PREF", "Localization pref changed");
+        } else if (key.equals(PreferenceKey.PREF_LOC_RATE.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
                 disableLocalization();
                 enableLocalization();
                 Log.d("PREF", "Localization rate changed");
             }
+        } else if (key.equals(PreferenceKey.PREF_AUTO_LOC_PERM.toString())) {
+            if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false) && sharedPreferences.getBoolean(PreferenceKey.PREF_AUTO_LOC_PERM.toString(), false)) {
+                enableAutoLoc();
+            } else {
+                disableAutoLoc();
+            }
         }
+
         updateUI();
+    }
+
+    private void enableAutoLoc(){
+        if (Build.VERSION.SDK_INT >= 19) {
+            if(!mAutoLoc) {
+                mSensorManager.registerListener(mStepListener, mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER), SensorManager.SENSOR_DELAY_NORMAL);
+                mAutoLoc = true;
+            }
+        }
+    }
+
+    private void disableAutoLoc(){
+        if(mAutoLoc){
+            mSensorManager.unregisterListener(mStepListener);
+            mAutoLoc = false;
+        }
     }
 
     private void enableLocalization(){

@@ -1,4 +1,4 @@
-package tcslab.syndesiapp.controllers.ui;
+package tcslab.syndesiapp.controllers.localization;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -14,10 +14,12 @@ import tcslab.syndesiapp.controllers.localization.WifiService;
  * Created by blais on 30.11.2016.
  */
 public class WifiReceiver extends BroadcastReceiver {
-    private WifiService wifiService;
+    private WifiCallback callback;
+    private Context mAppContext;
 
-    public WifiReceiver(WifiService wifiService) {
-        this.wifiService = wifiService;
+    public WifiReceiver(WifiCallback callback, Context appContext) {
+        this.callback = callback;
+        this.mAppContext = appContext;
     }
 
 
@@ -25,7 +27,7 @@ public class WifiReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d("WifiReceiver", intent.getAction());
         if (intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
-            wifiService.sendResults(((WifiManager) wifiService.getSystemService(Service.WIFI_SERVICE)).getScanResults());
+            callback.sendResults(((WifiManager) mAppContext.getSystemService(Service.WIFI_SERVICE)).getScanResults());
         }
     }
 }

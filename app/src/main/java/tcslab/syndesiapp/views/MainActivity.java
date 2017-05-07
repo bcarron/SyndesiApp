@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 23) {
             RuntimePermissionChecker rpc = new RuntimePermissionChecker(this);
             Boolean permission = rpc.getPermissions();
-            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISION.toString(), permission).apply();
+            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISSION.toString(), permission).apply();
         }else{
-            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISION.toString(), true).apply();
+            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISSION.toString(), true).apply();
         }
     }
 
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(allPermissionsOk){
-            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISION.toString(), true).apply();
+            mPreferences.edit().putBoolean(PreferenceKey.PREF_PERMISSION.toString(), true).apply();
         }else{
             ((TextView) findViewById(R.id.loc_display)).setText(R.string.loc_noperm);
         }
@@ -179,6 +179,9 @@ public class MainActivity extends AppCompatActivity {
         }else if(id == R.id.action_environment){
             startActivity(new Intent(this, EnvironmentControlActivity.class));
             return true;
+        }else if(id == R.id.action_training){
+            startActivity(new Intent(this, TrainingActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -195,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
             filter.addAction(String.valueOf(sensorType));
         }
         filter.addAction(BroadcastType.BCAST_TYPE_SERVER_STATUS.toString());
-        filter.addAction(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
         filter.addAction(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());

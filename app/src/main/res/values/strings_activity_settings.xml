@@ -18,6 +18,7 @@
 
     <string name="pref_title_sensor_perm">Sensors permission</string>
     <string name="pref_title_loc_perm">Localization permission</string>
+    <string name="pref_title_auto_loc_perm">Automatic localization when moving</string>
 
     <string name="pref_title_aut_perm">Automation permission</string>
 

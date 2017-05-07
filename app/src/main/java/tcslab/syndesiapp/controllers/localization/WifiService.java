@@ -15,7 +15,6 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.automation.AutomationController;
-import tcslab.syndesiapp.controllers.ui.WifiReceiver;
 import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.PreferenceKey;
 
@@ -27,7 +26,7 @@ import java.util.List;
  *
  * Created by blais on 30.11.2016.
  */
-public class WifiService extends IntentService {
+public class WifiService extends IntentService implements WifiCallback {
     private LocalizationClassifier mLocalizationClassifier;
     private AccountController mAccountController;
     private AutomationController mAutomationController;
@@ -64,7 +63,7 @@ public class WifiService extends IntentService {
 
         // Register the Wifi receiver
         // Register the Broadcast listener
-        WifiReceiver wifiReceiver = new WifiReceiver(this);
+        WifiReceiver wifiReceiver = new WifiReceiver(this, this);
         registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         // Get the number of scans from the preferences
@@ -123,7 +122,7 @@ public class WifiService extends IntentService {
         final String toastMessage = message;
         final int toastDuration = duration;
 
-        Boolean permission = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferenceKey.PREF_PERMISION.toString(), false);
+        Boolean permission = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferenceKey.PREF_PERMISSION.toString(), false);
 
         if (permission) {
             mHandler.post(new Runnable() {

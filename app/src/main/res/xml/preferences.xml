@@ -76,6 +76,14 @@
 
     <SwitchPreference
         android:defaultValue="false"
+        android:dependency="PREF_LOC_PERM"
+        android:key="PREF_AUTO_LOC_PERM"
+        android:summaryOff="Auto localization disabled"
+        android:summaryOn="Auto localization enabled"
+        android:title="@string/pref_title_auto_loc_perm" />
+
+    <SwitchPreference
+        android:defaultValue="false"
         android:key="PREF_AUT_PERM"
         android:summaryOff="Automation disabled"
         android:summaryOn="Automation enabled"

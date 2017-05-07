@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-            android:allowBackup="true"
+            android:allowBackup="false"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:supportsRtl="true"
@@ -41,6 +41,17 @@
         <activity
             android:name=".views.EnvironmentControlActivity"
             android:label="@string/title_environment"
+            android:parentActivityName=".views.MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".views.TrainingActivity"
+            android:label="@string/title_training"
             android:parentActivityName=".views.MainActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden">
