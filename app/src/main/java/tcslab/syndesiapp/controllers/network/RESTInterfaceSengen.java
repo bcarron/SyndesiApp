@@ -78,7 +78,7 @@ public class RESTInterfaceSengen extends RESTInterface {
             String position = mPreferences.getString(PreferenceKey.PREF_CURRENT_POSITION.toString(), null);
 
             final String url = server_url + "/api/insertValueCrowd.php?node_name=" + id + "&resource_name=" +
-                    SensorList.getStringType(dataType) + "+at+" + id + "&value=" + data + "&unit=" +
+                    SensorList.getStringType(dataType) + "+l+" + id + "&value=" + data + "&unit=" +
                     SensorList.getStringUnit(dataType) + "&timestamp=" + timestamp + "&relative_position=" + position;
 
             // Request a string response from the provided URL.
