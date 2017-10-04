@@ -1,6 +1,7 @@
 package tcslab.syndesiapp.controllers.localization;
 
 import android.app.IntentService;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -72,7 +73,7 @@ public class WifiService extends IntentService implements WifiCallback {
         // Perform the scans
         while(mReadings.size() < Integer.parseInt(precision)) {
             toaster("Launching scan " + (mReadings.size()+1) + " of " + precision);
-            ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
+            ((WifiManager) getApplicationContext().getSystemService(Service.WIFI_SERVICE)).startScan();
 
             // Wait for the scan's results
             synchronized (mLock) {

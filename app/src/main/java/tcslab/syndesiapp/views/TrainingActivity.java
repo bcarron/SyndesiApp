@@ -1,5 +1,6 @@
 package tcslab.syndesiapp.views;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -219,7 +220,7 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         public void run(){
             if(isTraining){
                 Log.d("Localization", "Start scan");
-                ((WifiManager) getSystemService(Context.WIFI_SERVICE)).startScan();
+                ((WifiManager) getApplicationContext().getSystemService(Service.WIFI_SERVICE)).startScan();
             }
         }
     }
