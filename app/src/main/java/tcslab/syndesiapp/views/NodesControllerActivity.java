@@ -51,11 +51,12 @@ public class NodesControllerActivity extends AppCompatActivity implements NodeCa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 NodeDevice node = (NodeDevice)listView.getAdapter().getItem(position);
-                restInterface.toggleNode(node);
+                restInterface.toggleNode(node, NodesControllerActivity.this);
             }
         });
     }
 
+    @Override
     public void addNode(NodeDevice node){
         Boolean nodeExist = false;
         for(NodeDevice currentNode : mNodeList){

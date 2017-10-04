@@ -1,6 +1,5 @@
 package tcslab.syndesiapp.controllers.automation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.hardware.Sensor;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.network.RESTInterface;
 import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.models.BroadcastType;
@@ -22,15 +20,15 @@ import java.util.ArrayList;
 /**
  * Created by blais on 23.02.2017.
  */
-public class AutomationController extends ContextWrapper implements NodeCallback{
-    private static AutomationController mInstance;
+public class DemoAutomationController extends ContextWrapper implements NodeCallback{
+    private static DemoAutomationController mInstance;
     private RESTInterface restInterface;
     private SensorController mSensorController;
     private SharedPreferences mSharedPreferences;
     private ArrayList<NodeDevice> mNodeList;
     private String mCurrentPosition;
 
-    private AutomationController(Context base) {
+    private DemoAutomationController(Context base) {
         super(base);
 
         restInterface = RESTInterface.getInstance(this);
@@ -42,19 +40,23 @@ public class AutomationController extends ContextWrapper implements NodeCallback
         restInterface.fetchNodes(this);
     }
 
-    public static synchronized AutomationController getInstance(Context appContext) {
+    public static synchronized DemoAutomationController getInstance(Context appContext) {
         if (mInstance == null) {
-            mInstance = new AutomationController(appContext);
+            mInstance = new DemoAutomationController(appContext);
         }
         return mInstance;
     }
 
     public void updatePosition(String newPosition){
         Boolean perm = mSharedPreferences.getBoolean(PreferenceKey.PREF_AUT_PERM.toString(), false);
-        if(mCurrentPosition != null && !mCurrentPosition.equals(newPosition)) {
+        if(newPosition.equals("1.0")) {
             if(perm){
-                enterOffice(newPosition);
-                leaveOffice(mCurrentPosition);
+                Log.d("Automation", "Enter office");
+                enterOffice("1.0");
+            }
+        }else if(!newPosition.equals("1.0")){
+            if(perm){
+                leaveOffice("1.0");
             }
         }
 
@@ -66,50 +68,21 @@ public class AutomationController extends ContextWrapper implements NodeCallback
     }
 
     public void automation(){
-        Float targetLight = mSharedPreferences.getFloat(PreferenceKey.PREF_TARGET_LIGHT.toString(), 250);
-        Float targetTemp = mSharedPreferences.getFloat(PreferenceKey.PREF_TARGET_TEMP.toString(), 22);
-
-        Float temperature = mSensorController.getmLastSensorValues().get(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        Float illuminance = mSensorController.getmLastSensorValues().get(Sensor.TYPE_LIGHT);
-
-        // Illuminance automation
-        if(illuminance != null && illuminance > targetLight + 10){
-            updateUI(mCurrentPosition, "Illuminance too high: turning some lights off!", NodeType.bulb, "off");
-            toggleNodes(NodeType.bulb, mCurrentPosition, "on");
-        }else if(illuminance != null && illuminance > targetLight + 100){
-            updateUI(mCurrentPosition, "Illuminance way too high: bringing down the curtains!", NodeType.curtain, "down");
-            toggleNodes(NodeType.curtain, mCurrentPosition, "up");
-        }else if(illuminance != null && illuminance < targetLight - 10){
-
-            updateUI(mCurrentPosition, "Temperature too low: turning some fans off!", NodeType.fan, "off");
-            toggleNodes(NodeType.fan, mCurrentPosition, "on");
-        }else if(illuminance != null && illuminance < targetLight - 100){
-            updateUI(mCurrentPosition, "Illuminance way too low: bringing up the curtains!", NodeType.curtain, "up");
-            toggleNodes(NodeType.curtain, mCurrentPosition, "down");
-        }
-
-        // Temperature automation
-        if(temperature != null && temperature > targetTemp + 1){
-            updateUI(mCurrentPosition, "Temperature too high: turning some fans on!", NodeType.fan, "on");
-            toggleNodes(NodeType.fan, mCurrentPosition, "off");
-        }else if(temperature != null && temperature < targetTemp - 1){
-            updateUI(mCurrentPosition, "Temperature too low: turning some fans off!", NodeType.fan, "off");
-            toggleNodes(NodeType.fan, mCurrentPosition, "on");
-        }else if(temperature != null && temperature < targetTemp - 5){
-            updateUI(mCurrentPosition, "Temperature way too low: turning the heaters on!", NodeType.fan, "on");
-            toggleNodes(NodeType.heater, mCurrentPosition, "off");
-        }
+        Log.d("Automation", "No automation in demo");
+        // No Automation in Demo
     }
 
     private void enterOffice(String office){
         updateUI(office, "Entering office, turning the lights on!", NodeType.bulb, "on");
 
+        toggleNodes(NodeType.sengen, office, "off");
         toggleNodes(NodeType.bulb, office, "off");
     }
 
     private void leaveOffice(String office){
         updateUI(office, "Leaving office, turning all appliances off!", NodeType.bulb, "off");
 
+        toggleNodes(NodeType.sengen, office, "on");
         toggleNodes(NodeType.bulb, office, "on");
         toggleNodes(NodeType.fan, office, "on");
         toggleNodes(NodeType.heater, office, "on");
@@ -141,5 +114,16 @@ public class AutomationController extends ContextWrapper implements NodeCallback
     }
 
     @Override
-    public void addNode(NodeDevice node){ }
+    public void addNode(NodeDevice node){
+        Boolean nodeExist = false;
+        for(NodeDevice currentNode : mNodeList){
+            if(currentNode.getmNID().equals(node.getmNID())) {
+                currentNode.setmStatus(node.getmStatus());
+                nodeExist = true;
+            }
+        }
+        if(!nodeExist){
+            mNodeList.add(node);
+        }
+    }
 }

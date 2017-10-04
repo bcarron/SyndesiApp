@@ -31,7 +31,7 @@ public class StepListener implements SensorEventListener {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
 
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false) && sharedPreferences.getBoolean(PreferenceKey.PREF_AUTO_LOC_PERM.toString(), false)) {
-            if (mLastScan.before(new Date(System.currentTimeMillis() - 10 * 1000))) {
+            if (mLastScan.before(new Date(System.currentTimeMillis() - 3 * 1000))) {
                 Intent localizationIntent = new Intent(mAppContext, WifiService.class);
                 mAppContext.startService(localizationIntent);
                 mLastScan = new Date();

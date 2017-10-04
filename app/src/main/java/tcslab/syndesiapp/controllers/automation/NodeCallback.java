@@ -9,4 +9,5 @@ import java.util.ArrayList;
  */
 public interface NodeCallback {
     void addNodesCallback(ArrayList<NodeDevice> nodesList);
+    void addNode(NodeDevice node);
 }

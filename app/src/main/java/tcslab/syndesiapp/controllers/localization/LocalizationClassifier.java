@@ -1,5 +1,6 @@
 package tcslab.syndesiapp.controllers.localization;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.support.v4.content.LocalBroadcastManager;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -27,6 +29,7 @@ import java.util.List;
  * Created by Blaise on 14.12.2016.
  */
 public class LocalizationClassifier {
+    private static LocalizationClassifier mInstance;
     private WifiService mWifiService;
     static final int READ_BLOCK_SIZE = 100;
     private File file;
@@ -70,6 +73,20 @@ public class LocalizationClassifier {
         for(int i=0; i < mAnchorNodes.length; i++){
             mRSSIs[i] = 0;
         }
+
+        /* Load OpenCV */
+        if (!OpenCVLoader.initDebug()) {
+            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
+        } else {
+            this.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+    }
+
+    public static synchronized LocalizationClassifier getInstance(WifiService wifiService) {
+        if (mInstance == null) {
+            mInstance = new LocalizationClassifier(wifiService);
+        }
+        return mInstance;
     }
 
     public String updateLocation(List<List<ScanResult>> readings){
@@ -113,7 +130,7 @@ public class LocalizationClassifier {
         }
 
         toastMessage = toastMessage.substring(0, toastMessage.length() - 2);
-        mWifiService.toaster(toastMessage, Toast.LENGTH_LONG);
+//        mWifiService.toaster(toastMessage, Toast.LENGTH_LONG);
         Log.d("Localization", maxPosition + ": " + results.get(maxPosition));
 
         mCurrentPosition = Double.toString(maxPosition);

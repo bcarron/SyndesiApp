@@ -159,6 +159,9 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                                 office = "4.0";
                             NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
 
+                            // Override for Demo
+                            office = "1.0";
+
                             NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), office, n.getJSONObject("resourcesnode").getString("path"));
                             nodesList.add(newNode);
                         }
@@ -189,7 +192,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
     /**
      * Toggle the node given in attribute
      */
-    public void toggleNode(final NodeDevice node) {
+    public void toggleNode(final NodeDevice node, final NodeCallback callback) {
         // Get the sever address from the preferences
         String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
 
@@ -210,7 +213,47 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                     if (response.equals("ERROR")) {
                         RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     } else {
-                        ((NodesControllerActivity) mAppContext).addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice(), node.getPath()));
+                        callback.addNode(new NodeDevice(node.getmNID(), node.getmType(), NodeType.parseResponse(response), node.getmOffice(), node.getPath()));
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //Update the UI with the error message
+                    Log.e("HTTP", "Error connecting to server address " + url);
+                    RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
+                }
+            });
+
+            mRequestQueue.add(request);
+        } else {
+            RESTInterface.sendControllerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_no_server_set));
+        }
+    }
+
+    /**
+     * Toggle the node given in attribute
+     */
+    public void actuateNode(final NodeDevice node, String status) {
+        // Get the sever address from the preferences
+        String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SENGEN_SERVER_URL.toString(), "");
+
+        if (!server_url.equals("")) {
+            // Instantiate the RequestQueue.
+            if (server_url.length() > 7 && !server_url.substring(0, 7).equals("http://")) {
+                server_url = "http://" + server_url;
+            }
+
+            final String url = server_url + "/ero2proxy/mediate?service=" + node.getmNID() + "&resource=" + node.getmType()  + "&status=" + status;
+            Log.d("URL", url);
+
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("SENGEN", response);
+
+                    if (response.equals("ERROR")) {
+                        RESTInterface.sendControllerStatusBcast(mAppContext, "Error toggling the state of the node");
                     }
                 }
             }, new Response.ErrorListener() {

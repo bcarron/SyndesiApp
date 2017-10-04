@@ -137,7 +137,7 @@ public class EnvironmentControlActivity extends AppCompatActivity {
 
     public void relocate(View v){
         if (mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
-            Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
             startService(new Intent(this, WifiService.class));
         } else {
             addMessage(new AutomationStatus("", this.getString(R.string.loc_disabled), NodeType.alarm, "on", new Date(System.currentTimeMillis() * 2)));

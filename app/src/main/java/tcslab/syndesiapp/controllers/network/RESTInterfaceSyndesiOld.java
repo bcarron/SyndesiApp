@@ -172,7 +172,7 @@ public class RESTInterfaceSyndesiOld extends RESTInterface {
     /**
      * Toggle the node given in attribute
      */
-    public void toggleNode(final NodeDevice node) {
+    public void toggleNode(final NodeDevice node, final NodeCallback callback) {
         // Get the sever address from the preferences
         String server_url = PreferenceManager.getDefaultSharedPreferences(mAppContext).getString(PreferenceKey.PREF_SYNDESI_URL.toString(), "");
 

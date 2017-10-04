@@ -15,7 +15,7 @@ import android.widget.Toast;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import tcslab.syndesiapp.controllers.account.AccountController;
-import tcslab.syndesiapp.controllers.automation.AutomationController;
+import tcslab.syndesiapp.controllers.automation.DemoAutomationController;
 import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.PreferenceKey;
 
@@ -30,7 +30,7 @@ import java.util.List;
 public class WifiService extends IntentService implements WifiCallback {
     private LocalizationClassifier mLocalizationClassifier;
     private AccountController mAccountController;
-    private AutomationController mAutomationController;
+    private DemoAutomationController mAutomationController;
     private Handler mHandler;
     private List<List<ScanResult>> mReadings = new ArrayList<>();
     private final Object mLock = new Object();
@@ -51,16 +51,9 @@ public class WifiService extends IntentService implements WifiCallback {
 
         // TODO: Check if the user moved otherwise no need to perform localization
 
-        mLocalizationClassifier = new LocalizationClassifier(this);
+        mLocalizationClassifier = LocalizationClassifier.getInstance(this);
         mAccountController = AccountController.getInstance(this);
-        mAutomationController = AutomationController.getInstance(this.getApplicationContext());
-
-        /* Load OpenCV */
-        if (!OpenCVLoader.initDebug()) {
-            Log.e("OpenCV", "  OpenCVLoader.initDebug(), not working.");
-        } else {
-            mLocalizationClassifier.mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-        }
+        mAutomationController = DemoAutomationController.getInstance(this.getApplicationContext());
 
         // Register the Wifi receiver
         // Register the Broadcast listener
@@ -71,8 +64,9 @@ public class WifiService extends IntentService implements WifiCallback {
         String precision = PreferenceManager.getDefaultSharedPreferences(this).getString(PreferenceKey.PREF_LOC_PRECISION.toString(),"1");
 
         // Perform the scans
+        toaster("Starting WiFi scan", Toast.LENGTH_SHORT);
         while(mReadings.size() < Integer.parseInt(precision)) {
-            toaster("Launching scan " + (mReadings.size()+1) + " of " + precision);
+//            toaster("Launching scan " + (mReadings.size()+1) + " of " + precision);
             ((WifiManager) getApplicationContext().getSystemService(Service.WIFI_SERVICE)).startScan();
 
             // Wait for the scan's results

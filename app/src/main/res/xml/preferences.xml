@@ -29,16 +29,25 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_loc_precision" />
 
-    <PreferenceCategory android:title="@string/pref_header_server" />
+    <ListPreference
+            android:defaultValue="syndesi"
+            android:entries="@array/pref_server_type_titles"
+            android:entryValues="@array/pref_server_type_values"
+            android:key="PREF_SERVER_TYPE"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_server_type" />
 
     <ListPreference
-        android:defaultValue="syndesi"
-        android:entries="@array/pref_server_type_titles"
-        android:entryValues="@array/pref_server_type_values"
-        android:key="PREF_SERVER_TYPE"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/pref_title_server_type" />
+            android:defaultValue="KNN"
+            android:entries="@array/pref_classifier_type_titles"
+            android:entryValues="@array/pref_classifier_type_values"
+            android:key="PREF_CLASSIFIER_TYPE"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_classifier_type" />
+
+    <PreferenceCategory android:title="@string/pref_header_server" />
 
 <!--    <EditTextPreference
         android:defaultValue="@string/pref_default_syndesi_address"
@@ -75,7 +84,7 @@
         android:title="@string/pref_title_loc_perm" />
 
     <SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:dependency="PREF_LOC_PERM"
         android:key="PREF_AUTO_LOC_PERM"
         android:summaryOff="Auto localization disabled"

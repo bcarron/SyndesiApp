@@ -12,6 +12,7 @@
     <string name="pref_title_loc_rate">Localization rate</string>
     <string name="pref_title_loc_precision">Localization precision</string>
     <string name="pref_title_server_type">Connection type</string>
+    <string name="pref_title_classifier_type">Localization classifier</string>
     <string name="pref_title_syndesi_url">Syndesi address</string>
     <string name="pref_title_sengen_server_url">WSN Gateway address</string>
     <string name="pref_title_sengen_db_url">Database address</string>
@@ -35,6 +36,18 @@
     <string-array name="pref_server_type_values">
         <item>syndesi</item>
         <item>sengen</item>
+    </string-array>
+
+    <string-array name="pref_classifier_type_titles">
+        <item>KNN</item>
+        <item>SVM</item>
+        <item>KNN + SVM</item>
+    </string-array>
+
+    <string-array name="pref_classifier_type_values">
+        <item>knn</item>
+        <item>svm</item>
+        <item>both</item>
     </string-array>
 
     <string-array name="pref_rate_titles">

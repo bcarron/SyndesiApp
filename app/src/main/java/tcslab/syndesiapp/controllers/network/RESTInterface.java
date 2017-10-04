@@ -44,7 +44,7 @@ public abstract class RESTInterface {
     /**
      * Toggle the node given in attribute
      */
-    public abstract void toggleNode(final NodeDevice node);
+    public abstract void toggleNode(final NodeDevice node, NodeCallback callback);
 
     /**
      * Creates the current user account on the server
