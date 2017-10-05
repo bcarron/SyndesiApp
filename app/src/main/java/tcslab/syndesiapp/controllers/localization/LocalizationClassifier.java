@@ -2,7 +2,9 @@ package tcslab.syndesiapp.controllers.localization;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.ScanResult;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import org.opencv.ml.KNearest;
 import org.opencv.ml.Ml;
 import org.opencv.ml.SVM;
 import tcslab.syndesiapp.models.BroadcastType;
+import tcslab.syndesiapp.models.PreferenceKey;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ import java.util.List;
 public class LocalizationClassifier {
     private static LocalizationClassifier mInstance;
     private WifiService mWifiService;
+    private SharedPreferences mSharedPreferences;
     static final int READ_BLOCK_SIZE = 100;
     private File file;
     private String mCurrentPosition;
@@ -48,26 +52,27 @@ public class LocalizationClassifier {
     private double[] mRSSIs;
 
     // Geneve AP MAC address
-    private final static String[] mAnchorNodes={
+    /*private final static String[] mAnchorNodes={
             "2c:56:dc:d2:06:a8",
             "9c:5c:8e:c5:fb:a0",
             "9c:5c:8e:c5:f1:1a",
             "9c:5c:8e:c5:fb:7a",
             "9c:5c:8e:c5:fb:a6"
-    };
+    };*/
 
     // Bussigny AP MAC address
-    /*private final static String[] mAnchorNodes={
+    private final static String[] mAnchorNodes={
             "1c:87:2c:67:80:38",
             "1c:87:2c:67:80:3c",
             "88:f7:c7:44:fb:40",
             "08:3e:5d:35:21:29",
             "f8:df:a8:7a:ed:6d"
-    };*/
+    };
 
 
     public LocalizationClassifier(WifiService wifiService) {
         this.mWifiService = wifiService;
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mWifiService);
         checkFile();
         mRSSIs = new double[mAnchorNodes.length];
         for(int i=0; i < mAnchorNodes.length; i++){
@@ -92,6 +97,7 @@ public class LocalizationClassifier {
     public String updateLocation(List<List<ScanResult>> readings){
         HashMap<Double, Integer> results = new HashMap<>();
         ScanResult scanResult;
+        int nb_classifications = 0;
 
         for(List<ScanResult> APsList : readings) {
             for (int i = 0; i < APsList.size(); i++) {
@@ -105,16 +111,21 @@ public class LocalizationClassifier {
                 }
             }
 
-            double[] response = checkFloorSVN(mRSSIs);
+            HashMap<String, Double> response = checkFloorSVN(mRSSIs);
 
             if(response == null){
                 return null;
             }else {
-                for(double resp : response){
-                    if (results.containsKey(resp)) {
-                        results.put(resp, results.get(resp) + 1);
-                    } else {
-                        results.put(resp, 1);
+                for(String classifier : response.keySet()){
+                    if(mSharedPreferences.getString(PreferenceKey.PREF_CLASSIFIER_TYPE.toString(),"").equals(classifier) ||
+                            mSharedPreferences.getString(PreferenceKey.PREF_CLASSIFIER_TYPE.toString(),"").equals("all")) {
+                        nb_classifications++;
+                        Log.d("Classifier", Double.toString(response.get(classifier)));
+                        if (results.containsKey(response.get(classifier))) {
+                            results.put(response.get(classifier), results.get(response.get(classifier)) + 1);
+                        } else {
+                            results.put(response.get(classifier), 1);
+                        }
                     }
                 }
             }
@@ -123,7 +134,7 @@ public class LocalizationClassifier {
         double maxPosition = -1;
         String toastMessage = "";
         for(Double result : results.keySet()){
-            toastMessage += "Room " + result + " (" + results.get(result) + "/" + (readings.size() * 2) + "), ";
+            toastMessage += "Room " + result + " (" + results.get(result) + "/" + nb_classifications + "), ";
             if(maxPosition == -1 || results.get(result) > results.get(maxPosition)){
                 maxPosition = result;
             }
@@ -237,16 +248,28 @@ public class LocalizationClassifier {
         }
     };
 
-    public double[] checkFloorSVN(double[] test){
+    public HashMap<String, Double> checkFloorSVN(double[] test){
         if(file.exists()) {
+            HashMap<String, Double> response = new HashMap<>();
             //Arrange  Mat to test RSS AND MAGNETIC FIELD
             for (int i = 0; i < numberAttributes; i++) {
                 matTest.put(0, i, test[i]);
             }
-            knn.findNearest(matTest, 3, matResp);
-            int respS = (int) svm.predict(matTest);
-            int respK = (int) matResp.get(0, 0)[0];
-            return new double[]{respS, respK};  //return both response
+
+            // KNN
+            if(mSharedPreferences.getString(PreferenceKey.PREF_CLASSIFIER_TYPE.toString(),"").equals("knn") ||
+                    mSharedPreferences.getString(PreferenceKey.PREF_CLASSIFIER_TYPE.toString(),"").equals("all")) {
+                knn.findNearest(matTest, 3, matResp);
+                response.put("knn", matResp.get(0, 0)[0]);
+            }
+
+            // SVM
+            if(mSharedPreferences.getString(PreferenceKey.PREF_CLASSIFIER_TYPE.toString(),"").equals("svm") ||
+                    mSharedPreferences.getString(PreferenceKey.PREF_CLASSIFIER_TYPE.toString(),"").equals("all")) {
+                response.put("svm", (double) svm.predict(matTest));
+            }
+
+            return response;  //return both response
         }
         return null;
     }

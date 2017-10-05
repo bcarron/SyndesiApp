@@ -39,7 +39,7 @@
             android:title="@string/pref_title_server_type" />
 
     <ListPreference
-            android:defaultValue="KNN"
+            android:defaultValue="knn"
             android:entries="@array/pref_classifier_type_titles"
             android:entryValues="@array/pref_classifier_type_values"
             android:key="PREF_CLASSIFIER_TYPE"
