@@ -62,11 +62,12 @@ public class UIReceiver extends BroadcastReceiver {
             }
         } else if(intent.getAction().equals(BroadcastType.BCAST_TYPE_LOC_STATUS.toString())){
             Boolean status = intent.getBooleanExtra(BroadcastType.BCAST_EXTRA_LOC_STATUS.toString(), false);
+            Boolean reset = intent.getBooleanExtra(BroadcastType.BCAST_EXTRA_LOC_RESET.toString(), false);
             String office = mPreferences.getString(PreferenceKey.PREF_CURRENT_POSITION.toString(), null);
             TextView newOfficeText = (TextView) mActivity.findViewById(R.id.loc_display);
             Button relocateBtn = (Button) mActivity.findViewById(R.id.btnRelocate);
             if(status) {
-                if(office != null) {
+                if(office != null && !reset) {
                     newOfficeText.setText(mActivity.getString(R.string.loc_display) + " " + office);
                 }else{
                     newOfficeText.setText(mActivity.getString(R.string.loc_scanning));

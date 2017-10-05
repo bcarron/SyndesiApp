@@ -10,6 +10,7 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 import org.opencv.android.LoaderCallbackInterface;
@@ -17,6 +18,7 @@ import org.opencv.android.OpenCVLoader;
 import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.automation.DemoAutomationController;
 import tcslab.syndesiapp.models.Account;
+import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class WifiService extends IntentService implements WifiCallback {
     @Override
     protected void onHandleIntent(Intent intent) {
         PowerManager.WakeLock wakeLock = ((PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WifiWakeLock");
+        resetUI();
 
         // TODO: Check if the user moved otherwise no need to perform localization
 
@@ -64,7 +67,7 @@ public class WifiService extends IntentService implements WifiCallback {
         String precision = PreferenceManager.getDefaultSharedPreferences(this).getString(PreferenceKey.PREF_LOC_PRECISION.toString(),"1");
 
         // Perform the scans
-        toaster("Starting WiFi scan", Toast.LENGTH_SHORT);
+//        toaster("Starting WiFi scan", Toast.LENGTH_SHORT);
         while(mReadings.size() < Integer.parseInt(precision)) {
 //            toaster("Launching scan " + (mReadings.size()+1) + " of " + precision);
             ((WifiManager) getApplicationContext().getSystemService(Service.WIFI_SERVICE)).startScan();
@@ -134,5 +137,13 @@ public class WifiService extends IntentService implements WifiCallback {
         synchronized (mLock){
             mLock.notifyAll();
         }
+    }
+
+    private void resetUI(){
+        // Send broadcast to update the UI
+        Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());
+        localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_STATUS.toString(), true);
+        localIntent.putExtra(BroadcastType.BCAST_EXTRA_LOC_RESET.toString(), true);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
     }
 }
