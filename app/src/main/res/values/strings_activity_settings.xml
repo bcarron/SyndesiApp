@@ -29,7 +29,7 @@
     <string name="pref_default_sengen_db_address">http://tcstestbed.unige.ch</string>
 
     <string-array name="pref_server_type_titles">
-        <item>WSN Gateway</item>
+        <item>WSN</item>
         <item>Database</item>
     </string-array>
 

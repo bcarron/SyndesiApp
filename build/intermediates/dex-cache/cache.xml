@@ -3,300 +3,156 @@
 
     <item
         is-multidex="true"
-        jar="/home/carron8/.android/build-cache/cfe616262deb2e631aa5043c23e749c6aadfd720/output/jars/classes.jar"
+        jar="C:\Users\blais\.android\build-cache\d2402d957e81bc0535f7b435a43b370572a7cbf5\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="95519720620b553f63afc789beba9ad582807f7c">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c58c0e874f3574f658b8e389cfa11b8dea73d685/classes.dex" />
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c65437187edf79e939be37504c3177434fa4dd0f\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/carron8/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.3.1_e935c15788c36951cc1e32b0a42c27fcf6489769/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/support-annotations-25.3.1_e935c15788c36951cc1e32b0a42c27fcf6489769.jar" />
+        sha1="06e30dfeb9b99987f885e3691942f71a7185a573">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_325c32021d15a75368273c8041f3bc726b2c8fef\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/carron8/.android/build-cache/649b6c19e48cda5d7ff0137bb0354acdc6189d62/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_676e55b9670cc07ed229289cc42a6c53978a8b7c/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/649b6c19e48cda5d7ff0137bb0354acdc6189d62/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_676e55b9670cc07ed229289cc42a6c53978a8b7c.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/.android/build-cache/8ada39665ed60d9dc358570194742eece11cf037/output/jars/classes.jar"
+        jar="C:\Users\blais\.android\build-cache\386926ed16b866297158460e8097c6fb868e835c\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_98261afa9df5a9b83e10d1b07c0aff7b1f05f88f/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/8ada39665ed60d9dc358570194742eece11cf037/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_98261afa9df5a9b83e10d1b07c0aff7b1f05f88f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/Projects/SyndesiApp/openCVLibrary310/build/intermediates/bundles/default/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="6c046e1763e396ba2f9e8b19840f9b1f4b6ccb40">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_a1a6c65351ac32911ad31f45791ed724ba7cd5ed.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/cfe616262deb2e631aa5043c23e749c6aadfd720/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="95519720620b553f63afc789beba9ad582807f7c">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_c58c0e874f3574f658b8e389cfa11b8dea73d685.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/d288782182ddf0c66e337b5478084ab25b02881b/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_e9040b1e714b9077654eaf2d23685c2b23a23437.jar" />
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e5ddf114b7b6e20462b8d53803e10071249438f0\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/carron8/.android/build-cache/77bab88c2fe233039a4520ab4054597c84d83fba/output/jars/classes.jar"
+        jar="C:\Users\blais\.android\build-cache\dd27ef2ce1efd8e36e5acfe87652dbf1b58f8ddd\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_1de5a0bda60b6a194f5f12639c90298205c2add1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\.android\build-cache\0044ebdc4f0817a496ab26b70e46a4187413b54f\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_dbc87615ed402e907f87b41ea641b218e302b610\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\.android\build-cache\ac21b4553535135349e0faef04182d8baed0e687\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_ea6dd83ad2e6cfdba957f0855b0c92cffe0399cc/classes.dex" />
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e6a099c8a8a319db6862f0dbddcd00b5f6df2cba\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/carron8/.android/build-cache/caf46ecad1556ac231bb6982d14b37f4983b64d6/output/jars/classes.jar"
+        jar="C:\Users\blais\.android\build-cache\1b22e707c631c113d2f9a719acb0aa3c6acc024c\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e8665c7aff94c4237080f1fb0bd7505c67073dfd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\.android\build-cache\c6dd92e5231944d177fadaf8ddb37fc14bbb48a9\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_10cdd8e81829086a8a357e365e596d26420bc35c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\AppData\Local\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.3.1_d4d424c7ee86a5e1eb4292370ad6e7ddc41c36e7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\.android\build-cache\650278feb971fce3452c1b131f692c68dabb6b27\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_288f352e8dcadf8841c387bceca49613faa46231\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\.android\build-cache\55b8b148dad54141a5a082a28064a7dd83e00504\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_da2499523a49c487437cb3dd865e074bbcb1147a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\.android\build-cache\600db8bd11c11da9adc470f6bbf094f01c33422c\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_bb9291043cabaa6da1613533a5f1f9a63250eaac\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\libs\gson-2.3.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\2\gson-2.3.1_9bdfa0fa8c231b815ed9ff8fb4cf559e4a20801b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\.android\build-cache\c3668f5584b65e562409e524e8aea164db492fd6\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_fff860708e7c623f461c5d7188e41383cfc52d92/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/77bab88c2fe233039a4520ab4054597c84d83fba/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_ea6dd83ad2e6cfdba957f0855b0c92cffe0399cc.jar" />
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_95fba841ff9f78a6ef579c7acd0241bfacc9d773\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/carron8/Projects/SyndesiApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\libs\volley.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d4aaa36e04ee71a83444f8367c97a46fda662d2c">
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\2\volley_a122cd1352d2dd4ae210e9dc43ddcfdbe4acc13b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="c323c36ecc68965c4cfb460f7721113d2b61ed03">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_b0ea0b989cf237e6307096036da024a280f5f703/classes.dex" />
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_6f4ed65a3f23f940eb8dfac82a89979f4e233aee\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/carron8/.android/build-cache/d288782182ddf0c66e337b5478084ab25b02881b/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e9040b1e714b9077654eaf2d23685c2b23a23437/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/0b2f182d1a4421ddae8b562277fa89689c0df55c/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_3f894f552fd93f9440d5d5c18be3338326870925.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/.android/build-cache/a2b6e5adfcdac3f783db6749916300e3d15b4f75/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b35bdf82ebd70e2144c377b569117276726ec47a/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/caf46ecad1556ac231bb6982d14b37f4983b64d6/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_fff860708e7c623f461c5d7188e41383cfc52d92.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/.android/build-cache/0b2f182d1a4421ddae8b562277fa89689c0df55c/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_3f894f552fd93f9440d5d5c18be3338326870925/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/Projects/SyndesiApp/app/libs/gson-2.3.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/gson-2.3.1_dd137c91aa9a8fda25d0f4baf16e9ff21020e668.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/a2b6e5adfcdac3f783db6749916300e3d15b4f75/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_b35bdf82ebd70e2144c377b569117276726ec47a.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/Projects/SyndesiApp/app/libs/gson-2.3.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/2/gson-2.3.1_dd137c91aa9a8fda25d0f4baf16e9ff21020e668/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/Projects/SyndesiApp/app/libs/volley.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d4aaa36e04ee71a83444f8367c97a46fda662d2c">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/volley_3ecb147714814e5ea216331d70c82407b4b01fd6.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/.android/build-cache/98457305e354d427a87856f1f54de7a17dcc0238/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_a70c1e89f8bd8c00c430e8cc93d6bb418d95caeb/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/32fd4e0edaf55524bafc831522bd544a90caf725/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_536eb85872941d42f1e1f3381bfcdf1632b6f122.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/98457305e354d427a87856f1f54de7a17dcc0238/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_a70c1e89f8bd8c00c430e8cc93d6bb418d95caeb.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/.android/build-cache/32fd4e0edaf55524bafc831522bd544a90caf725/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_536eb85872941d42f1e1f3381bfcdf1632b6f122/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/Projects/SyndesiApp/app/libs/volley.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d4aaa36e04ee71a83444f8367c97a46fda662d2c">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/2/volley_3ecb147714814e5ea216331d70c82407b4b01fd6/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/0e55f970e46071550362786d102a0662515198df/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_0909e1fea1723bd4c4e649ee2607dbc8c17fb527.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/Projects/SyndesiApp/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="040e966fc841925b71cce28913c2e024ca7c0bfd">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_cdb48d158bfc3dbabe8810dd292e4d3c54d5425a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/.android/build-cache/0e55f970e46071550362786d102a0662515198df/output/jars/classes.jar"
+        jar="C:\Users\blais\.android\build-cache\fadacf7820b18711a9a47f2e76acd9f7bb79d152\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_0909e1fea1723bd4c4e649ee2607dbc8c17fb527/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/carron8/.android/build-cache/5b41fef5d6ef0599ff9467a9a570307490c0074d/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_4469274777da11638a011be938c22133f7761874/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/carron8/.android/build-cache/5b41fef5d6ef0599ff9467a9a570307490c0074d/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/home/carron8/Projects/SyndesiApp/app/build/intermediates/pre-dexed/release/classes_4469274777da11638a011be938c22133f7761874.jar" />
+        <dex dex="C:\Users\blais\Projects\AndroidStudioProjects\SyndesiApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_18bb3c0b600dc5f91b2baa90c62b10248cbe179a\classes.dex" />
     </item>
 
 </items>

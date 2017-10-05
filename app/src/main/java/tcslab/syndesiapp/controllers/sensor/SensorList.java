@@ -10,7 +10,7 @@ import tcslab.syndesiapp.R;
  */
 public class SensorList {
     public static Integer[] sensorUsed = new Integer[]
-            {Sensor.TYPE_LIGHT, Sensor.TYPE_AMBIENT_TEMPERATURE, Sensor.TYPE_PRESSURE, Sensor.TYPE_RELATIVE_HUMIDITY, Sensor.TYPE_STEP_COUNTER, Sensor.TYPE_PROXIMITY};
+            {Sensor.TYPE_LIGHT, Sensor.TYPE_AMBIENT_TEMPERATURE, Sensor.TYPE_PRESSURE, Sensor.TYPE_RELATIVE_HUMIDITY, /*Sensor.TYPE_STEP_COUNTER,*/ Sensor.TYPE_PROXIMITY};
 
     public static String getStringType(int sensorType){
         String stringType;
