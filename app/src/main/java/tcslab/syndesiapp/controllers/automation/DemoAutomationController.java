@@ -51,7 +51,6 @@ public class DemoAutomationController extends ContextWrapper implements NodeCall
         Boolean perm = mSharedPreferences.getBoolean(PreferenceKey.PREF_AUT_PERM.toString(), false);
         if(newPosition.equals("1.0")) {
             if(perm){
-                Log.d("Automation", "Enter office");
                 enterOffice("1.0");
             }
         }else if(!newPosition.equals("1.0")){
@@ -68,7 +67,7 @@ public class DemoAutomationController extends ContextWrapper implements NodeCall
     }
 
     public void automation(){
-        Log.d("Automation", "No automation in demo");
+        Log.d("Automation", "No temp/light automation in demo");
         // No Automation in Demo
     }
 

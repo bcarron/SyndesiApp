@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.*;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.automation.AutomationStatus;
+import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.controllers.automation.AutomationAdapter;
 import tcslab.syndesiapp.controllers.ui.UIReceiver;
@@ -33,6 +34,7 @@ public class EnvironmentControlActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor msharedPrefEditor;
     private AutomationAdapter mAutomationAdapter;
+    private LocalizationController mLocalizationController;
     private ArrayList<AutomationStatus> mMessages;
     private Handler mHandler;
     private Runnable mRefreshUI;
@@ -65,6 +67,9 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         mRefreshUI = new RefreshMessages();
         mRefreshDelay = 5 * 1000;
 
+        // Set the localization controller
+        mLocalizationController = LocalizationController.getInstance(this);
+
         //Set the sensor list
         ListView listView = (ListView) findViewById(R.id.automation_list);
         mMessages = new ArrayList<>();
@@ -72,7 +77,7 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         listView.setAdapter(mAutomationAdapter);
 
         // Updates the location
-        relocate(new View(this));
+//        relocate(new View(this));
 
         if (!mSharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
             addMessage(new AutomationStatus("", this.getString(R.string.sensors_disabled), NodeType.alarm, "on", new Date(System.currentTimeMillis() * 2)));
@@ -88,6 +93,10 @@ public class EnvironmentControlActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        //Reset the context on the controllers
+        mLocalizationController.setmAppContext(this);
+        mLocalizationController.startLocalization();
+
         //Register the Broadcast listener
         IntentFilter filter = new IntentFilter(BroadcastType.BCAST_TYPE_AUT_STATUS.toString());
         LocalBroadcastManager.getInstance(this).registerReceiver(uiReceiver, filter);
@@ -99,6 +108,8 @@ public class EnvironmentControlActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        mLocalizationController.stopLocalization();
 
         //Unregister the Broadcast listener
         LocalBroadcastManager.getInstance(this).unregisterReceiver(uiReceiver);

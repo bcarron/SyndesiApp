@@ -298,7 +298,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("HTTP", "Error connecting to server " + url);
+                    Log.e("HTTP", "Error connecting to server " + url);
                     RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });
@@ -336,7 +336,7 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("HTTP", "Error connecting to server " + url);
+                    Log.e("HTTP", "Error connecting to server " + url);
                     RESTInterface.sendServerStatusBcast(mAppContext, mAppContext.getString(R.string.connection_error) + ": " + url);
                 }
             });

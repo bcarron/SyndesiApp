@@ -206,7 +206,8 @@ public class MainActivity extends AppCompatActivity {
         //Reset the context on the controllers
         mSensorController.setmAppContext(this);
         mLocalizationController.setmAppContext(this);
-        Log.d("Localization", "Reenabling localization");
+        Log.d("Localization", "Reenabling sensing and localization");
+        mSensorController.startSensing();
         mLocalizationController.startLocalization();
 
         //Populate sensors view with latest data
@@ -221,7 +222,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void relocate(View v){
 //        Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
-        startService(new Intent(this, WifiService.class));
+        if (!mPreferences.getBoolean(PreferenceKey.PREF_LOC_IN_PROGRESS.toString(), false)) {
+            startService(new Intent(this, WifiService.class));
+        }
     }
 
     @Override
@@ -230,7 +233,8 @@ public class MainActivity extends AppCompatActivity {
         //Unregister the Broadcast listener
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUiReceiver);
         // Disable localization in the background
-        Log.d("Localization", "Disabling localization in the background");
+        Log.d("Localization", "Disabling sensing and localization in the background");
+        mSensorController.stopSensing();
         mLocalizationController.stopLocalization();
     }
 

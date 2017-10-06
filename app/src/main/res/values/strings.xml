@@ -23,8 +23,8 @@
     <string name="automation_no_change">Temperature and light levels are good: nothing to do!</string>
     <string name="automation_disabled">Enable the automation in the settings</string>
 
-    <string name="action_training">Localization Training</string>
-    <string name="title_training">Localization Training</string>
+    <string name="action_training">Classifier Training</string>
+    <string name="title_training">Classifier Training</string>
     <string name="training_title">WiFi Mapping</string>
     <string name="form_room_number">Room</string>
     <string name="form_training_button_start">Start</string>

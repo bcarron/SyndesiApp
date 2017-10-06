@@ -120,7 +120,6 @@ public class LocalizationClassifier {
                     if(mSharedPreferences.getString(PreferenceKey.PREF_CLASSIFIER_TYPE.toString(),"").equals(classifier) ||
                             mSharedPreferences.getString(PreferenceKey.PREF_CLASSIFIER_TYPE.toString(),"").equals("all")) {
                         nb_classifications++;
-                        Log.d("Classifier", Double.toString(response.get(classifier)));
                         if (results.containsKey(response.get(classifier))) {
                             results.put(response.get(classifier), results.get(response.get(classifier)) + 1);
                         } else {
@@ -142,7 +141,8 @@ public class LocalizationClassifier {
 
         toastMessage = toastMessage.substring(0, toastMessage.length() - 2);
 //        mWifiService.toaster(toastMessage, Toast.LENGTH_LONG);
-        Log.d("Localization", maxPosition + ": " + results.get(maxPosition));
+        Log.d("Localization", "Room " + maxPosition + " (" + results.get(maxPosition) + " classifications)");
+        mWifiService.toaster("Room " + maxPosition, Toast.LENGTH_SHORT);
 
         mCurrentPosition = Double.toString(maxPosition);
 

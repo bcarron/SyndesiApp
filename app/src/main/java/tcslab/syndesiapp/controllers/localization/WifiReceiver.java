@@ -25,7 +25,6 @@ public class WifiReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("WifiReceiver", intent.getAction());
         if (intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
             callback.sendResults(((WifiManager) mAppContext.getSystemService(Service.WIFI_SERVICE)).getScanResults());
         }

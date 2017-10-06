@@ -124,7 +124,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
             mAlarmIsSet = true;
 
-            Log.d("PREF", "Localization enabled");
+            Log.d("Localization", "Localization enabled");
         }
     }
 
@@ -137,7 +137,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
         mAlarmIsSet = false;
 
-        Log.d("PREF", "Localization disabled");
+        Log.d("Localization", "Localization disabled");
     }
 
     public void startLocalization(){
@@ -157,7 +157,6 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
     }
 
     private void updateUI(){
-        Log.d("Localization", "Controller Update UI");
         Boolean status;
 
         status = mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false);

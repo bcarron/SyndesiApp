@@ -71,7 +71,7 @@ public class WifiService extends IntentService implements WifiCallback {
         String precision = PreferenceManager.getDefaultSharedPreferences(this).getString(PreferenceKey.PREF_LOC_PRECISION.toString(),"1");
 
         // Perform the scans
-//        toaster("Starting WiFi scan", Toast.LENGTH_SHORT);
+        toaster("Starting WiFi scan", Toast.LENGTH_SHORT);
         while(mReadings.size() < Integer.parseInt(precision)) {
 //            toaster("Launching scan " + (mReadings.size()+1) + " of " + precision);
             ((WifiManager) getApplicationContext().getSystemService(Service.WIFI_SERVICE)).startScan();

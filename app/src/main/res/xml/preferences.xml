@@ -3,7 +3,7 @@
     <PreferenceCategory android:title="@string/pref_header_general" />
 
     <ListPreference
-        android:defaultValue="60"
+        android:defaultValue="3600"
         android:entries="@array/pref_rate_titles"
         android:entryValues="@array/pref_rate_values"
         android:key="PREF_SENSOR_RATE"
