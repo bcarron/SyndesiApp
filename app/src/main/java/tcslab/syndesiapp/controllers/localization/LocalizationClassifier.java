@@ -52,22 +52,22 @@ public class LocalizationClassifier {
     private double[] mRSSIs;
 
     // Geneve AP MAC address
-    /*private final static String[] mAnchorNodes={
+    private final static String[] mAnchorNodes={
             "2c:56:dc:d2:06:a8",
             "9c:5c:8e:c5:fb:a0",
             "9c:5c:8e:c5:f1:1a",
             "9c:5c:8e:c5:fb:7a",
             "9c:5c:8e:c5:fb:a6"
-    };*/
+    };
 
     // Bussigny AP MAC address
-    private final static String[] mAnchorNodes={
+    /*private final static String[] mAnchorNodes={
             "1c:87:2c:67:80:38",
             "1c:87:2c:67:80:3c",
             "88:f7:c7:44:fb:40",
             "08:3e:5d:35:21:29",
             "f8:df:a8:7a:ed:6d"
-    };
+    };*/
 
 
     public LocalizationClassifier(WifiService wifiService) {
