@@ -28,7 +28,8 @@ public class PowerController extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Intent batteryStatus = this.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        // Disable Power Management for the demo
+/*        Intent batteryStatus = this.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
@@ -58,6 +59,6 @@ public class PowerController extends IntentService {
             }
         }
 
-        Log.d("Power", "Current level: " + Float.toString(batteryPct) + ", charging: " + Boolean.toString(isCharging));
+        Log.d("Power", "Current level: " + Float.toString(batteryPct) + ", charging: " + Boolean.toString(isCharging));*/
     }
 }

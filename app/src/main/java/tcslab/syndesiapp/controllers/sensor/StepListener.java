@@ -19,11 +19,9 @@ import java.util.Date;
  */
 public class StepListener implements SensorEventListener {
     private Context mAppContext;
-    private Date mLastScan;
 
     public StepListener(Context appContext){
         this.mAppContext = appContext;
-        mLastScan = new Date();
     }
 
     @Override
@@ -31,10 +29,9 @@ public class StepListener implements SensorEventListener {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
 
         if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false) && sharedPreferences.getBoolean(PreferenceKey.PREF_AUTO_LOC_PERM.toString(), false)) {
-            if (mLastScan.before(new Date(System.currentTimeMillis() - 3 * 1000))) {
+            if (!sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_IN_PROGRESS.toString(), false)) {
                 Intent localizationIntent = new Intent(mAppContext, WifiService.class);
                 mAppContext.startService(localizationIntent);
-                mLastScan = new Date();
             }
         }
     }

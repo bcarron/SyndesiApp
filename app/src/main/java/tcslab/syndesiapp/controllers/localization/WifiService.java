@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
@@ -51,6 +52,9 @@ public class WifiService extends IntentService implements WifiCallback {
     protected void onHandleIntent(Intent intent) {
         PowerManager.WakeLock wakeLock = ((PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WifiWakeLock");
         resetUI();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
+        sharedPrefEditor.putBoolean(PreferenceKey.PREF_LOC_IN_PROGRESS.toString(), true).apply();
 
         // TODO: Check if the user moved otherwise no need to perform localization
 
@@ -99,6 +103,7 @@ public class WifiService extends IntentService implements WifiCallback {
 
         // Clear readings for next localization
         mReadings.clear();
+        sharedPrefEditor.putBoolean(PreferenceKey.PREF_LOC_IN_PROGRESS.toString(), false).apply();
 
         if(wakeLock.isHeld()){
             wakeLock.release();

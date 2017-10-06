@@ -76,20 +76,24 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
             } else {
                 disableLocalization();
             }
+
+            updateUI();
         } else if (key.equals(PreferenceKey.PREF_LOC_RATE.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
                 disableLocalization();
                 enableLocalization();
             }
+
+            updateUI();
         } else if (key.equals(PreferenceKey.PREF_AUTO_LOC_PERM.toString())) {
             if (sharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false) && sharedPreferences.getBoolean(PreferenceKey.PREF_AUTO_LOC_PERM.toString(), false)) {
                 enableAutoLoc();
             } else {
                 disableAutoLoc();
             }
-        }
 
-        updateUI();
+            updateUI();
+        }
     }
 
     private void enableAutoLoc(){
@@ -115,7 +119,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
             mLocalizationLauncher = PendingIntent.getService(mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             int baseInterval = Integer.parseInt(mSharedPreferences.getString(PreferenceKey.PREF_LOC_RATE.toString(), "300"));
             int interval = (int) (baseInterval * mIntervalModifier * 1000);
-            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval, interval, mLocalizationLauncher);
+//            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval, interval, mLocalizationLauncher);
             mAppContext.startService(localizationIntent);
 
             mAlarmIsSet = true;
@@ -141,6 +145,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
 
         if (mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
             enableLocalization();
+            enableAutoLoc();
         }
     }
 
@@ -148,9 +153,11 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         // Prevent localization to be enabled by change in preferences
         mStopLocalization = true;
         disableLocalization();
+        disableAutoLoc();
     }
 
     private void updateUI(){
+        Log.d("Localization", "Controller Update UI");
         Boolean status;
 
         status = mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false);

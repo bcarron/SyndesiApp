@@ -206,6 +206,8 @@ public class MainActivity extends AppCompatActivity {
         //Reset the context on the controllers
         mSensorController.setmAppContext(this);
         mLocalizationController.setmAppContext(this);
+        Log.d("Localization", "Reenabling localization");
+        mLocalizationController.startLocalization();
 
         //Populate sensors view with latest data
         if(mSensorController.ismAlarmIsSet()){
@@ -227,6 +229,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         //Unregister the Broadcast listener
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUiReceiver);
+        // Disable localization in the background
+        Log.d("Localization", "Disabling localization in the background");
+        mLocalizationController.stopLocalization();
     }
 
     @Override
