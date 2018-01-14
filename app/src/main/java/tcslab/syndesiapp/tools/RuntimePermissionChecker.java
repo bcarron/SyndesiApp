@@ -11,7 +11,7 @@ import android.util.Log;
 /**
  * Check the permission at runtime for Android 6+.
  *
- * Created by blais on 05.12.2016.
+ * Created by Blaise on 05.12.2016.
  */
 public class RuntimePermissionChecker {
     private Activity mActivity;
@@ -30,6 +30,10 @@ public class RuntimePermissionChecker {
     }
 
 
+    /**
+     * Get all the permissions needed to run the app
+     * @return wether the permissions were granted or not
+     */
     public Boolean getPermissions(){
         if (hasPermission(permissionNeeded)) {
             return true;
@@ -39,6 +43,12 @@ public class RuntimePermissionChecker {
         }
     }
 
+    /**
+     * Check if the app has sufficient permissions
+     *
+     * @param permissions the permissions needed to run the app
+     * @return wether or not the app has sufficient permissions
+     */
     private Boolean hasPermission(String[] permissions){
         for(String perm : permissions){
             if (ContextCompat.checkSelfPermission(mActivity, perm) == PackageManager.PERMISSION_DENIED){

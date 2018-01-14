@@ -1,15 +1,13 @@
 package tcslab.syndesiapp.controllers.localization;
 
 import android.content.Context;
-import android.net.wifi.ScanResult;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.automation.AutomationStatus;
+import tcslab.syndesiapp.models.WifiScan;
 
 import java.util.ArrayList;
 

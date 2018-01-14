@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -14,8 +13,6 @@ import android.util.Log;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
-import tcslab.syndesiapp.models.SensorData;
-import tcslab.syndesiapp.views.MainActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,8 +42,6 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
         mSensorsLauncher = new ArrayList<>();
         mAvailableSensors = new ArrayList<>();
-
-//        mSensorManager.registerListener(new StepListener(mAppContext), mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER), SensorManager.SENSOR_DELAY_NORMAL);
 
         //Get all sensors
         getSensorLaunchers();
@@ -100,6 +95,9 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         }
     }
 
+    /**
+     * Updates the user interface
+     */
     private void updateUI(){
         if (mSharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
             Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_SENSOR_STATUS.toString());
@@ -117,6 +115,9 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         }
     }
 
+    /**
+     * Start all the sensor listeners
+     */
     private void enableSensors() {
         //Set Alarm to launch the listener
         if(!mAlarmIsSet && !mStopSensor) {
@@ -135,6 +136,9 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         }
     }
 
+    /**
+     * Disable the sensor listeners
+     */
     private void disableSensors() {
         //Disable alarms
         for(PendingIntent sensorLauncher : mSensorsLauncher){
@@ -179,7 +183,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     }
 
     /**
-     * Stop the sensors
+     * Stop the sensing
      */
     public void stopSensing(){
         // Prevent sensors to be enabled by change in preferences
@@ -188,7 +192,7 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
     }
 
     /**
-     * Start the sensors
+     * Start the sensing
      */
     public void startSensing(){
         mStopSensor = false;
@@ -210,11 +214,21 @@ public class SensorController implements SharedPreferences.OnSharedPreferenceCha
         return mAvailableSensors;
     }
 
+    /**
+     * Set a new context
+     *
+     * @param activity the new context
+     */
     public void setmAppContext(Activity activity) {
         this.mAppContext = activity;
         updateUI();
     }
 
+    /**
+     * Change the polling rate
+     *
+     * @param mIntervalModifier the new polling rate
+     */
     public void setmIntervalModifier(Double mIntervalModifier) {
         if(mIntervalModifier != this.mIntervalModifier || this.mStopSensor){
             this.mIntervalModifier = mIntervalModifier;

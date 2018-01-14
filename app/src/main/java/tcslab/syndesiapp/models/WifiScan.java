@@ -1,9 +1,11 @@
-package tcslab.syndesiapp.controllers.localization;
+package tcslab.syndesiapp.models;
 
 import java.util.Date;
 
 /**
- * Created by blais on 07.05.2017.
+ * Represents one WiFI scan
+ *
+ * Created by Blaise on 07.05.2017.
  */
 public class WifiScan {
     private String mRoom;

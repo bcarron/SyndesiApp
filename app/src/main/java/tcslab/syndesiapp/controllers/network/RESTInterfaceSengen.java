@@ -20,7 +20,7 @@ import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
 import tcslab.syndesiapp.models.PreferenceKey;
-import tcslab.syndesiapp.controllers.automation.NodeCallback;
+import tcslab.syndesiapp.tools.NodeCallback;
 import tcslab.syndesiapp.views.NodesControllerActivity;
 
 import java.text.SimpleDateFormat;
@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * Implements a REST service in a singleton class to send data to the Sengen DB.
  *
- * Created by blais on 23.11.2016.
+ * Created by Blaise on 23.11.2016.
  */
 public class RESTInterfaceSengen extends RESTInterface {
     private static RESTInterfaceSengen mInstance;
@@ -142,16 +142,7 @@ public class RESTInterfaceSengen extends RESTInterface {
                             // Add the node to the UI
                             String NID = n.getString("name");
                             NodeType nodeType = NodeType.getType(NID);
-                            // TODO: Change office
-                            String office = String.valueOf(NID.charAt(3));
-                            if(office.equals("A"))
-                                office = "1.0";
-                            else if(office.equals("B"))
-                                office = "2.0";
-                            else if(office.equals("C"))
-                                office = "3.0";
-                            else if(office.equals("D"))
-                                office = "4.0";
+                            String office = RESTInterface.convertOfficeFromService(NID);
                             NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getString("actuator1_state")), office, n.getString("node_id"));
                             nodesList.add(newNode);
                         }

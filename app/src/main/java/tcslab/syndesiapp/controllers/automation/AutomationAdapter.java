@@ -8,10 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.sensor.SensorList;
+import tcslab.syndesiapp.models.AutomationStatus;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * View used to display one automation message.

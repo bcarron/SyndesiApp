@@ -1,14 +1,11 @@
 package tcslab.syndesiapp.views;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,21 +13,20 @@ import android.view.View;
 import android.widget.*;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.localization.ScanAdapter;
-import tcslab.syndesiapp.controllers.localization.WifiCallback;
+import tcslab.syndesiapp.tools.WifiCallback;
 import tcslab.syndesiapp.controllers.localization.WifiReceiver;
-import tcslab.syndesiapp.controllers.localization.WifiScan;
+import tcslab.syndesiapp.models.WifiScan;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by blais on 06.05.2017.
+ * Created by Blaise on 06.05.2017.
  */
 public class TrainingActivity extends AppCompatActivity implements WifiCallback{
     private Boolean isTraining = false;
@@ -53,15 +49,6 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
             "9c:5c:8e:c5:fb:a6"
     };
 
-    // Bussigny AP MAC address
-    /*private final static String[] mAnchorNodes={
-            "1c:87:2c:67:80:38",
-            "1c:87:2c:67:80:3c",
-            "88:f7:c7:44:fb:40",
-            "08:3e:5d:35:21:29",
-            "f8:df:a8:7a:ed:6d"
-    };*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +61,6 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         //Set the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // Account preferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Wifi receiver
         mHandler = new Handler();
@@ -92,7 +76,6 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         checkFile();
     }
 
-    //Life cycle management
     @Override
     protected void onResume() {
         super.onResume();
@@ -128,6 +111,11 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         }
     }
 
+    /**
+     * Switch betweeen training states
+     *
+     * @param v the view
+     */
     public void toggleTraining(View v){
         if(isTraining){
             stopTraining();
@@ -140,6 +128,9 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         }
     }
 
+    /**
+     * Start the scans
+     */
     private void startTraining(){
         //Register the Wifi listener
         registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
@@ -151,6 +142,9 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         mHandler.post(new StartScan());
     }
 
+    /**
+     * Stop the scans
+     */
     private void stopTraining(){
         //Unregister the Wifi listener
         unregisterReceiver(mWifiReceiver);
@@ -158,6 +152,13 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         mButton.setText(getString(R.string.form_training_button_start));
     }
 
+    /**
+     * Register a new scan results
+     *
+     * @param room room set by the user
+     * @param readings scan results
+     * @return the results as a String
+     */
     private String registerScan(String room, List<ScanResult> readings){
         // Read the results
         int nbAP = mAnchorNodes.length;
@@ -197,6 +198,9 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         return line;
     }
 
+    /**
+     * Check if a training file exists otherwise creates a new one
+     */
     private void checkFile(){
         mFile = new File(getExternalFilesDir(null), mFileName);
         if(!mFile.exists()){
@@ -205,6 +209,10 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         }
     }
 
+    /**
+     * Crate a new training file
+     * @param v the view
+     */
     public void createFile(View v){
         try {
             FileOutputStream os = new FileOutputStream(mFile);
@@ -215,6 +223,9 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         }
     }
 
+    /**
+     * Start a new WiFi scan
+     */
     private class StartScan implements Runnable{
         @Override
         public void run(){
@@ -225,6 +236,10 @@ public class TrainingActivity extends AppCompatActivity implements WifiCallback{
         }
     }
 
+    /**
+     * Print a message to the screen
+     * @param message the message to print
+     */
     private void toaster(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

@@ -6,16 +6,14 @@ import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.models.PreferenceKey;
 
-import java.util.Date;
-
 /**
- * Created by blaise on 05.05.17.
+ * Listens to the steps counter and trigger a new localization task if the number of steps has changed
+ *
+ * Created by Blaise on 05.05.17.
  */
 public class StepListener implements SensorEventListener {
     private Context mAppContext;

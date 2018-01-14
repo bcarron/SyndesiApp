@@ -1,6 +1,5 @@
 package tcslab.syndesiapp.controllers.localization;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.ScanResult;
@@ -41,7 +40,6 @@ public class LocalizationClassifier {
     private int nbReadings = 0;
     private Boolean toastPermission = false;
 
-
     public int numberAN;
     private List<double[]> samplesFloorList=new ArrayList<double[]>();
     private double[][] samplesFloor;
@@ -59,15 +57,6 @@ public class LocalizationClassifier {
             "9c:5c:8e:c5:fb:7a",
             "9c:5c:8e:c5:fb:a6"
     };
-
-    // Bussigny AP MAC address
-    /*private final static String[] mAnchorNodes={
-            "1c:87:2c:67:80:38",
-            "1c:87:2c:67:80:3c",
-            "88:f7:c7:44:fb:40",
-            "08:3e:5d:35:21:29",
-            "f8:df:a8:7a:ed:6d"
-    };*/
 
 
     public LocalizationClassifier(WifiService wifiService) {
@@ -94,6 +83,12 @@ public class LocalizationClassifier {
         return mInstance;
     }
 
+    /**
+     * Updates the current location with the new WiFi scans
+     *
+     * @param readings the scans
+     * @return the new location
+     */
     public String updateLocation(List<List<ScanResult>> readings){
         HashMap<Double, Integer> results = new HashMap<>();
         ScanResult scanResult;
@@ -140,7 +135,6 @@ public class LocalizationClassifier {
         }
 
         toastMessage = toastMessage.substring(0, toastMessage.length() - 2);
-//        mWifiService.toaster(toastMessage, Toast.LENGTH_LONG);
         Log.d("Localization", "Room " + maxPosition + " (" + results.get(maxPosition) + " classifications)");
         mWifiService.toaster("Room " + maxPosition, Toast.LENGTH_SHORT);
 
@@ -151,7 +145,9 @@ public class LocalizationClassifier {
         return mCurrentPosition;
     }
 
-    // Read text from file and train machine learning approaches
+    /**
+     * Reads the training file and trains the classifiers
+     */
     public void readTraining() {
         try {
             // FileReader reader = new FileReader(file);
@@ -221,9 +217,11 @@ public class LocalizationClassifier {
 
     }
 
-
-    //********Machine learning class*****//
     private Mat matTrainD, matTrainL, matTest, matResp;
+
+    /**
+     * Create the classifiers
+     */
     public BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(mWifiService) {
         @Override
         public void onManagerConnected(int status) {
@@ -248,6 +246,12 @@ public class LocalizationClassifier {
         }
     };
 
+    /**
+     * Classify a new location
+     *
+     * @param test the matrix containing the WiFi RSSIs
+     * @return the results
+     */
     public HashMap<String, Double> checkFloorSVN(double[] test){
         if(file.exists()) {
             HashMap<String, Double> response = new HashMap<>();
@@ -274,6 +278,9 @@ public class LocalizationClassifier {
         return null;
     }
 
+    /**
+     * Check if a training file exists
+     */
     public void checkFile(){
         file = new File(mWifiService.getExternalFilesDir(null), fileName);
         if(!file.exists()){
@@ -297,6 +304,9 @@ public class LocalizationClassifier {
         }
     }
 
+    /**
+     * Upate the user interface
+     */
     private void updateUI(){
         // Send broadcast to update the UI
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_POSITION.toString());

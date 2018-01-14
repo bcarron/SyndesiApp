@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.automation.NodeCallback;
+import tcslab.syndesiapp.tools.NodeCallback;
 import tcslab.syndesiapp.controllers.network.NodeAdapter;
 import tcslab.syndesiapp.controllers.network.RESTInterface;
 import tcslab.syndesiapp.controllers.ui.UIReceiver;

@@ -5,13 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
-import android.util.Log;
-import tcslab.syndesiapp.controllers.localization.WifiService;
+import tcslab.syndesiapp.tools.WifiCallback;
 
 /**
  * Receive the system broadcast to update the values of the RSSI to the WiFi service.
  *
- * Created by blais on 30.11.2016.
+ * Created by Blaise on 30.11.2016.
  */
 public class WifiReceiver extends BroadcastReceiver {
     private WifiCallback callback;

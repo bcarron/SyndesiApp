@@ -19,11 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
 import tcslab.syndesiapp.controllers.power.PowerController;
@@ -118,11 +116,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clear all sensors from the screen
+     */
     public void removeSensors(){
         mSensorsList.clear();
         mSensorsAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Add a new sensor to the screen
+     *
+     * @param sensor the sensor to add
+     */
     public void addSensor(SensorData sensor){
         Boolean sensorExist = false;
         for(SensorData currentSensor : mSensorsList) {
@@ -220,8 +226,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Start a new localization task
+     *
+     * @param v the view
+     */
     public void relocate(View v){
-//        Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
         if (!mPreferences.getBoolean(PreferenceKey.PREF_LOC_IN_PROGRESS.toString(), false)) {
             startService(new Intent(this, WifiService.class));
         }

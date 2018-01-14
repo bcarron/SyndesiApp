@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Sensor;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import tcslab.syndesiapp.tools.NodeCallback;
 import tcslab.syndesiapp.controllers.network.RESTInterface;
 import tcslab.syndesiapp.controllers.sensor.SensorController;
 import tcslab.syndesiapp.models.BroadcastType;
@@ -18,9 +18,12 @@ import tcslab.syndesiapp.models.PreferenceKey;
 import java.util.ArrayList;
 
 /**
- * Created by blais on 23.02.2017.
+ * Manages the appliances automatically according to the user's preferences
+ * Created specifically for the LCN 2017 demo
+ *
+ * Created by Blaise on 23.02.2017.
  */
-public class DemoAutomationController extends ContextWrapper implements NodeCallback{
+public class DemoAutomationController extends ContextWrapper implements NodeCallback {
     private static DemoAutomationController mInstance;
     private RESTInterface restInterface;
     private SensorController mSensorController;
@@ -47,6 +50,11 @@ public class DemoAutomationController extends ContextWrapper implements NodeCall
         return mInstance;
     }
 
+    /**
+     * Updates the position in the controller
+     *
+     * @param newPosition the new position
+     */
     public void updatePosition(String newPosition){
         Boolean perm = mSharedPreferences.getBoolean(PreferenceKey.PREF_AUT_PERM.toString(), false);
         if(newPosition.equals("1.0")) {
@@ -66,11 +74,19 @@ public class DemoAutomationController extends ContextWrapper implements NodeCall
         }
     }
 
+    /**
+     * Manages the appliance
+     */
     public void automation(){
         Log.d("Automation", "No temp/light automation in demo");
         // No Automation in Demo
     }
 
+    /**
+     * Manages appliances when a user enters a new office
+     *
+     * @param office the new office
+     */
     private void enterOffice(String office){
         updateUI(office, "Entering office, turning the lights on!", NodeType.bulb, "on");
 
@@ -78,6 +94,11 @@ public class DemoAutomationController extends ContextWrapper implements NodeCall
         toggleNodes(NodeType.bulb, office, "off");
     }
 
+    /**
+     * Manages appliances when the user leaves an office
+     *
+     * @param office the old office
+     */
     private void leaveOffice(String office){
         updateUI(office, "Leaving office, turning all appliances off!", NodeType.bulb, "off");
 
@@ -87,6 +108,13 @@ public class DemoAutomationController extends ContextWrapper implements NodeCall
         toggleNodes(NodeType.heater, office, "on");
     }
 
+    /**
+     * Toggle the state of nodes
+     *
+     * @param type the type of node to be toggled
+     * @param office the office where the nodes need to be toggled
+     * @param status the status of the nodes to be toggled
+     */
     private void toggleNodes(NodeType type, String office, String status){
         for(NodeDevice node : mNodeList){
             if(node.getmOffice().equals(office)){
@@ -97,6 +125,14 @@ public class DemoAutomationController extends ContextWrapper implements NodeCall
         }
     }
 
+    /**
+     * Update the UI
+     *
+     * @param office the current office
+     * @param message the message to display
+     * @param nodeType the node type
+     * @param status the status of the nodes
+     */
     private void updateUI(String office, String message, NodeType nodeType, String status){
         // Send broadcast to update the UI
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_AUT_STATUS.toString());

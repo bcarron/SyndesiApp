@@ -1,8 +1,6 @@
 package tcslab.syndesiapp.views;
 
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceScreen;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import tcslab.syndesiapp.R;

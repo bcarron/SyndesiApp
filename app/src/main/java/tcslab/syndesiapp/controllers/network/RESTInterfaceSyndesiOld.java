@@ -15,7 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
-import tcslab.syndesiapp.controllers.automation.NodeCallback;
+import tcslab.syndesiapp.tools.NodeCallback;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
@@ -142,7 +142,6 @@ public class RESTInterfaceSyndesiOld extends RESTInterface {
                             String NID = n.getString("node_id");
                             String device = n.getJSONObject("resourcesnode").getString("name");
                             NodeType nodeType = NodeType.getType(device);
-                            // TODO: Change NID to real Office
                             NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(device), NID, n.getJSONObject("resourcesnode").getString("path"));
                             nodesList.add(newNode);
                         }

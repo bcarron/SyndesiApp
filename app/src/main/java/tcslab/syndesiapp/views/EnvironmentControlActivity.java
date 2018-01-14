@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.*;
 import tcslab.syndesiapp.R;
-import tcslab.syndesiapp.controllers.automation.AutomationStatus;
+import tcslab.syndesiapp.models.AutomationStatus;
 import tcslab.syndesiapp.controllers.localization.LocalizationController;
 import tcslab.syndesiapp.controllers.localization.WifiService;
 import tcslab.syndesiapp.controllers.automation.AutomationAdapter;
@@ -76,9 +76,6 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         mAutomationAdapter = new AutomationAdapter(this, mMessages);
         listView.setAdapter(mAutomationAdapter);
 
-        // Updates the location
-//        relocate(new View(this));
-
         if (!mSharedPreferences.getBoolean(PreferenceKey.PREF_SENSOR_PERM.toString(), false)) {
             addMessage(new AutomationStatus("", this.getString(R.string.sensors_disabled), NodeType.alarm, "on", new Date(System.currentTimeMillis() * 2)));
         }
@@ -88,7 +85,6 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         }
     }
 
-    //Life cycle management
     @Override
     protected void onResume() {
         super.onResume();
@@ -118,6 +114,9 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         mHandler.removeCallbacks(mRefreshUI);
     }
 
+    /**
+     * Remove old messages
+     */
     private void checkMessages(){
         for(int i = 0; i < mMessages.size(); i++) {
             AutomationStatus currentStatus = mMessages.get(i);
@@ -129,6 +128,11 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         mAutomationAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Add a new message to the screen
+     *
+     * @param status the message to add
+     */
     public void addMessage(AutomationStatus status){
         Boolean sensorExist = false;
 
@@ -146,15 +150,23 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         mAutomationAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Start a new localization task
+     * @param v the view
+     */
     public void relocate(View v){
         if (mSharedPreferences.getBoolean(PreferenceKey.PREF_LOC_PERM.toString(), false)) {
-//            Toast.makeText(this, "Starting WiFi scan", Toast.LENGTH_SHORT).show();
             startService(new Intent(this, WifiService.class));
         } else {
             addMessage(new AutomationStatus("", this.getString(R.string.loc_disabled), NodeType.alarm, "on", new Date(System.currentTimeMillis() * 2)));
         }
     }
 
+    /**
+     * Save light and temperature preferences
+     *
+     * @param v the view
+     */
     public void savePreferences(View v){
         EditText lightText = (EditText) findViewById(R.id.light_target);
         EditText tempText = (EditText) findViewById(R.id.temp_target);
@@ -171,6 +183,9 @@ public class EnvironmentControlActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Thread to remove the old messages
+     */
     private class RefreshMessages implements Runnable{
         @Override
         public void run(){

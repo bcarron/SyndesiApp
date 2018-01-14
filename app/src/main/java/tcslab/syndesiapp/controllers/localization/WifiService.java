@@ -14,10 +14,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
 import tcslab.syndesiapp.controllers.account.AccountController;
-import tcslab.syndesiapp.controllers.automation.DemoAutomationController;
+import tcslab.syndesiapp.controllers.automation.AutomationController;
+import tcslab.syndesiapp.tools.WifiCallback;
 import tcslab.syndesiapp.models.Account;
 import tcslab.syndesiapp.models.BroadcastType;
 import tcslab.syndesiapp.models.PreferenceKey;
@@ -28,12 +27,12 @@ import java.util.List;
 /**
  * Perform the WiFi access point scans in order to use the localization classifier.
  *
- * Created by blais on 30.11.2016.
+ * Created by Blaise on 30.11.2016.
  */
 public class WifiService extends IntentService implements WifiCallback {
     private LocalizationClassifier mLocalizationClassifier;
     private AccountController mAccountController;
-    private DemoAutomationController mAutomationController;
+    private AutomationController mAutomationController;
     private Handler mHandler;
     private List<List<ScanResult>> mReadings = new ArrayList<>();
     private final Object mLock = new Object();
@@ -56,11 +55,9 @@ public class WifiService extends IntentService implements WifiCallback {
         SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
         sharedPrefEditor.putBoolean(PreferenceKey.PREF_LOC_IN_PROGRESS.toString(), true).apply();
 
-        // TODO: Check if the user moved otherwise no need to perform localization
-
         mLocalizationClassifier = LocalizationClassifier.getInstance(this);
         mAccountController = AccountController.getInstance(this);
-        mAutomationController = DemoAutomationController.getInstance(this.getApplicationContext());
+        mAutomationController = AutomationController.getInstance(this.getApplicationContext());
 
         // Register the Wifi receiver
         // Register the Broadcast listener
@@ -73,7 +70,6 @@ public class WifiService extends IntentService implements WifiCallback {
         // Perform the scans
         toaster("Starting WiFi scan", Toast.LENGTH_SHORT);
         while(mReadings.size() < Integer.parseInt(precision)) {
-//            toaster("Launching scan " + (mReadings.size()+1) + " of " + precision);
             ((WifiManager) getApplicationContext().getSystemService(Service.WIFI_SERVICE)).startScan();
 
             // Wait for the scan's results
@@ -110,6 +106,10 @@ public class WifiService extends IntentService implements WifiCallback {
         }
     }
 
+    /**
+     * Display a message to the screen
+     * @param message the message to display
+     */
     public void toaster(String message){
         final String toastMessage = message;
         mHandler.post(new Runnable() {
@@ -120,6 +120,12 @@ public class WifiService extends IntentService implements WifiCallback {
         });
     }
 
+    /**
+     * Display a message to the screen with a custom duration
+     *
+     * @param message the message to display
+     * @param duration the duration
+     */
     public void toaster(String message, int duration)
     {
         final String toastMessage = message;
@@ -137,6 +143,11 @@ public class WifiService extends IntentService implements WifiCallback {
         }
     }
 
+    /**
+     * The callback method to receive the new results
+     *
+     * @param readings the results
+     */
     public void sendResults(List<ScanResult> readings) {
         mReadings.add(readings);
         synchronized (mLock){
@@ -144,6 +155,9 @@ public class WifiService extends IntentService implements WifiCallback {
         }
     }
 
+    /**
+     * Update the user interface
+     */
     private void resetUI(){
         // Send broadcast to update the UI
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_LOC_STATUS.toString());

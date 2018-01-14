@@ -8,7 +8,6 @@ import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import tcslab.syndesiapp.controllers.network.SendDataTask;
 import tcslab.syndesiapp.models.PreferenceKey;
 

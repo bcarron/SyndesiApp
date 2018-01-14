@@ -96,6 +96,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         }
     }
 
+    /**
+     * Enables the automatic localization using the steps
+     */
     private void enableAutoLoc(){
         if (Build.VERSION.SDK_INT >= 19) {
             if(!mAutoLoc) {
@@ -105,6 +108,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         }
     }
 
+    /**
+     * Disable the automatic localization
+     */
     private void disableAutoLoc(){
         if(mAutoLoc){
             mSensorManager.unregisterListener(mStepListener);
@@ -112,6 +118,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         }
     }
 
+    /**
+     * Enable the localization
+     */
     private void enableLocalization(){
         // Launch Service for the localization
         if(!mAlarmIsSet && !mStopLocalization) {
@@ -119,7 +128,7 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
             mLocalizationLauncher = PendingIntent.getService(mAppContext, 0, localizationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             int baseInterval = Integer.parseInt(mSharedPreferences.getString(PreferenceKey.PREF_LOC_RATE.toString(), "300"));
             int interval = (int) (baseInterval * mIntervalModifier * 1000);
-//            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval, interval, mLocalizationLauncher);
+            mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval, interval, mLocalizationLauncher);
             mAppContext.startService(localizationIntent);
 
             mAlarmIsSet = true;
@@ -128,7 +137,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         }
     }
 
-
+    /**
+     * Disable the localization
+     */
     private void disableLocalization(){
         // Stop the service for localization
         if(mLocalizationLauncher != null){
@@ -140,6 +151,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         Log.d("Localization", "Localization disabled");
     }
 
+    /**
+     * Start the localization if all conditions are met
+     */
     public void startLocalization(){
         mStopLocalization = false;
 
@@ -149,6 +163,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         }
     }
 
+    /**
+     * Stop the localization
+     */
     public void stopLocalization(){
         // Prevent localization to be enabled by change in preferences
         mStopLocalization = true;
@@ -156,6 +173,9 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         disableAutoLoc();
     }
 
+    /**
+     * Update the user interface
+     */
     private void updateUI(){
         Boolean status;
 
@@ -167,11 +187,21 @@ public class LocalizationController implements SharedPreferences.OnSharedPrefere
         LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(localIntent);
     }
 
+    /**
+     * Set a new context
+     *
+     * @param mAppContext the new context
+     */
     public void setmAppContext(Context mAppContext) {
         this.mAppContext = mAppContext;
         updateUI();
     }
 
+    /**
+     * Change the localization rate
+     *
+     * @param mIntervalModifier the new rate
+     */
     public void setmIntervalModifier(Double mIntervalModifier) {
         if(mIntervalModifier != this.mIntervalModifier || this.mStopLocalization){
             this.mIntervalModifier = mIntervalModifier;

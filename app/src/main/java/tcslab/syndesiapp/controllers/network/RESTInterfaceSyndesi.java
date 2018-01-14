@@ -16,12 +16,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import tcslab.syndesiapp.R;
 import tcslab.syndesiapp.controllers.account.AccountController;
-import tcslab.syndesiapp.controllers.automation.NodeCallback;
+import tcslab.syndesiapp.tools.NodeCallback;
 import tcslab.syndesiapp.controllers.sensor.SensorList;
 import tcslab.syndesiapp.models.NodeDevice;
 import tcslab.syndesiapp.models.NodeType;
 import tcslab.syndesiapp.models.PreferenceKey;
-import tcslab.syndesiapp.views.NodesControllerActivity;
 
 import java.util.ArrayList;
 
@@ -30,7 +29,7 @@ import static java.lang.Math.max;
 /**
  * Implements a REST service in a singleton class to send data to the Sengen DB.
  *
- * Created by blais on 23.11.2016.
+ * Created by Blaise on 23.11.2016.
  */
 public class RESTInterfaceSyndesi extends RESTInterface {
     private static RESTInterfaceSyndesi mInstance;
@@ -147,20 +146,8 @@ public class RESTInterfaceSyndesi extends RESTInterface {
                             String service = n.getJSONObject("resourcesnode").getString("path");
                             service = service.substring(service.indexOf("service=")+8, max(service.indexOf("&resource"),service.length()));
                             NID = service;
-                            // TODO: Change office
-                            String office = String.valueOf(service.charAt(3));
-                            if(office.equals("A"))
-                                office = "1.0";
-                            else if(office.equals("B"))
-                                office = "2.0";
-                            else if(office.equals("C"))
-                                office = "3.0";
-                            else if(office.equals("D"))
-                                office = "4.0";
+                            String office = RESTInterface.convertOfficeFromService(service);
                             NodeType nodeType = NodeType.getType(n.getJSONObject("resourcesnode").getString("name"));
-
-                            // Override for Demo
-                            office = "1.0";
 
                             NodeDevice newNode = new NodeDevice(NID, nodeType, nodeType.getStatus(n.getJSONObject("resourcesnode").getString("actuation_state")), office, n.getJSONObject("resourcesnode").getString("path"));
                             nodesList.add(newNode);

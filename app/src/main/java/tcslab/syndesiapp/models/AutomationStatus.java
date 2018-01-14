@@ -1,11 +1,11 @@
-package tcslab.syndesiapp.controllers.automation;
-
-import tcslab.syndesiapp.models.NodeType;
+package tcslab.syndesiapp.models;
 
 import java.util.Date;
 
 /**
- * Created by blais on 04.05.2017.
+ * Represents a new automation state
+ *
+ * Created by Blaise on 04.05.2017.
  */
 public class AutomationStatus {
     private String mOffice;

@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
-import tcslab.syndesiapp.controllers.automation.NodeCallback;
+import tcslab.syndesiapp.tools.NodeCallback;
 import tcslab.syndesiapp.models.*;
 import org.json.JSONObject;
 
@@ -86,5 +85,32 @@ public abstract class RESTInterface {
         Intent localIntent = new Intent(BroadcastType.BCAST_TYPE_CONTROLLER_STATUS.toString());
         localIntent.putExtra(BroadcastType.BCAST_EXTRA_SERVER_RESPONSE.toString(), status);
         LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
+    }
+
+    /**
+     * Convert the office letter found in the service parameter of Syndesi to a real office number
+     *
+     * @param service the service string from Syndesi
+     * @return the office number corresponding to the service
+     */
+    static String convertOfficeFromService(String service){
+        String office = String.valueOf(service.charAt(3));
+
+        switch (office) {
+            case "A":
+                office = "1.0";
+                break;
+            case "B":
+                office = "2.0";
+                break;
+            case "C":
+                office = "3.0";
+                break;
+            case "D":
+                office = "4.0";
+                break;
+        }
+
+        return office;
     }
 }

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.PowerManager;
-import android.util.Log;
 
 /**
  * Prepares a sensor listener for the right sensor.
